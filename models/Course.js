@@ -1,13 +1,14 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { DataTypes } = require('sequelize');
+const db = require('../config/db')
 
-const Course = Sequelize.defile('course', {
+const Course = db.define('course', {
     title: {
         type: DataTypes.STRING
     },
-    img: {
+    img: {  
         type: DataTypes.STRING
     },
-    imgcontrast: {
+    img_contrast: {
         type: DataTypes.NUMBER
     },
     content_ml: {
@@ -19,19 +20,19 @@ const Course = Sequelize.defile('course', {
     enrolled: {
         type: DataTypes.NUMBER
     },
-    istopten: {
+    is_top_ten: {
         type: DataTypes.BOOLEAN
     },
-    ispopular: {
+    is_popular: {
         type: DataTypes.BOOLEAN
     },
     online: {
         type: DataTypes.BOOLEAN
     },
-    createdat: {
+    created_at: {
         type: DataTypes.DATE
     },
-    updatedat: {
+    updated_at: {
         type: DataTypes.DATE
     }
 })

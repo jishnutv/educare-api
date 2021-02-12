@@ -1,13 +1,21 @@
 const asyncHandler = require('../middleware/async');
+const Course = require('../models/Course')
 
 // @desc      Get all courses
 // @route     GET /api/v1/courses
 // @access    Public
 exports.getCourses = asyncHandler(async (req, res, next) => {
-    return res.status(200).json({
-        success: true,
-        data: "All courses",
-    });
+    Course.findAll().then( course => {
+        console.log(course)
+        return res.status(200).json({
+            success: true,
+        })
+    }).catch( err => {
+        return res.status(404).json({
+            success: err.message,
+            data: "Not found",
+        });
+    })
 });
 
 // @desc      Get single course

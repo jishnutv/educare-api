@@ -1,24 +1,28 @@
 const path = require('path');
 const express = require('express');
-const dotenv = require('dotenv');
 const morgan = require('morgan');
 const colors = require('colors');
-const connectDB = require('./config/db')
+const db = require('./config/db')
+const env = require('./config/env')
 
 // Route files
-const courses = require('./routes/courses');
+const course = require('./routes/course');
 
-dotenv.config({ path: './config/config.env' });
-
+// Initialize express
 const app = express();
 
-// Connect database
-const db = connectDB();
+// Check database
+try {
+    db.authenticate();
+    console.log(`Connection has been established successfully.`.blue.bold);
+} catch (error) {
+    console.error(`Unable to connect to the database:, ${error}`.red.bold)
+}
 
 // Body parser
 app.use(express.json());
 
-if (process.env.NODE_ENV === 'development') {
+if (env.env === 'development') {
     app.use(morgan('dev'));
 }
 
@@ -26,13 +30,13 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Mount routers
-app.use('/api/v1/courses', courses);
+app.use('/api/v1/courses', course);
 
-const PORT = process.env.PORT || 5000;
+const PORT = env.port || 5000;
 
 const server = app.listen(PORT, () => {
     console.log(
-        `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold
+        `Server running in ${env.env} mode on port ${env.port}`.yellow.bold
     );
 });
 
