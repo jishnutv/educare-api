@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const db = require('../config/db')
 
-const Course = db.define('course', {
+const Course = db.define('courses', {
     title: {
         type: DataTypes.STRING
     },
@@ -28,12 +28,6 @@ const Course = db.define('course', {
     },
     online: {
         type: DataTypes.BOOLEAN
-    },
-    created_at: {
-        type: DataTypes.DATE
-    },
-    updated_at: {
-        type: DataTypes.DATE
     }
 })
 

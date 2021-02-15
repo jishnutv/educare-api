@@ -3,13 +3,23 @@ const express = require('express');
 const morgan = require('morgan');
 const colors = require('colors');
 const db = require('./config/db')
+var cors = require('cors')
 const env = require('./config/env')
 
 // Route files
 const course = require('./routes/course');
+const enquiry = require('./routes/contact')
 
 // Initialize express
 const app = express();
+
+var corsOptions = {
+    origin: "http://localhost:8100"
+};
+
+app.use(cors(corsOptions))
+
+app.disable('etag');
 
 // Check database
 try {
@@ -31,6 +41,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Mount routers
 app.use('/api/v1/courses', course);
+app.use('/api/v1/send-enquiry', enquiry);
 
 const PORT = env.port || 5000;
 
