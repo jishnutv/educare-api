@@ -1,12 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enquiry</title>
 </head>
-<body>
-    <h1>Name: {{username}}</h1>
+
+<body style="font-family: helvetica; margin: 0;">
+    <div style="background-image: linear-gradient(135deg,#f75f80 10%,#623aa2 100%); background:#f75f80; padding: 1rem; text-align: center;"
+        class="nav-wrapper">
+        <h4 style="color: #ffffff;font-size: 18px; margin: 0;">Archikites enquiry</h4>
+    </div>
+    <h6 style="margin-top: 2rem; text-align: center; font-size: 1rem;">New course enquiry from,<br><span
+            style="color: #623aa2;">{{name}}</span></h6>
+    <ul
+        style="padding: 0; list-style: none; border: 1px solid rgba(0, 0, 0, 0.2); margin: 1rem 1rem; border-radius: 4px;">
+        <li style="text-align: left; border-bottom: 1px solid rgba(0, 0, 0, 0.2);">
+            <h6 style="margin: 1rem 1.2rem; font-size: 0.8rem;">{{course_title}}</h6>
+        </li>
+        <li class="collection-item">
+            <table style="border-collapse: collapse; width: 100%;">
+                <thead>
+                    <tr style="border-bottom: 1px solid rgba(0,0,0,0.12); overflow: hidden;">
+                        <th style="padding: 1rem 1.5rem; color: #414141; font-size: 0.8rem;">Full Name:</th>
+                        <td style="padding: 1rem 1.5rem; color: #414141; font-size: 0.8rem;">{{name}}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid rgba(0,0,0,0.12);">
+                        <th style="padding: 1rem 1.5rem; color: #414141; font-size: 0.8rem;">Place:</th>
+                        <td style="padding: 1rem 1.5rem; color: #414141; font-size: 0.8rem;">{{place}}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid rgba(0,0,0,0.12);">
+                        <th style="padding: 1rem 1.5rem; color: #414141; font-size: 0.8rem;">Phone:</th>
+                        <td style="padding: 1rem 1.5rem; color: #414141; font-size: 0.8rem;">{{phone}}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid rgba(0,0,0,0.12);">
+                        <th style="padding: 1rem 1.5rem; color: #414141; font-size: 0.8rem;">Email</th>
+                        <td style="padding: 1rem 1.5rem; color: #414141; font-size: 0.8rem;">{{email}}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid rgba(0,0,0,0.12);">
+                        <th style="padding: 1rem 1.5rem; color: #414141; font-size: 0.8rem;">Education:</th>
+                        <td style="padding: 1rem 1.5rem; color: #414141; font-size: 0.8rem;">{{education}}</td>
+                    </tr>
+                    <tr>
+                        <th style="padding: 1rem 1.5rem; color: #414141; font-size: 0.8rem;">Message:</th>
+                        <td style="padding: 1rem 1.5rem; color: #414141; font-size: 0.8rem;">{{msg}}</td>
+                    </tr>
+                </thead>
+            </table>
+        </li>
+    </ul>
 </body>
+
 </html>

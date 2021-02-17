@@ -2,6 +2,7 @@ const asyncHandler = require('../middleware/async');
 const nodemailer = require("nodemailer");
 const Enquiry = require('../models/Enquiry')
 const handlebars = require("handlebars");
+const env = require('../config/env')
 var fs = require('fs');
 var path = require('path');
 
@@ -26,6 +27,7 @@ exports.sendEnquiry = asyncHandler(async (req, res, next) => {
 
     await Enquiry.create({
         course_id,
+        course_title,
         name,
         place,
         phone,
@@ -37,12 +39,12 @@ exports.sendEnquiry = asyncHandler(async (req, res, next) => {
     }).then((data) => {
 
         let transporter = nodemailer.createTransport({
-            host: "mail.privateemail.com",
+            host: env.email.email_host,
             port: 587,
             secure: false,
             auth: {
-                user: 'info@jishnu.design',
-                pass: 'xQBs5kybUvAt'
+                user: env.email.email_user,
+                pass: env.email.email_password
             },
             tls: {
                 rejectUnauthorized: false
@@ -52,16 +54,22 @@ exports.sendEnquiry = asyncHandler(async (req, res, next) => {
         readHTMLFile(path.dirname(require.main.filename) + '/views/contact.html', async function (err, html) {
             let template = handlebars.compile(html);
             let replacements = {
-                username: name
+                course_title: course_title,
+                name: name,
+                place: place,
+                phone: phone,
+                email: email,
+                education: education,
+                msg: message
             };
 
             let htmlToSend = template(replacements);
 
             await transporter.sendMail({
-                from: `"New enquiry" <info@jishnu.design>`,
-                to: "jishnuprgm@gmail.com",
-                subject: "Hi",
-                text: "Hello world?",
+                from: `"Jishnu T V" <${env.email.email_user}>`,
+                to: env.email.email_to,
+                subject: `New enquiry from ${name}`,
+                text: "",
                 html: htmlToSend
             }).then((out) => {
                 if (out) {
