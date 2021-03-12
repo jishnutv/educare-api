@@ -19,7 +19,7 @@ const tokenAuth = ( req, res, next ) => {
 }
 
 const generateAccessToken = (user) => {
-  return jwt.sign(user, env.accessTokenSecret, { expiresIn: '15m' });
+  return jwt.sign(user, env.accessTokenSecret, { expiresIn: '20s' });
 }
 
 const generateRefreshToken = (user) => {

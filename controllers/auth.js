@@ -17,23 +17,21 @@ exports.register = asyncHandler(async (req, res, next) => {
     name,
     email,
     role,
-    resetPasswordToken,
-    resetpasswordExpires,
+    refreshToken
   } = req.body;
 
   // Generate hashed password
   const salt = await bcrypt.genSalt(10);
   const password = await bcrypt.hash(req.body.password, salt);
+  // const createdAt = Date.now();
+  // const updatedAt = Date.now();
 
   await User.create({
     name,
     email,
     password,
     role,
-    resetPasswordToken,
-    resetpasswordExpires,
-    createdAt,
-    updatedAt,
+    refreshToken
   })
     .then((data) => {
       return res.status(200).json({

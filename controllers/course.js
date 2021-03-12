@@ -6,26 +6,22 @@ const Course = require("../models/Course");
 // @route     GET /api/v1/courses
 // @access    Public
 exports.getCourses = asyncHandler(async (req, res, next) => {
-  // Course.findAll()
-  //   .then((courses) => {
-  //     console.log(courses.length);
+  Course.findAll()
+    .then((courses) => {
+      console.log(courses.length);
 
-  //     if (!courses) {
-  //       return next(new ErrorResponse("No courses found", 404));
-  //     }
+      if (!courses) {
+        return next(new ErrorResponse("No courses found", 404));
+      }
 
-  //     res.status(200).json({
-  //       success: true,
-  //       data: courses,
-  //     });
-  //   })
-  //   .catch((err) => {
-  //     next(new ErrorResponse("No courses found", 404));
-  //   });
-  res.status(200).json({
-    success: true,
-    data: "Email",
-  });
+      res.status(200).json({
+        success: true,
+        data: courses,
+      });
+    })
+    .catch((err) => {
+      next(new ErrorResponse("No courses found", 404));
+    });
 });
 
 // @desc      Get single course

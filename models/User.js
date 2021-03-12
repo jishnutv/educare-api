@@ -14,15 +14,9 @@ const User = db.define("users", {
   role: {
     type: DataTypes.STRING,
   },
-  resetPasswordToken: {
-    type: DataTypes.STRING,
-  },
   refreshToken: {
     type: DataTypes.STRING,
   },
-  resetpasswordExpires: {
-    type: DataTypes.STRING,
-  }
 });
 
 User.prototype.toJSON = function () {
