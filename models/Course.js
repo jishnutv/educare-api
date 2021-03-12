@@ -29,6 +29,6 @@ const Course = db.define('courses', {
     online: {
         type: DataTypes.BOOLEAN
     }
-})
+});
 
 module.exports = Course;

@@ -2,13 +2,15 @@ const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const colors = require('colors');
-const db = require('./config/db')
-var cors = require('cors')
-const env = require('./config/env')
+const errorHandler = require('./middleware/error');
+const db = require('./config/db');
+var cors = require('cors');
+const { tokenAuth } = require("./middleware/tokenAuth");
+const env = require('./config/env');
 
 // Route files
 const course = require('./routes/course');
-const enquiry = require('./routes/contact')
+const enquiry = require('./routes/contact');
 
 // Initialize express
 const app = express();
@@ -17,7 +19,7 @@ var corsOptions = {
     origin: "http://localhost:8100"
 };
 
-app.use(cors(corsOptions))
+app.use(cors(corsOptions));
 
 app.disable('etag');
 
@@ -26,7 +28,7 @@ try {
     db.authenticate();
     console.log(`Connection has been established successfully.`.blue.bold);
 } catch (error) {
-    console.error(`Unable to connect to the database:, ${error}`.red.bold)
+    console.error(`Unable to connect to the database:, ${error}`.red.bold);
 }
 
 // Body parser
@@ -40,9 +42,12 @@ if (env.env === 'development') {
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Mount routers
-app.use('/api/v1/courses', course);
+app.use('/api/v1/courses', tokenAuth, course);
 app.use('/api/v1/send-enquiry', enquiry);
 
+app.use(errorHandler);
+
+// Server
 const PORT = env.port || 5000;
 
 const server = app.listen(PORT, () => {

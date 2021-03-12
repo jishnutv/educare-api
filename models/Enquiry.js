@@ -15,7 +15,8 @@ const Enquiry = db.define('enquirys', {
         type: DataTypes.STRING
     },
     email: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        
     },
     education: {
         type: DataTypes.STRING

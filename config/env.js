@@ -5,6 +5,9 @@ module.exports = {
 
     env: process.env.NODE_ENV,
     port: process.env.PORT,
+    authPort: process.env.AUTH_PORT,
+    accessTokenSecret: process.env.ACCESS_TOKEN_SECRET,
+    refreshTokenSecret: process.env.REFRESH_TOKEN_SECRET,
 
     db: {
         name: process.env.DB_NAME,
