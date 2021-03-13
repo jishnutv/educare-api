@@ -1,11 +1,13 @@
 const asyncHandler = require("../middleware/async");
 const ErrorResponse = require("../utils/errorResponse");
 const jwt = require("jsonwebtoken");
+const validator = require('validator');
 const User = require("../models/User");
 const env = require("../config/env");
 const {
   generateAccessToken,
   generateRefreshToken,
+  generatePasswordResetToken
 } = require("../middleware/tokenAuth");
 const bcrypt = require("bcrypt");
 
@@ -114,6 +116,14 @@ exports.reAuth = asyncHandler(async (req, res, next) => {
 // @desc      Reset password
 // @route     GET /api/v1/auth/reset-password
 // @access    Public
+exports.resetPassword = asyncHandler(async (req, res, next) => {
+  const email = req.body.email;
+  if(!validator.isEmail(email)) return next(new ErrorResponse("Please enter a valid email", 400));
+  const user = await User.findOne({ where: {email: email} });
+  if(!user) return next(new ErrorResponse("No user registered with this email", 404));
+  const token = generatePasswordResetToken(user);
+  
+})
 
 // @desc      Logout
 // @route     GET /api/v1/auth/logout

@@ -26,4 +26,9 @@ const generateRefreshToken = (user) => {
   return jwt.sign(user, env.refreshTokenSecret);
 }
 
-module.exports = { tokenAuth, generateAccessToken, generateRefreshToken };
+const generatePasswordResetToken = (user) => {
+  const secret = env.refreshTokenSecret+user.password;
+  return jwt.sign({ id: user.id }, secret, { expiresIn: "10m" });
+}
+
+module.exports = { tokenAuth, generateAccessToken, generateRefreshToken, generatePasswordResetToken };
