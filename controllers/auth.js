@@ -207,6 +207,14 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @desc      Logout
+// @desc      Set password
 // @route     GET /api/v1/auth/logout
 // @access    Public
+exports.changePassword = asyncHandler(async (req, res, next) => {
+  const { password, token } = req.body;
+  // Return the response
+  return res.status(200).json({
+    success: true,
+    data: {password: password, token: token}
+  });
+})
