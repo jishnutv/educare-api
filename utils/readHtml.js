@@ -1,14 +1,17 @@
-const fs = require('fs');
+const fs = require("fs");
+var path = require("path");
 
-const readHTMLFile = (path, callback) => {
-  fs.readFile(path, { encoding: 'utf-8' }, function (err, html) {
-    if (err) {
-      throw err;
-    }
-    else {
-      callback(null, html);
-    }
+const readHtmlFile = (fileName) => {
+  return new Promise((resolve, reject) => {
+    const appDir = path.dirname(require.main.filename);
+    fs.readFile(path.join(appDir, fileName), "utf8", (error, htmlString) => {
+      if (!error && htmlString) {
+        resolve(htmlString);
+      } else {
+        reject(error);
+      }
+    });
   });
 };
 
-module.exports = readHTMLFile;
+module.exports = readHtmlFile;

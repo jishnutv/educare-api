@@ -1,10 +1,8 @@
-const express = require('express');
-const { sendEnquiry } = require('../controllers/contact');
+const express = require("express");
+const { sendEnquiry } = require("../controllers/contact");
 
 const router = express.Router();
 
-router
-    .route('/')
-    .post(sendEnquiry);
+router.route("/sent-enquiry").post(sendEnquiry);
 
-module.exports = router;  
+module.exports = router;
