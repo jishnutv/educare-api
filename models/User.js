@@ -11,6 +11,9 @@ const User = db.define("users", {
   password: {
     type: DataTypes.STRING,
   },
+  passwordResetToken: {
+    type: DataTypes.STRING,
+  },
   role: {
     type: DataTypes.STRING,
   },

@@ -13,6 +13,9 @@ const bcrypt = require("bcrypt");
 const readHtmlFile = require("../utils/readHtml");
 const nodemailer = require("nodemailer");
 const handlebars = require("handlebars");
+const Hashids = require('hashids');
+
+const hashids = new Hashids();
 
 // @desc      Register user
 // @route     GET /api/v1/auth/register
@@ -153,11 +156,18 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
   if (!user)
     return next(new ErrorResponse("No user registered with this email", 404));
 
+  // Generate hashed user id
+  const hid = hashids.encode(user.id);
+
   // Generate password reset token
-  const token = generatePasswordResetToken({ id: user.id, email: user.email });
+  const token = generatePasswordResetToken(user);
+
+  // Save password reset token to the database
+  user.passwordResetToken = token;
+  await user.save();
 
   // Create password reset link
-  const link = `http://localhost:4200/${token}`;
+  const link = `http://localhost:4200/${hid}/${token}`;
   const html = await readHtmlFile("/templates/reset-password.html");
 
   if (!html) return next(new ErrorResponse("Failde to send email", 404));
@@ -211,10 +221,51 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
 // @route     GET /api/v1/auth/logout
 // @access    Public
 exports.changePassword = asyncHandler(async (req, res, next) => {
-  const { password, token } = req.body;
+  const { hid, password, token } = req.body;
+
+  // Decode hashed id
+  const id = hashids.decode(hid);
+
+  // Get user from database by id
+  const user = await User.findOne({ where: { id: id } });
+
+  // Show error if no user exists
+  if (!user)
+    return next(new ErrorResponse("No user found", 404));
+
+  // Compare current password reset token with user reset token
+  if (!user.passwordResetToken.includes(token))
+    return next(new ErrorResponse("The link is expired", 404));
+
+  // JWT Secret
+  const secret = env.passwordResetSecret + user.password;
+
+  try {
+    const payload = jwt.verify(token, secret);
+
+    // Check user email
+    if (!user.email.includes(payload.id))
+      return next(new ErrorResponse("User varification failed", 404));
+
+    // Generate hashed password
+    const salt = await bcrypt.genSalt(10);
+    const newPassword = await bcrypt.hash(password, salt);
+
+    // Save new password
+    user.password = newPassword;
+
+    // Remove password reset token from the database
+    user.passwordResetToken = "";
+
+    // Apply current changes to database
+    await user.save();
+  } catch (error) {
+    return next(new ErrorResponse("Varification failed", 403));
+  }
+
   // Return the response
   return res.status(200).json({
     success: true,
-    data: {password: password, token: token}
+    msg: "Password updated successfully"
   });
 })

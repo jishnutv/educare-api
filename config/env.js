@@ -8,6 +8,7 @@ module.exports = {
     authPort: process.env.AUTH_PORT,
     accessTokenSecret: process.env.ACCESS_TOKEN_SECRET,
     refreshTokenSecret: process.env.REFRESH_TOKEN_SECRET,
+    passwordResetSecret: process.env.PASSWORD_RESET_SECRET,
 
     db: {
         name: process.env.DB_NAME,

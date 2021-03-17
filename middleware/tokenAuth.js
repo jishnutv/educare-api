@@ -27,8 +27,8 @@ const generateRefreshToken = (user) => {
 };
 
 const generatePasswordResetToken = (user) => {
-  const secret = env.refreshTokenSecret + user.password;
-  return jwt.sign({ id: user.id }, secret, { expiresIn: "10m" });
+  const secret = env.passwordResetSecret + user.password;
+  return jwt.sign({ id: user.email }, secret, { expiresIn: "10m" });
 };
 
 module.exports = {
