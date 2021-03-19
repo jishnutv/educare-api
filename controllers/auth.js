@@ -13,7 +13,7 @@ const bcrypt = require("bcrypt");
 const readHtmlFile = require("../utils/readHtml");
 const nodemailer = require("nodemailer");
 const handlebars = require("handlebars");
-const Hashids = require('hashids');
+const Hashids = require("hashids");
 
 const hashids = new Hashids();
 
@@ -217,7 +217,7 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @desc      Set password
+// @desc      Change old password
 // @route     GET /api/v1/auth/logout
 // @access    Public
 exports.changePassword = asyncHandler(async (req, res, next) => {
@@ -230,8 +230,7 @@ exports.changePassword = asyncHandler(async (req, res, next) => {
   const user = await User.findOne({ where: { id: id } });
 
   // Show error if no user exists
-  if (!user)
-    return next(new ErrorResponse("No user found", 404));
+  if (!user) return next(new ErrorResponse("No user found", 404));
 
   // Compare current password reset token with user reset token
   if (!user.passwordResetToken.includes(token))
@@ -266,6 +265,15 @@ exports.changePassword = asyncHandler(async (req, res, next) => {
   // Return the response
   return res.status(200).json({
     success: true,
-    msg: "Password updated successfully"
+    msg: "Password updated successfully",
   });
-})
+});
+
+exports.logout = asyncHandler(async (req, res, next) => {
+  // Return the response
+  console.log("Logged out");
+  return res.status(200).json({
+    success: true,
+    msg: "Password updated successfully",
+  });
+});
