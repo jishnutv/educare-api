@@ -99,6 +99,7 @@ exports.login = asyncHandler(async (req, res, next) => {
   // Send back the Access token and Refresh token
   return res.status(200).json({
     success: true,
+    uid: user.id,
     accessToken: accessToken,
     refreshToken: refreshToken,
   });
@@ -109,6 +110,7 @@ exports.login = asyncHandler(async (req, res, next) => {
 // @access    Authenticated user
 exports.reAuth = asyncHandler(async (req, res, next) => {
   // Get refresh token and id from request body
+  console.log(req.body);
   const refreshToken = req.body.refreshToken;
   const uid = req.body.id;
 

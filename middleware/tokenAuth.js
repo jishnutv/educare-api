@@ -12,7 +12,7 @@ const tokenAuth = (req, res, next) => {
     );
 
   jwt.verify(token, env.accessTokenSecret, async (err, data) => {
-    if (err) return next(new ErrorResponse("Failed to authenticate", 403));
+    if (err) return next(new ErrorResponse("Failed to authenticate", 401));
     req.id = data.id;
     next();
   });
