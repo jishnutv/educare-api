@@ -276,6 +276,6 @@ exports.logout = asyncHandler(async (req, res, next) => {
   console.log("Logged out");
   return res.status(200).json({
     success: true,
-    msg: "Password updated successfully",
+    msg: "Logged out",
   });
 });
