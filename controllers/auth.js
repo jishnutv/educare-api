@@ -17,43 +17,6 @@ const Hashids = require("hashids");
 
 const hashids = new Hashids();
 
-// @desc      Register user
-// @route     GET /api/v1/auth/register
-// @access    Public
-exports.register = asyncHandler(async (req, res, next) => {
-  let { name, email, role, refreshToken } = req.body;
-
-  // Generate hashed password
-  const salt = await bcrypt.genSalt(10);
-  const password = await bcrypt.hash(req.body.password, salt);
-
-  await User.create({
-    name,
-    email,
-    password,
-    role,
-    refreshToken,
-  })
-    .then((data) => {
-      return res.status(200).json({
-        success: true,
-        data: data,
-      });
-    })
-    .catch((err) => {
-      return res.status(501).json({
-        success: false,
-        message: err.message,
-        data: [
-          {
-            message: "Server error",
-            error: err.message,
-          },
-        ],
-      });
-    });
-});
-
 // @desc      Login user
 // @route     GET /api/v1/auth/register
 // @access    Public
@@ -93,7 +56,7 @@ exports.login = asyncHandler(async (req, res, next) => {
   const refreshToken = generateRefreshToken({ id: user.id });
 
   // Save refresh token to the database
-  user.refreshToken = refreshToken;
+  user.refresh_token = refreshToken;
   await user.save();
 
   // Send back the Access token and Refresh token
@@ -110,7 +73,6 @@ exports.login = asyncHandler(async (req, res, next) => {
 // @access    Authenticated user
 exports.reAuth = asyncHandler(async (req, res, next) => {
   // Get refresh token and id from request body
-  console.log(req.body);
   const refreshToken = req.body.refreshToken;
   const uid = req.body.id;
 
@@ -126,7 +88,7 @@ exports.reAuth = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse("Invalid authentication credential", 401));
 
   // Compare current refresh token with user refresh token
-  if (!user.refreshToken.includes(refreshToken))
+  if (!user.refresh_token.includes(refreshToken))
     return next(new ErrorResponse("Refused to re-authenticate", 403));
 
   // Verify refresh token with jwt
@@ -165,7 +127,7 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
   const token = generatePasswordResetToken(user);
 
   // Save password reset token to the database
-  user.passwordResetToken = token;
+  user.password_reset_token = token;
   await user.save();
 
   // Create password reset link
@@ -235,7 +197,7 @@ exports.changePassword = asyncHandler(async (req, res, next) => {
   if (!user) return next(new ErrorResponse("No user found", 404));
 
   // Compare current password reset token with user reset token
-  if (!user.passwordResetToken.includes(token))
+  if (!user.password_reset_token.includes(token))
     return next(new ErrorResponse("The link is expired", 404));
 
   // JWT Secret

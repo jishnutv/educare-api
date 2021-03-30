@@ -11,13 +11,13 @@ const User = db.define("users", {
   password: {
     type: DataTypes.STRING,
   },
-  passwordResetToken: {
+  password_reset_token: {
     type: DataTypes.STRING,
   },
   role: {
     type: DataTypes.STRING,
   },
-  refreshToken: {
+  refresh_token: {
     type: DataTypes.STRING,
   },
 });
