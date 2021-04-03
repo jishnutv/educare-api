@@ -2,24 +2,99 @@ const { DataTypes } = require("sequelize");
 const db = require("../config/db");
 
 const User = db.define("users", {
+  id : {
+    type: DataTypes.INTEGER
+  },
+  user_id: {
+    type: DataTypes.INTEGER
+  },
   name: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING
+  },
+  qualification: {
+    type: DataTypes.STRING
+  },
+  reg_number: {
+    type: DataTypes.STRING
+  },
+  custom_reg_num: {
+    type: DataTypes.STRING
+  },
+  dob: {
+    type: DataTypes.STRING
+  },
+  photo: {
+    type: DataTypes.STRING
+  },
+  house_name: {
+    type: DataTypes.STRING
+  },
+  place: {
+    type: DataTypes.STRING
+  },
+  district: {
+    type: DataTypes.STRING
+  },
+  pincode: {
+    type: DataTypes.STRING
+  },
+  state: {
+    type: DataTypes.STRING
+  },
+  phone: {
+    type: DataTypes.INTEGER
+  },
+  whatsapp: {
+    type: DataTypes.STRING
   },
   email: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING
   },
-  password: {
-    type: DataTypes.STRING,
+  g_name: {
+    type: DataTypes.STRING
   },
-  password_reset_token: {
-    type: DataTypes.STRING,
+  g_occup: {
+    type: DataTypes.STRING
   },
-  role: {
-    type: DataTypes.STRING,
+  g_relation: {
+    type: DataTypes.STRING
   },
-  refresh_token: {
-    type: DataTypes.STRING,
+  g_specify: {
+    type: DataTypes.STRING
   },
+  g_phon: {
+    type: DataTypes.STRING
+  },
+  g_email: {
+    type: DataTypes.STRING
+  },
+  day: {
+    type: DataTypes.INTEGER
+  },
+  month: {
+    type: DataTypes.INTEGER
+  },
+  year: {
+    type: DataTypes.INTEGER
+  },
+  financial_year: {
+    type: DataTypes.STRING
+  },
+  added: {
+    type: DataTypes.INTEGER
+  },
+  updated: {
+    type: DataTypes.INTEGER
+  },
+  last_update: {
+    type: DataTypes.STRING
+  },
+  updated_at: {
+    type: DataTypes.STRING
+  },
+  created_at: {
+    type: DataTypes.STRING
+  }
 });
 
 User.prototype.toJSON = function () {

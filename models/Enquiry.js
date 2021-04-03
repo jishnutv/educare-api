@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const db = require('../config/db')
 
-const Enquiry = db.define('enquirys', {
+const Enquiry = db.define('enquiries', {
     course_id: {
         type: DataTypes.NUMBER
     },
@@ -16,9 +16,8 @@ const Enquiry = db.define('enquirys', {
     },
     email: {
         type: DataTypes.STRING,
-        
     },
-    education: {
+    qualification: {
         type: DataTypes.STRING
     },
     message: {

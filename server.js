@@ -42,7 +42,7 @@ if (env.env === "development") {
 app.use(express.static(path.join(__dirname, "public")));
 
 // Mount routers
-app.use("/api/v1/courses", tokenAuth, course);
+app.use("/api/v1/courses", course);
 app.use("/api/v1", contact);
 
 app.use(errorHandler);
