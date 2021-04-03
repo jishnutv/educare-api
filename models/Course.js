@@ -82,6 +82,6 @@ const Course = db.define('all_course', {
     updated_at: {
         type: DataTypes.STRING
     }
-});
+}, { timestamps: false });
 
 module.exports = Course;
