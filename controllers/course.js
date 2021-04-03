@@ -12,8 +12,6 @@ exports.getCourses = asyncHandler(async (req, res, next) => {
   console.log(token);
   Course.findAll({where: {user_id: env.user_id}})
     .then((courses) => {
-      console.log(courses.length);
-      
       if (!courses) return next(new ErrorResponse("No courses found", 404));
       res.status(200).json({
         success: true,
@@ -32,6 +30,8 @@ exports.getCourse = asyncHandler(async (req, res, next) => {
   await Course.findOne({
     where: {
       id: req.params.id,
+      user_id: env.user_id,
+      type: "C"
     },
   })
     .then((course) => {
