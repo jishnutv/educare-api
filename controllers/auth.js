@@ -30,6 +30,7 @@ exports.login = asyncHandler(async (req, res, next) => {
 
   // Get user from database by email
   const user = await User.findOne({ where: { user_id: env.user_id, email: email } });
+  console.log(JSON.parse(user));
 
   // Show error if no user exists
   if (!user)
