@@ -29,7 +29,7 @@ exports.login = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse("Please enter a valid email", 400));
 
   // Get user from database by email
-  const user = await User.findOne({ where: { email: email } });
+  const user = await User.findOne({ where: { user_id: env.user_id, email: email } });
 
   // Show error if no user exists
   if (!user)
@@ -76,8 +76,8 @@ exports.reAuth = asyncHandler(async (req, res, next) => {
   const refreshToken = req.body.refreshToken;
   const uid = req.body.id;
 
-  // Get user from database by id
-  const user = await User.findOne({ where: { id: uid } });
+  // Get user from database by email
+  const user = await User.findOne({ where: { user_id: env.user_id, id: uid } });
 
   // Show error if no user exists
   if (!user)
@@ -114,7 +114,7 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse("Please enter a valid email", 400));
 
   // Get user from database by email
-  const user = await User.findOne({ where: { email: email } });
+  const user = await User.findOne({ where: { user_id: env.user_id, email: email } });
 
   // Show error if no user exists
   if (!user)
@@ -191,7 +191,7 @@ exports.changePassword = asyncHandler(async (req, res, next) => {
   const id = hashids.decode(hid);
 
   // Get user from database by id
-  const user = await User.findOne({ where: { id: id } });
+  const user = await User.findOne({ where: { user_id: env.user_id, id: id } });
 
   // Show error if no user exists
   if (!user) return next(new ErrorResponse("No user found", 404));

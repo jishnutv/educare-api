@@ -3,7 +3,8 @@ const db = require("../config/db");
 
 const User = db.define("users", {
   id : {
-    type: DataTypes.INTEGER
+    type: DataTypes.INTEGER,
+    primaryKey: true
   },
   user_id: {
     type: DataTypes.INTEGER
@@ -89,10 +90,19 @@ const User = db.define("users", {
   last_update: {
     type: DataTypes.STRING
   },
-  updated_at: {
+  password: {
+    type: DataTypes.STRING
+  },
+  refreshToken: {
+    type: DataTypes.STRING
+  },
+  passwordResetToken: {
     type: DataTypes.STRING
   },
   created_at: {
+    type: DataTypes.STRING
+  },
+  updated_at: {
     type: DataTypes.STRING
   }
 });

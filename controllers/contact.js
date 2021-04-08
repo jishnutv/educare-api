@@ -14,20 +14,24 @@ const env = require("../config/env");
 exports.sendEnquiry = asyncHandler(async (req, res, next) => {
   // Get the data from request body
   let {
-    course_id,
+    courseid,
     course_title,
-    name,
+    fullname,
+    dob,
+    gender,
     place,
     phone,
     email,
     subject,
-    education,
-    message,
+    qualification,
+    some_more,
   } = req.body;
 
+  let user_id = env.user_id;
+
   // Current date and time formatted
-  let created = formatDate(new Date());
-  let updated = formatDate(new Date());
+  // let created = formatDate(new Date());
+  // let updated = formatDate(new Date());
 
   // Validate email
   if (!validator.isEmail(email))
@@ -36,17 +40,17 @@ exports.sendEnquiry = asyncHandler(async (req, res, next) => {
   
   // Add data to database
   const data = await Enquiry.create({
-    course_id,
-    course_title,
-    name,
+    user_id,
+    fullname,
+    qualification,
+    dob,
+    gender,
     place,
     phone,
     email,
-    subject,
-    education,
-    message,
-    created,
-    updated,
+    courseid,
+    course_title,
+    some_more,
   });
 
   const html = await readHtmlFile("/templates/contact.html");
@@ -57,14 +61,14 @@ exports.sendEnquiry = asyncHandler(async (req, res, next) => {
 
   // Create template replacement object
   let replacements = {
-    date: created,
+    date: data.created_at,
     course_title: data.course_title,
-    name: data.name,
+    name: data.fullname,
     place: data.place,
     phone: data.phone,
     email: data.email,
-    education: data.education,
-    msg: data.message,
+    education: data.qualification,
+    msg: data.some_more,
   };
 
   // Apply replacements to email template
@@ -88,7 +92,7 @@ exports.sendEnquiry = asyncHandler(async (req, res, next) => {
   const send = await transporter.sendMail({
     from: `"${data.name}" <${env.email.email_user}>`,
     to: env.email.email_to,
-    subject: data.subject,
+    subject: subject,
     text: "",
     html: htmlToSend,
   });
