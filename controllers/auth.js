@@ -153,7 +153,7 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
   let transporter = nodemailer.createTransport({
     host: env.email.email_host,
     port: 465,
-    secure: false,
+    secure: true,
     auth: {
       user: env.email.email_user,
       pass: env.email.email_password,
