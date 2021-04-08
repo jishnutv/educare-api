@@ -116,6 +116,7 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
 
   // Get user from database by email
   const user = await User.findOne({ where: { user_id: env.user_id, email: email } });
+  console.log(user);
 
   // Show error if no user exists
   if (!user)
@@ -151,7 +152,7 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
   // Create email transporter using nodemailer
   let transporter = nodemailer.createTransport({
     host: env.email.email_host,
-    port: 587,
+    port: 465,
     secure: false,
     auth: {
       user: env.email.email_user,
