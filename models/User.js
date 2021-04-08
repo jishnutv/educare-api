@@ -105,11 +105,10 @@ const User = db.define("students", {
   updated_at: {
     type: DataTypes.STRING
   }
-});
+},{ timestamps: false });
 
 User.prototype.toJSON = function () {
   const values = Object.assign({}, this.get());
-
   delete values.password;
   return values;
 };
