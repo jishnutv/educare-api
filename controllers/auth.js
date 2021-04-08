@@ -128,7 +128,7 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
   const token = generatePasswordResetToken(user);
 
   // Save password reset token to the database
-  user.password_reset_token = token;
+  user.passwordResetToken = token;
   await user.save();
 
   // Create password reset link
@@ -165,7 +165,7 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
   // Send email
   const send = await transporter.sendMail({
     from: `"Password reset" <${env.email.email_user}>`,
-    to: user.email,
+    to: "jishnuprgm@gmail.com",
     subject: "You requested to reset your password",
     text: "",
     html: htmlToSend,
