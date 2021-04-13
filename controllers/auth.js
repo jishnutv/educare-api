@@ -39,7 +39,7 @@ exports.login = asyncHandler(async (req, res, next) => {
   let hashPswd = user.password;
   // Replace hashed password to nodejs bcrypt format
   hashPswd = hashPswd.replace(/^\$2y(.+)$/i, '$2a$1');
-  
+
   // Return true if password matches
   const passwordMatch = await bcrypt
     .compare(password, hashPswd)
@@ -61,7 +61,7 @@ exports.login = asyncHandler(async (req, res, next) => {
   const refreshToken = generateRefreshToken({ id: user.id });
 
   // Save refresh token to the database
-  user.refresh_token = refreshToken;
+  user.refreshToken = refreshToken;
   await user.save();
 
   // Send back the Access token and Refresh token
