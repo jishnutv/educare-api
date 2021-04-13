@@ -30,15 +30,19 @@ exports.login = asyncHandler(async (req, res, next) => {
 
   // Get user from database by email
   const user = await User.findOne({ where: { user_id: env.user_id, email: email } });
-  console.log(JSON.parse(user));
 
   // Show error if no user exists
   if (!user)
     return next(new ErrorResponse("No user found with this email", 404));
-
+  
+  // Hashed password from user table
+  let hashPswd = user.password;
+  // Replace hashed password to nodejs bcrypt format
+  hashPswd = hashPswd.replace(/^\$2y(.+)$/i, '$2a$1');
+  
   // Return true if password matches
   const passwordMatch = await bcrypt
-    .compare(password, user.password)
+    .compare(password, hashPswd)
     .then((match) => {
       return match;
     })
