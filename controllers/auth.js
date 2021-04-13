@@ -155,16 +155,14 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
 
   // Create email transporter using nodemailer
   let transporter = nodemailer.createTransport({
-    host: env.email.email_host,
-    port: 465,
-    secure: true,
+    service: "gmail",
+    //host: env.email.email_host,
+    //port: 465,
+    //secure: true,
     auth: {
       user: env.email.email_user,
       pass: env.email.email_password,
-    },
-    tls: {
-      rejectUnauthorized: false,
-    },
+    }
   });
 
   // Send email
@@ -203,7 +201,7 @@ exports.changePassword = asyncHandler(async (req, res, next) => {
   if (!user) return next(new ErrorResponse("No user found", 404));
 
   // Compare current password reset token with user reset token
-  if (!user.password_reset_token.includes(token))
+  if (!user.passwordResetToken.includes(token))
     return next(new ErrorResponse("The link is expired", 404));
 
   // JWT Secret
