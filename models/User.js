@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const db = require("../config/db");
 
-const User = db.define("students", {
+const User = db.define("users", {
   id : {
     type: DataTypes.INTEGER,
     primaryKey: true
@@ -10,6 +10,9 @@ const User = db.define("students", {
     type: DataTypes.STRING,
   },
   email: {
+    type: DataTypes.STRING
+  },
+  email_verified_at: {
     type: DataTypes.STRING
   },
   password: {
