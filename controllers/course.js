@@ -9,7 +9,7 @@ const env = require("../config/env");
 exports.getCourses = asyncHandler(async (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
-  const uid = req.body
+  const { uid } = req.body;
   console.log(token);
   Course.findAll({where: {user_id: uid}})
     .then((courses) => {
