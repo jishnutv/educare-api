@@ -14,6 +14,7 @@ const env = require("../config/env");
 exports.sendEnquiry = asyncHandler(async (req, res, next) => {
   // Get the data from request body
   let {
+    user_id,
     courseid,
     course_title,
     fullname,
@@ -26,8 +27,6 @@ exports.sendEnquiry = asyncHandler(async (req, res, next) => {
     qualification,
     some_more,
   } = req.body;
-
-  let user_id = env.user_id;
 
   // Current date and time formatted
   // let created = formatDate(new Date());
