@@ -28,7 +28,7 @@ exports.getCourses = asyncHandler(async (req, res, next) => {
 // @route     GET /api/v1/courses/:id
 // @access    Public
 exports.getCourse = asyncHandler(async (req, res, next) => {
-  const uid = req.body
+  const { uid } = req.body
   await Course.findOne({
     where: {
       id: req.params.id,
