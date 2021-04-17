@@ -9,6 +9,7 @@ const env = require("./config/env");
 
 // Route files
 const auth = require("./routes/auth");
+const facultyAuth = require("./routes/faculty.auth");
 
 // Initialize express
 const app = express();
@@ -39,6 +40,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Mount routers
 app.use("/api/v1/auth", auth);
+app.use("/api/v1/auth", facultyAuth);
 
 app.use(errorHandler);
 
