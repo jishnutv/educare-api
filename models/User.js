@@ -12,9 +12,6 @@ const User = db.define("students", {
   email: {
     type: DataTypes.STRING
   },
-  email_verified_at: {
-    type: DataTypes.STRING
-  },
   password: {
     type: DataTypes.STRING
   },
