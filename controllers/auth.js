@@ -22,14 +22,10 @@ const hashids = new Hashids();
 // @access    Public
 exports.login = asyncHandler(async (req, res, next) => {
   // Get data from request body
-  const { phone, password, uid } = req.body;
-
-  // Validate email
-  if (!validator.isEmail(email))
-    return next(new ErrorResponse("Please enter a valid email", 400));
+  const { reg_number, password, uid } = req.body;
 
   // Get user from database by email
-  const user = await Student.findOne({ where: { user_id: uid, phone: phone } });
+  const user = await Student.findOne({ where: { user_id: uid, reg_number: reg_number}});
 
   // Show error if no user exists
   if (!user)
@@ -79,10 +75,10 @@ exports.login = asyncHandler(async (req, res, next) => {
 exports.reAuth = asyncHandler(async (req, res, next) => {
   // Get refresh token and id from request body
   const refreshToken = req.body.refreshToken;
-  const uid = req.body.id;
+  const { uid, id } = req.body;
 
   // Get user from database by email
-  const user = await Student.findOne({ where: { user_id: uid, id: uid } });
+  const user = await Student.findOne({ where: { user_id: uid, id: id } });
 
   // Show error if no user exists
   if (!user)
@@ -112,14 +108,14 @@ exports.reAuth = asyncHandler(async (req, res, next) => {
 // @access    Public
 exports.resetPassword = asyncHandler(async (req, res, next) => {
   // Get email from request body
-  const email = req.body.email;
+  const { uid, reg_number } = req.body;
 
   // Validate email
   if (!validator.isEmail(email))
     return next(new ErrorResponse("Please enter a valid email", 400));
 
   // Get user from database by email
-  const user = await Student.findOne({ where: { user_id: uid, phone: phone } });
+  const user = await Student.findOne({ where: { user_id: uid, reg_number: reg_number} });
   console.log(user);
 
   // Show error if no user exists

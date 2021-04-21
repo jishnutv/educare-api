@@ -7,9 +7,7 @@ const env = require("../config/env");
 // @route     GET /api/v1/courses
 // @access    Public
 exports.getCourses = asyncHandler(async (req, res, next) => {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
-  const { uid } = req.body;
+  const { uid } = req.params;
   console.log(token);
   Course.findAll({where: {user_id: uid}})
     .then((courses) => {
@@ -28,7 +26,7 @@ exports.getCourses = asyncHandler(async (req, res, next) => {
 // @route     GET /api/v1/courses/:id
 // @access    Public
 exports.getCourse = asyncHandler(async (req, res, next) => {
-  const { uid } = req.body
+  const { uid } = req.params;
   await Course.findOne({
     where: {
       id: req.params.id,
