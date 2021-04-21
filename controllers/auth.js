@@ -29,7 +29,7 @@ exports.login = asyncHandler(async (req, res, next) => {
 
   // Show error if no user exists
   if (!user)
-    return next(new ErrorResponse("No user found with this email", 404));
+    return next(new ErrorResponse("No user found with this register number", 404));
   
   // Hashed password from user table
   let hashPswd = user.password;
@@ -48,7 +48,7 @@ exports.login = asyncHandler(async (req, res, next) => {
 
   // If password doesn't match then show error
   if (!passwordMatch)
-    return next(new ErrorResponse("Please check your email or password", 401));
+    return next(new ErrorResponse("Please check your register number or password", 401));
 
   // Generate access token for the current user
   const accessToken = generateAccessToken({ id: user.id });
@@ -82,7 +82,7 @@ exports.reAuth = asyncHandler(async (req, res, next) => {
 
   // Show error if no user exists
   if (!user)
-    return next(new ErrorResponse("Please enter a valid email address", 401));
+    return next(new ErrorResponse("Re-Authentication failed", 401));
 
   // Check refresh token is not null
   if (refreshToken == null)

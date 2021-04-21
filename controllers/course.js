@@ -8,7 +8,7 @@ const env = require("../config/env");
 // @access    Public
 exports.getCourses = asyncHandler(async (req, res, next) => {
   const { uid } = req.params;
-  console.log(token);
+  console.log(uid);
   Course.findAll({where: {user_id: uid}})
     .then((courses) => {
       if (!courses) return next(new ErrorResponse("No courses found", 404));
