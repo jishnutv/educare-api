@@ -30,7 +30,8 @@ exports.login = asyncHandler(async (req, res, next) => {
   // Show error if no user exists
   if (!user)
     return next(new ErrorResponse("No user found with this register number", 404));
-  
+  console.log("Works");
+
   // Hashed password from user table
   let hashPswd = user.password;
   // Replace hashed password to nodejs bcrypt format
@@ -49,7 +50,8 @@ exports.login = asyncHandler(async (req, res, next) => {
   // If password doesn't match then show error
   if (!passwordMatch)
     return next(new ErrorResponse("Please check your register number or password", 401));
-
+  console.log("Works 2");
+  
   // Generate access token for the current user
   const accessToken = generateAccessToken({ id: user.id });
 
@@ -63,7 +65,7 @@ exports.login = asyncHandler(async (req, res, next) => {
   // Send back the Access token and Refresh token
   return res.status(200).json({
     success: true,
-    uid: user.id,
+    id: user.id,
     accessToken: accessToken,
     refreshToken: refreshToken,
   });
