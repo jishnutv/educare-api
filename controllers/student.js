@@ -12,7 +12,7 @@ exports.getStudent = asyncHandler(async (req, res, next) => {
   const student = await Student.findOne({ where: { user_id: uid, id: id } });
 
   // Show error if no student exists
-  if (!user) return next(new ErrorResponse("Failed to get student data", 404));
+  if (!student) return next(new ErrorResponse("Failed to get student data", 404));
 
   console.log(student);
   

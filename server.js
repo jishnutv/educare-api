@@ -17,7 +17,7 @@ const student = require("./routes/student")
 const app = express();
 
 // Cors config
-var whitelist = ['http://localhost:8100', 'http://192.168.1.17:8100', "*"];
+var whitelist = ['http://localhost:8100', 'http://192.168.1.17:8100'];
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
@@ -28,7 +28,7 @@ var corsOptions = {
   }
 }
 
-//app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 app.disable("etag");
 
 // Check database
