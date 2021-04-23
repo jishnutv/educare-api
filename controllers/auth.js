@@ -30,7 +30,7 @@ exports.login = asyncHandler(async (req, res, next) => {
   // Show error if no user exists
   if (!user)
     return next(new ErrorResponse("No user found with this register number", 404));
-
+  
   // Hashed password from user table
   let hashPswd = user.password;
   // Replace hashed password to nodejs bcrypt format
