@@ -6,7 +6,7 @@ const Student = require("../models/Student");
 // @route     GET /api/v1/student
 // @access    Private
 exports.getStudent = asyncHandler(async (req, res, next) => {
-  const { uid, id } = req.query;
+  const { uid, id } = req.body;
   
   // Get current login student from database by id
   const student = await Student.findOne({ where: { user_id: uid, id: id } });
