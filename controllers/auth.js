@@ -25,17 +25,17 @@ exports.login = asyncHandler(async (req, res, next) => {
   const { reg_number, password, uid } = req.body;
 
   // Get user from database by email
-  const user = await Student.findOne({ where: { user_id: uid, reg_number: reg_number}});
+  const user = await Student.findOne({ where: { user_id: uid, reg_number: reg_number } });
 
   // Show error if no user exists
   if (!user)
     return next(new ErrorResponse("No user found with this register number", 404));
-  console.log("Works");
 
   // Hashed password from user table
   let hashPswd = user.password;
   // Replace hashed password to nodejs bcrypt format
   hashPswd = hashPswd.replace(/^\$2y(.+)$/i, '$2a$1');
+  console.log(hashPswd);
 
   // Return true if password matches
   const passwordMatch = await bcrypt
@@ -47,11 +47,11 @@ exports.login = asyncHandler(async (req, res, next) => {
       return next(new ErrorResponse(err.message, 401));
     });
 
+  console.log("passwordMatch")
   // If password doesn't match then show error
   if (!passwordMatch)
     return next(new ErrorResponse("Please check your register number or password", 401));
-  console.log("Works 2");
-  
+
   // Generate access token for the current user
   const accessToken = generateAccessToken({ id: user.id });
 
@@ -76,8 +76,7 @@ exports.login = asyncHandler(async (req, res, next) => {
 // @access    Authenticated user
 exports.reAuth = asyncHandler(async (req, res, next) => {
   // Get refresh token and id from request body
-  const refreshToken = req.body.refreshToken;
-  const { uid, id } = req.body;
+  const { uid, id, refreshToken } = req.body;
 
   // Get user from database by email
   const user = await Student.findOne({ where: { user_id: uid, id: id } });
@@ -117,7 +116,7 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse("Please enter a valid email", 400));
 
   // Get user from database by email
-  const user = await Student.findOne({ where: { user_id: uid, reg_number: reg_number} });
+  const user = await Student.findOne({ where: { user_id: uid, reg_number: reg_number } });
   console.log(user);
 
   // Show error if no user exists
