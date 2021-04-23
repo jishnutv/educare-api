@@ -11,24 +11,24 @@ const env = require("./config/env");
 // Route files
 const course = require("./routes/course");
 const contact = require("./routes/contact");
+const student = require("./routes/student")
 
 // Initialize express
 const app = express();
 
 // Cors config
-var whitelist = ['http://localhost:8100', 'http://192.168.1.17:8100'];
+var whitelist = ["*"];
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
       callback(null, true)
     } else {
-      callback(new Error('Not allowed by CORS'))
+      callback(new Error('You are not allowed here'));
     }
   }
 }
 
 app.use(cors(corsOptions));
-
 app.disable("etag");
 
 // Check database
@@ -50,8 +50,9 @@ if (env.env === "development") {
 app.use(express.static(path.join(__dirname, "public")));
 
 // Mount routers
-app.use("/api/v1/courses", course);
 app.use("/api/v1", contact);
+app.use("/api/v1/courses", course);
+app.use("/api/v1/student", student);
 
 app.use(errorHandler);
 
