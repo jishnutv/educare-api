@@ -11,6 +11,7 @@ const env = require("./config/env");
 // Route files
 const course = require("./routes/course");
 const contact = require("./routes/contact");
+const student = require("./routes/student");
 
 // Initialize express
 const app = express();
@@ -51,6 +52,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Mount routers
 app.use("/api/v1/courses", course);
+app.use("/api/v1/student", student);
 app.use("/api/v1", contact);
 
 app.use(errorHandler);
