@@ -30,6 +30,7 @@
     "nodemailer-express-handlebars": "^4.0.0",
     "rotating-file-stream": "^2.1.5",
     "sequelize": "^6.5.0",
+    "validate-phone-number-node-js": "0.0.1",
     "validator": "^13.5.2"
   },
   "devDependencies": {

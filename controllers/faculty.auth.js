@@ -2,7 +2,7 @@ const asyncHandler = require("../middleware/async");
 const ErrorResponse = require("../utils/errorResponse");
 const jwt = require("jsonwebtoken");
 const validator = require("validator");
-const Student = require("../models/Student");
+const User = require("../models/User");
 const env = require("../config/env");
 const {
   generateAccessToken,
@@ -22,20 +22,23 @@ const hashids = new Hashids();
 // @access    Public
 exports.login = asyncHandler(async (req, res, next) => {
   // Get data from request body
-  const { reg_number, password, uid } = req.body;
+  const { email, password } = req.body;
+
+  // Validate email
+  if (!validator.isEmail(email))
+    return next(new ErrorResponse("Please enter a valid email", 400));
 
   // Get user from database by email
-  const user = await Student.findOne({ where: { user_id: uid, reg_number: reg_number } });
+  const user = await User.findOne({ where: { email: email, role: "user" } });
 
   // Show error if no user exists
   if (!user)
-    return next(new ErrorResponse("No user found with this register number", 404));
+    return next(new ErrorResponse("No user found with this email", 404));
   
   // Hashed password from user table
   let hashPswd = user.password;
   // Replace hashed password to nodejs bcrypt format
   hashPswd = hashPswd.replace(/^\$2y(.+)$/i, '$2a$1');
-  console.log(hashPswd);
 
   // Return true if password matches
   const passwordMatch = await bcrypt
@@ -47,10 +50,9 @@ exports.login = asyncHandler(async (req, res, next) => {
       return next(new ErrorResponse(err.message, 401));
     });
 
-  console.log("passwordMatch")
   // If password doesn't match then show error
   if (!passwordMatch)
-    return next(new ErrorResponse("Please check your register number or password", 401));
+    return next(new ErrorResponse("Please check your email or password", 401));
 
   // Generate access token for the current user
   const accessToken = generateAccessToken({ id: user.id });
@@ -65,7 +67,7 @@ exports.login = asyncHandler(async (req, res, next) => {
   // Send back the Access token and Refresh token
   return res.status(200).json({
     success: true,
-    id: user.id,
+    uid: user.id,
     accessToken: accessToken,
     refreshToken: refreshToken,
   });
@@ -76,14 +78,15 @@ exports.login = asyncHandler(async (req, res, next) => {
 // @access    Authenticated user
 exports.reAuth = asyncHandler(async (req, res, next) => {
   // Get refresh token and id from request body
-  const { uid, id, refreshToken } = req.body;
+  const refreshToken = req.body.refreshToken;
+  const uid = req.body.id;
 
   // Get user from database by email
-  const user = await Student.findOne({ where: { user_id: uid, id: id } });
+  const user = await User.findOne({ where: { email: email, role: "user" } });
 
   // Show error if no user exists
   if (!user)
-    return next(new ErrorResponse("Re-Authentication failed", 401));
+    return next(new ErrorResponse("Please enter a valid email address", 401));
 
   // Check refresh token is not null
   if (refreshToken == null)
@@ -109,14 +112,14 @@ exports.reAuth = asyncHandler(async (req, res, next) => {
 // @access    Public
 exports.resetPassword = asyncHandler(async (req, res, next) => {
   // Get email from request body
-  const { uid, reg_number } = req.body;
+  const email = req.body.email;
 
   // Validate email
   if (!validator.isEmail(email))
     return next(new ErrorResponse("Please enter a valid email", 400));
 
   // Get user from database by email
-  const user = await Student.findOne({ where: { user_id: uid, reg_number: reg_number } });
+  const user = await User.findOne({ where: { email: email, role: "user" } });
   console.log(user);
 
   // Show error if no user exists
@@ -192,7 +195,7 @@ exports.changePassword = asyncHandler(async (req, res, next) => {
   const id = hashids.decode(hid);
 
   // Get user from database by id
-  const user = await Student.findOne({ where: { user_id: uid, id: id } });
+  const user = await User.findOne({ where: { id: id, role: "user" } });
 
   // Show error if no user exists
   if (!user) return next(new ErrorResponse("No user found", 404));
