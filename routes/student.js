@@ -7,6 +7,6 @@ const router = express.Router();
 
 router
     .route('/')
-    .get(getStudent)
+    .post(getStudent)
 
 module.exports = router;
