@@ -15,9 +15,17 @@ const contact = require("./routes/contact");
 // Initialize express
 const app = express();
 
+// Cors config
+var whitelist = ['http://localhost:8100', 'http://localhost', "capacitor://localhost"];
 var corsOptions = {
-  origin: "http://localhost:8100",
-};
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('You are not allowed here'));
+    }
+  }
+}
 
 app.use(cors(corsOptions));
 
