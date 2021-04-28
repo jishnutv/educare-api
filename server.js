@@ -6,6 +6,7 @@ const errorHandler = require("./middleware/error");
 const db = require("./config/db");
 var cors = require("cors");
 const { tokenAuth } = require("./middleware/tokenAuth");
+const rfs = require("rotating-file-stream");
 const env = require("./config/env");
 
 // Route files
