@@ -14,11 +14,38 @@ const facultyAuth = require("./routes/faculty.auth");
 // Initialize express
 const app = express();
 
+// Cors config
+var whitelist = [
+  "http://192.168.1.17:8100",
+  "http://localhost:8100",
+  "http://localhost",
+  "capacitor://localhost",
+];
 var corsOptions = {
-  origin: "http://localhost:8100",
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("You are not allowed here"));
+    }
+  },
 };
 
-app.use(cors(corsOptions));
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With"
+  );
+  res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
+  if ("OPTIONS" === req.method) {
+    res.status(204).send();
+  } else {
+    next();
+  }
+});
+
+// app.use(cors(corsOptions));
 
 app.disable("etag");
 
@@ -26,10 +53,10 @@ app.disable("etag");
 app.use(express.json());
 
 // create a rotating write stream
-const accessLogStream = rfs.createStream('auth.access.log', {
-  interval: '1d', // rotate daily
-  path: path.join(__dirname, 'log')
-})
+const accessLogStream = rfs.createStream("auth.access.log", {
+  interval: "1d", // rotate daily
+  path: path.join(__dirname, "log"),
+});
 
 if (env.env === "development") {
   app.use(morgan("dev", { stream: accessLogStream }));

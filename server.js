@@ -17,16 +17,35 @@ const student = require("./routes/student");
 const app = express();
 
 // Cors config
-var whitelist = ['http://localhost:8100', 'http://localhost', "capacitor://localhost"];
+var whitelist = [
+  "http://192.168.1.17:8100",
+  "http://localhost:8100",
+  "http://localhost",
+  "capacitor://localhost",
+];
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
+      callback(null, true);
     } else {
-      callback(new Error('You are not allowed here'));
+      callback(new Error("You are not allowed here"));
     }
+  },
+};
+
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With"
+  );
+  res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
+  if ("OPTIONS" === req.method) {
+    res.status(204).send();
+  } else {
+    next();
   }
-}
+});
 
 app.use(cors(corsOptions));
 
