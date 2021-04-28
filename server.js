@@ -9,6 +9,8 @@ const { tokenAuth } = require("./middleware/tokenAuth");
 const env = require("./config/env");
 
 // Route files
+const auth = require("./routes/auth");
+const facultyAuth = require("./routes/faculty.auth");
 const course = require("./routes/course");
 const contact = require("./routes/contact");
 const student = require("./routes/student");
@@ -66,10 +68,22 @@ if (env.env === "development") {
   app.use(morgan("dev"));
 }
 
+// create a rotating write stream
+const accessLogStream = rfs.createStream("auth.access.log", {
+  interval: "1d", // rotate daily
+  path: path.join(__dirname, "log"),
+});
+
+if (env.env === "development") {
+  app.use(morgan("dev", { stream: accessLogStream }));
+}
+
 // Set static folder
 app.use(express.static(path.join(__dirname, "public")));
 
 // Mount routers
+app.use("/api/v1/auth", auth);
+app.use("/api/v1/auth", facultyAuth);
 app.use("/api/v1/courses", course);
 app.use("/api/v1/student", student);
 app.use("/api/v1", contact);
