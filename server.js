@@ -21,7 +21,7 @@ const app = express();
 
 // Cors config
 var whitelist = [
-  "http://192.168.1.17:8100",
+  "http://192.168.43.237:8100",
   "http://localhost:8100",
   "http://localhost",
   "capacitor://localhost",
