@@ -69,7 +69,7 @@ if (env.env === "development") {
   app.use(morgan("dev"));
 }
 
-// create a rotating write stream
+// Create a rotating write stream
 const accessLogStream = rfs.createStream("auth.access.log", {
   interval: "1d", // rotate daily
   path: path.join(__dirname, "log"),
@@ -89,11 +89,11 @@ app.use("/api/v1/courses", course);
 app.use("/api/v1/student", student);
 app.use("/api/v1", contact);
 
+// Error Handler
 app.use(errorHandler);
 
 // Server
 const PORT = env.port || 5000;
-
 const server = app.listen(PORT, () => {
   console.log(
     `Server running in ${env.env} mode on port ${env.port}`.yellow.bold
@@ -103,7 +103,6 @@ const server = app.listen(PORT, () => {
 // Handle unhandled promise rejections
 process.on("unhandledRejection", (err, promise) => {
   console.log(`Error: ${err.message}`.red.bold);
-
   // Close server & exit process
   server.close(() => process.exit(1));
 });
