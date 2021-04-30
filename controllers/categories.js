@@ -7,7 +7,9 @@ const Categories = require("../models/Categories");
 // @access    Public
 exports.getCategories = asyncHandler(async (req, res, next) => {
   const { uid } = req.query;
-  console.log("Hello");
+  const header = req.headers["uid"];
+  const user = header && header.split(" ")[1];
+  console.log(header);
   Categories.findAll({where: {user_id: uid}})
     .then((categories) => {
       if (!categories) return next(new ErrorResponse("No categories found", 404));
@@ -17,6 +19,6 @@ exports.getCategories = asyncHandler(async (req, res, next) => {
       });
     })
     .catch((err) => {
-      next(new ErrorResponse("No courses found", 404));
+      next(new ErrorResponse("No categories found", 404));
     });
 });
