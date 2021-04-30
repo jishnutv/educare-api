@@ -9,7 +9,17 @@ const env = require("../config/env");
 exports.getCourses = asyncHandler(async (req, res, next) => {
   const { uid, category } = req.query;
   if(category) {
-    console.log(category);
+    Course.findAll({where: {user_id: uid, cat_id: category}})
+    .then((courses) => {
+      if (!courses) return next(new ErrorResponse("No courses found", 404));
+      res.status(200).json({
+        success: true,
+        data: courses,
+      });
+    })
+    .catch((err) => {
+      next(new ErrorResponse("No courses found", 404));
+    });
   }else {
     Course.findAll({where: {user_id: uid}})
     .then((courses) => {

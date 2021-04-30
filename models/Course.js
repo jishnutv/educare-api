@@ -1,4 +1,4 @@
-const { DataTypes } = require('sequelize');
+const DataTypes = require('sequelize');
 const db = require('../config/db')
 
 const Course = db.define('all_course', {
@@ -7,6 +7,9 @@ const Course = db.define('all_course', {
         primaryKey: true
     },
     user_id: {
+        type: DataTypes.INTEGER,
+    },
+    cat_id: {
         type: DataTypes.INTEGER,
     },
     scheme: {
