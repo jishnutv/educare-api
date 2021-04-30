@@ -6,11 +6,9 @@ const Categories = require("../models/Categories");
 // @route     GET /api/v1/categories
 // @access    Public
 exports.getCategories = asyncHandler(async (req, res, next) => {
-  const { uid } = req.query;
-  const header = req.headers["uid"];
-  const user = header && header.split(" ")[1];
-  console.log(header);
-  Categories.findAll({where: {user_id: uid}})
+  const user = req.headers["X-User"];
+  console.log(user);
+  Categories.findAll({where: {user_id: user}})
     .then((categories) => {
       if (!categories) return next(new ErrorResponse("No categories found", 404));
       res.status(200).json({
