@@ -7,8 +7,11 @@ const env = require("../config/env");
 // @route     GET /api/v1/courses
 // @access    Public
 exports.getCourses = asyncHandler(async (req, res, next) => {
-  const { uid } = req.query;
-  Course.findAll({where: {user_id: uid}})
+  const { uid, category } = req.query;
+  if(category) {
+    console.log(category);
+  }else {
+    Course.findAll({where: {user_id: uid}})
     .then((courses) => {
       if (!courses) return next(new ErrorResponse("No courses found", 404));
       res.status(200).json({
@@ -19,6 +22,7 @@ exports.getCourses = asyncHandler(async (req, res, next) => {
     .catch((err) => {
       next(new ErrorResponse("No courses found", 404));
     });
+  }
 });
 
 // @desc      Get single course
