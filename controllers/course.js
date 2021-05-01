@@ -1,7 +1,7 @@
 const asyncHandler = require("../middleware/async");
 const ErrorResponse = require("../utils/errorResponse");
 const Course = require("../models/Course");
-const env = require("../config/env");
+const Lessons = require("../models/Lessons");
 
 // @desc      Get all courses
 // @route     GET /api/v1/courses
@@ -24,9 +24,11 @@ exports.getCourses = asyncHandler(async (req, res, next) => {
     Course.findAll({where: {user_id: uid}})
     .then((courses) => {
       if (!courses) return next(new ErrorResponse("No courses found", 404));
+      const lesson = Lessons.findAll({where: {user_id: uid, course_id: courses.id}})
       res.status(200).json({
         success: true,
         data: courses,
+        lessons: lesson
       });
     })
     .catch((err) => {
