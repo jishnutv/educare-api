@@ -24,11 +24,9 @@ exports.getCourses = asyncHandler(async (req, res, next) => {
     Course.findAll({where: {user_id: uid}})
     .then((courses) => {
       if (!courses) return next(new ErrorResponse("No courses found", 404));
-      const lesson = Lessons.findAll({where: {user_id: uid, course_id: courses.id}})
       res.status(200).json({
         success: true,
-        data: courses,
-        lessons: lesson
+        data: courses
       });
     })
     .catch((err) => {
@@ -50,6 +48,7 @@ exports.getCourse = asyncHandler(async (req, res, next) => {
     },
   })
     .then((course) => {
+      const lesson = await Lessons.findAll({where: {user_id: uid, course_id: course.id}})
       if (!course) {
         return next(
           new ErrorResponse(
@@ -62,6 +61,7 @@ exports.getCourse = asyncHandler(async (req, res, next) => {
       res.status(200).json({
         success: true,
         data: course,
+        lesson: lesson
       });
     })
     .catch((err) => {
