@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Apr 29, 2021 at 09:53 AM
+-- Generation Time: Apr 30, 2021 at 11:00 AM
 -- Server version: 5.7.31
 -- PHP Version: 7.3.21
 
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `all_courses` (
   `certification` bigint(20) UNSIGNED DEFAULT NULL,
   `curiculam` varchar(200) CHARACTER SET latin1 DEFAULT NULL,
   `title` varchar(80) CHARACTER SET latin1 NOT NULL,
-  `desc_mal` longtext CHARACTER SET latin1,
+  `desc_mal` longtext CHARACTER SET utf8mb4,
   `desc_eng` text CHARACTER SET latin1,
   `course_info` text CHARACTER SET latin1,
   `course_type` varchar(20) CHARACTER SET latin1 DEFAULT NULL,
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `all_courses` (
 --
 
 INSERT INTO `all_courses` (`id`, `user_id`, `cat_id`, `scheme`, `certification`, `curiculam`, `title`, `desc_mal`, `desc_eng`, `course_info`, `course_type`, `istopten`, `ispopular`, `videolink`, `img_name`, `img_contrast`, `tags`, `offline_fee`, `online_fee`, `tax`, `n_duration`, `n_type`, `f_duration`, `type`, `f_type`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 5, 1, 1, '', 'Abacus Training', NULL, 'We use the Abacus tool and concept at our Archikites Abacus Academy, to help children learn the technique.\r\nThe importance of brain development is vital to optimise the growth of the human brain and its function. Through studies in developmental neurobiology, it is proven that experiences in early life affects different stages of development and aiding a child’s learning, helps provide the brain with a promising beginning.', 'Brain Development, Confidence Building, Improved calculation skills, Mastering Arithmetic, Having fun with maths, memory techniques Exercise', 'online', 1, 1, 'https://youtu.be/R6DfLXP1yjQ', '1_1619687808.jpg', 3, NULL, 2500, 2500, 'NO', 6, 'month', 25, 'C', 'day', 'ACT', '2021-04-29 03:46:48', '2021-04-29 03:53:35');
+(1, 1, 5, 1, 1, '', 'Abacus Training', '5 വയസ്സുമുതല്‍ കുട്ടികള്‍ക്ക് അബാക്കസ്സ് പഠനം നല്‍കുന്നതിലൂടെ പഠനത്തില്‍ മികച്ച വിജയം നേടുവാന്‍ സാധിക്കുന്നു. കുട്ടികളിലെ ഏകാഗ്രത, ശ്രദ്ധ, ഓര്‍മ്മശക്തി എന്നിവ വര്‍ദ്ധിപ്പിക്കാനും, ഗണിതശാസ്ത്രത്തെ രസകരമായി വിദ്യാര്‍ത്ഥികളില്‍ എത്തിക്കുവാനും തന്‍മൂലം പഠനം ലളിതവും വിനോദകരവും ആക്കാന്‍ കുട്ടികളെ അബാക്കസ്സ് പഠനത്തിലൂടെ സഹായിക്കുന്നു', 'We use the Abacus tool and concept at our Archikites Abacus Academy, to help children learn the technique.\r\nThe importance of brain development is vital to optimise the growth of the human brain and its function. Through studies in developmental neurobiology, it is proven that experiences in early life affects different stages of development and aiding a child’s learning, helps provide the brain with a promising beginning.', 'Brain Development, Confidence Building, Improved calculation skills, Mastering Arithmetic, Having fun with maths, memory techniques Exercise', 'online', 1, 1, 'https://youtu.be/R6DfLXP1yjQ', '1_1619687808.jpg', 3, 'abacus,anadham,anadham2021', 2500, 2500, 'NO', 6, 'month', 25, 'C', 'day', 'ACT', '2021-04-29 03:46:48', '2021-04-30 05:29:56');
 
 -- --------------------------------------------------------
 
@@ -332,7 +332,15 @@ CREATE TABLE IF NOT EXISTS `facultybatches` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `faculty on batch` (`faculty_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `facultybatches`
+--
+
+INSERT INTO `facultybatches` (`id`, `user_id`, `faculty_id`, `batch_id`, `created_at`, `updated_at`) VALUES
+(13, 1, 1, 1, '2021-04-29 05:56:11', '2021-04-29 05:56:11'),
+(14, 1, 1, 1, '2021-04-29 06:27:21', '2021-04-29 06:27:21');
 
 -- --------------------------------------------------------
 
@@ -350,7 +358,14 @@ CREATE TABLE IF NOT EXISTS `facultystudents` (
   `updated_at` timestamp NOT NULL,
   PRIMARY KEY (`id`),
   KEY `faculty on students` (`faculty_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `facultystudents`
+--
+
+INSERT INTO `facultystudents` (`id`, `user_id`, `faculty_id`, `student_id`, `created_at`, `updated_at`) VALUES
+(5, 1, 1, 1, '2021-04-30 05:07:54', '2021-04-30 05:07:54');
 
 -- --------------------------------------------------------
 
@@ -371,7 +386,14 @@ CREATE TABLE IF NOT EXISTS `lessons` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `course_id` (`course_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `lessons`
+--
+
+INSERT INTO `lessons` (`id`, `user_id`, `course_id`, `order_id`, `title`, `description`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 1, 'Level 0', 'Helps in whole brain development of a child,\r\nProblem solving tool,\r\nImproves concentration', 'active', '2021-04-30 05:12:06', '2021-04-30 05:12:19');
 
 -- --------------------------------------------------------
 
@@ -553,7 +575,7 @@ CREATE TABLE IF NOT EXISTS `students` (
 --
 
 INSERT INTO `students` (`id`, `user_id`, `batch`, `name`, `qualification`, `reg_number`, `custom_reg_num`, `dob`, `photo`, `house_name`, `place`, `district`, `pincode`, `state`, `phone`, `whatsapp`, `email`, `g_name`, `g_occup`, `g_relation`, `g_specify`, `g_phon`, `g_email`, `day`, `month`, `year`, `financial_year`, `added`, `updated`, `last_update`, `status`, `dropout`, `dropoutdate`, `logkey`, `password`, `refreshToken`, `passwordResetToken`, `created_at`, `updated_at`) VALUES
-(1, 1, 2, 'Atheena K', '3rd Standard studying', 'AK04212', NULL, '2011-01-26', '', 'Karanthad', 'AUP School Kunnaru', 'Kannur', NULL, 'Kerala', 9605014624, '9605014624', NULL, 'Chandralekha', 'Housewife', 'Mother', NULL, 9605014624, NULL, 4, 4, 2021, NULL, NULL, NULL, '04-04-2021', 1, NULL, NULL, NULL, '$2y$10$GD7y74iCmHfKKOvck5mumuLIryBVX5GV2104HqyzvdMZKC3LnGXvW', NULL, NULL, '2021-04-29 03:17:45', '2021-04-29 03:17:45'),
+(1, 1, 2, 'Atheena K', '3rd Standard studying', 'AK04212', NULL, '2011-01-26', NULL, 'Karanthad', 'AUP School Kunnaru', 'Kannur', NULL, 'Kerala', 9605014624, '9605014624', NULL, 'Chandralekha', 'Housewife', NULL, NULL, 9605014624, NULL, 4, 4, 2021, NULL, NULL, NULL, '29-04-21', 1, NULL, NULL, NULL, '$2y$10$GD7y74iCmHfKKOvck5mumuLIryBVX5GV2104HqyzvdMZKC3LnGXvW', NULL, NULL, '2021-04-29 03:17:45', '2021-04-29 04:29:57'),
 (2, 1, 2, 'Ujjwal Krishna M P', NULL, 'AK04213', NULL, '2012-06-18', '', 'Mothanga House', 'vengara', 'Kannur', NULL, 'Kerala', 9847093634, '9847093634', NULL, 'Soumya', 'Housewife', 'Mother', 'S/o Mithunraj', 9847093634, NULL, 5, 4, 2021, NULL, NULL, NULL, '05-04-2021', 1, NULL, NULL, NULL, '$2y$10$vfL7hrZncAqy8IuSba1fieTCVU4JICYWj73m7wcphJ068LIQ0kGb.', NULL, NULL, '2021-04-29 04:10:07', '2021-04-29 04:10:07');
 
 -- --------------------------------------------------------

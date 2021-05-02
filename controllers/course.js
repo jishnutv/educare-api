@@ -48,7 +48,7 @@ exports.getCourse = asyncHandler(async (req, res, next) => {
     },
   })
     .then(async (course) => {
-      const lesson = await Lessons.findAll({where: {user_id: uid, course_id: course.id}})
+      const lesson = await Lessons.findAll({where: {user_id: uid, course_id: course.id}});
       if (!course) {
         return next(
           new ErrorResponse(
