@@ -2,6 +2,7 @@ const asyncHandler = require("../middleware/async");
 const ErrorResponse = require("../utils/errorResponse");
 const Course = require("../models/Course");
 const Lessons = require("../models/Lessons");
+const Tags = require("../models/Tags");
 
 // @desc      Get all courses
 // @route     GET /api/v1/courses
@@ -10,11 +11,12 @@ exports.getCourses = asyncHandler(async (req, res, next) => {
   const { uid, category } = req.query;
   if(category) {
     Course.findAll({where: {user_id: uid, cat_id: category}})
-    .then((courses) => {
+    .then(async (courses) => {
+      const homeTags = await Tags.findAll({where: {user_id: uid}})
       if (!courses) return next(new ErrorResponse("No courses found", 404));
       res.status(200).json({
         success: true,
-        data: courses,
+        data: courses.push(homeTags)
       });
     })
     .catch((err) => {
