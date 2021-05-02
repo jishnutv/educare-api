@@ -16,6 +16,7 @@ const course = require("./routes/course");
 const contact = require("./routes/contact");
 const student = require("./routes/student");
 const categories = require("./routes/categories");
+const about = require("./routes/about");
 
 // Initialize express
 const app = express();
@@ -89,6 +90,7 @@ app.use("/api/v1/auth", facultyAuth);
 app.use("/api/v1/courses", course);
 app.use("/api/v1/student", student);
 app.use("/api/v1/categories", categories);
+app.use("/api/v1/about", about);
 app.use("/api/v1", contact);
 
 // Error Handler

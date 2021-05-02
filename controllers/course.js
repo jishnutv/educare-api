@@ -23,12 +23,12 @@ exports.getCourses = asyncHandler(async (req, res, next) => {
   }else {
     Course.findAll({where: {user_id: uid}})
     .then(async (courses) => {
-      const homeTags = await Tags.findAll({where: {user_id: uid}})
+      const homeTags = await Tags.findAll({where: {user_id: uid}});
       if (!courses) return next(new ErrorResponse("No courses found", 404));
       res.status(200).json({
         success: true,
-        data: courses,
-        tags: homeTags
+        courses,
+        homeTags
       });
     })
     .catch((err) => {
