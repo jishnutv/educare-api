@@ -31,7 +31,7 @@ exports.getStudentCourse = asyncHandler(async (req, res, next) => {
   const id = req.params.id;
 
   // Get current student course
-  const course = await StudentCourse.findAll({ where: { user_id: uid, id: id }, include: { model: Schemes, as: "scheme11", where: { id: course.scheme } } });
+  const course = await StudentCourse.findAll({ where: { user_id: uid, id: id } });
 
   // Show error if no course exists
   if (!course) return next(new ErrorResponse("Failed to get course data", 404));
@@ -45,7 +45,8 @@ exports.getStudentCourse = asyncHandler(async (req, res, next) => {
   // Return the result
   return res.status(200).json({
     success: true,
-    course
+    course,
+    scheme
   });
 });
 
