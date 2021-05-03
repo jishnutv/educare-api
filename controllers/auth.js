@@ -80,7 +80,8 @@ exports.reAuth = asyncHandler(async (req, res, next) => {
   // Get user from database by email
   const user = await Student.findOne({ where: { user_id: uid, id: id } });
 
-  console.log(user);
+  console.log(`User: ${user.refreshToken}`);
+  console.log(`Refresh: ${refreshToken}`);
 
   // Show error if no user exists
   if (!user)
