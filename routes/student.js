@@ -2,7 +2,7 @@ const express = require('express');
 const {
     getStudent,
     getStudentCourse,
-    getAttandance
+    getAttendance
 } = require('../controllers/student');
 
 const router = express.Router();
