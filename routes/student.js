@@ -11,7 +11,7 @@ router
     .post(getStudent)
 
 router
-    .route('/courses')
+    .route('/courses/:uid/:id')
     .get(getStudentCourse)
 
 module.exports = router;
