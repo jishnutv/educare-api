@@ -97,7 +97,7 @@ app.use("/api/v1/about", about);
 app.use("/api/v1", contact);
 
 // Private
-app.use("/api/v1",tokenAuth, student);
+app.use("/api/v1/student",tokenAuth, student);
 
 // Error Handler
 app.use(errorHandler);
