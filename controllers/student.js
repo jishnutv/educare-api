@@ -3,6 +3,7 @@ const ErrorResponse = require("../utils/errorResponse");
 const Student = require("../models/Student");
 const Schemes = require("../models/Schemes");
 const StudentCourse = require("../models/StudentCourse");
+const Attandances = require("../models/Attandances");
 
 // @desc      Get student profile
 // @route     GET /api/v1/student
@@ -47,6 +48,26 @@ exports.getStudentCourse = asyncHandler(async (req, res, next) => {
     success: true,
     course,
     scheme
+  });
+});
+
+// @desc      Get student profile
+// @route     GET /api/v1/student
+// @access    Private
+exports.getAttandance = asyncHandler(async (req, res, next) => {
+  const uid = req.params.uid;
+  const id = req.params.id;
+
+  // Get current student course
+  const attandances = await Attandances.findAll({ where: { user_id: uid, id: id } });
+
+  // Show error if no course exists
+  if (!attandances) return next(new ErrorResponse("Failed to get course data", 404));
+
+  // Return the result
+  return res.status(200).json({
+    success: true,
+    attandances
   });
 });
 

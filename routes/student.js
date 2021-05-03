@@ -1,7 +1,8 @@
 const express = require('express');
 const {
     getStudent,
-    getStudentCourse
+    getStudentCourse,
+    getAttandance
 } = require('../controllers/student');
 
 const router = express.Router();
@@ -13,5 +14,9 @@ router
 router
     .route('/courses/:uid/:id')
     .get(getStudentCourse)
+
+router
+    .route('/attandance/:uid/:id')
+    .get(getAttandance)
 
 module.exports = router;
