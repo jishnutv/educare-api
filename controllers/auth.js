@@ -47,7 +47,6 @@ exports.login = asyncHandler(async (req, res, next) => {
       return next(new ErrorResponse(err.message, 401));
     });
 
-  console.log("passwordMatch")
   // If password doesn't match then show error
   if (!passwordMatch)
     return next(new ErrorResponse("Please check your register number or password", 401));
@@ -81,6 +80,8 @@ exports.reAuth = asyncHandler(async (req, res, next) => {
   // Get user from database by email
   const user = await Student.findOne({ where: { user_id: uid, id: id } });
 
+  console.log(user);
+
   // Show error if no user exists
   if (!user)
     return next(new ErrorResponse("Re-Authentication failed", 401));
@@ -90,7 +91,7 @@ exports.reAuth = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse("Invalid authentication credential", 401));
 
   // Compare current refresh token with user refresh token
-  if (!user.refresh_token.includes(refreshToken))
+  if (!user.refreshToken.includes(refreshToken))
     return next(new ErrorResponse("Refused to re-authenticate", 403));
 
   // Verify refresh token with jwt
