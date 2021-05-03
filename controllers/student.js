@@ -37,7 +37,7 @@ exports.getStudentCourse = asyncHandler(async (req, res, next) => {
   if (!course) return next(new ErrorResponse("Failed to get course data", 404));
 
   // Get current student scheme
-  const scheme = await Schemes.findAll({ where: { user_id: uid, id: course.scheme } });
+  const scheme = await Schemes.findAll({ where: { user_id: uid, id: 1 } });
 
   // Show error if no scheme exists
   if (!scheme) return next(new ErrorResponse("Failed to get course data", 404));
