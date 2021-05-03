@@ -16,7 +16,7 @@ router
     .get(getStudentCourse)
 
 router
-    .route('/attandance/:uid/:id')
-    .get(getAttandance)
+    .route('/attendance/:uid/:id')
+    .get(getAttendance)
 
 module.exports = router;

@@ -1,7 +1,7 @@
 const DataTypes = require('sequelize');
 const db = require('../config/db')
 
-const Attandances = db.define('attandances', {
+const Attendances = db.define('attandances', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true
@@ -38,4 +38,4 @@ const Attandances = db.define('attandances', {
     }
 }, { timestamps: false });
 
-module.exports = Attandances;
+module.exports = Attendances;
