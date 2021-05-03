@@ -7,11 +7,11 @@ const {
 const router = express.Router();
 
 router
-    .route('/student')
+    .route('/')
     .post(getStudent)
 
 router
-    .route('/student/courses')
+    .route('/courses')
     .get(getStudentCourse)
 
 module.exports = router;
