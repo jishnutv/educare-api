@@ -85,13 +85,18 @@ if (env.env === "development") {
 app.use(express.static(path.join(__dirname, "public")));
 
 // Mount routers
+// Auth
 app.use("/api/v1/auth", auth);
 app.use("/api/v1/auth", facultyAuth);
+
+// Public
 app.use("/api/v1/courses", course);
-app.use("/api/v1/student", student);
 app.use("/api/v1/categories", categories);
 app.use("/api/v1/about", about);
 app.use("/api/v1", contact);
+
+// Private
+app.use("/api/v1/student",tokenAuth, student);
 
 // Error Handler
 app.use(errorHandler);
