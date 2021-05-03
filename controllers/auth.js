@@ -30,7 +30,7 @@ exports.login = asyncHandler(async (req, res, next) => {
   // Show error if no user exists
   if (!user)
     return next(new ErrorResponse("No user found with this register number", 404));
-  
+
   // Hashed password from user table
   let hashPswd = user.password;
   // Replace hashed password to nodejs bcrypt format
@@ -76,27 +76,28 @@ exports.login = asyncHandler(async (req, res, next) => {
 exports.reAuth = asyncHandler(async (req, res, next) => {
   // Get refresh token and id from request body
   const { uid, id, refreshToken } = req.body;
+  const refresh = refreshToken.replace(/\"/g, "");
 
   // Get user from database by email
   const user = await Student.findOne({ where: { user_id: uid, id: id } });
 
   console.log(`User: ${user.refreshToken}`);
-  console.log(`Refresh: ${refreshToken}`);
+  console.log(`Refresh: ${refresh}`);
 
   // Show error if no user exists
   if (!user)
     return next(new ErrorResponse("Re-Authentication failed", 401));
 
   // Check refresh token is not null
-  if (refreshToken == null)
+  if (refresh == null)
     return next(new ErrorResponse("Invalid authentication credential", 401));
 
   // Compare current refresh token with user refresh token
-  if (!user.refreshToken.includes(refreshToken))
+  if (!refresh.includes(JSON.stringify(user.refreshToken)))
     return next(new ErrorResponse("Refused to re-authenticate", 403));
 
   // Verify refresh token with jwt
-  jwt.verify(refreshToken, env.refreshTokenSecret, (err, user) => {
+  jwt.verify(refresh, env.refreshTokenSecret, (err, user) => {
     if (err)
       return next(new ErrorResponse("Server refused to re-authenticate", 403));
     const accessToken = generateAccessToken({ id: user.id });
