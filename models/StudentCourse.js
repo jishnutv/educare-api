@@ -1,5 +1,6 @@
 const DataTypes = require('sequelize');
 const db = require('../config/db')
+const Schemes = require("../models/Schemes");
 
 const StudentCourse = db.define('student_courses', {
     id: {
@@ -46,5 +47,7 @@ const StudentCourse = db.define('student_courses', {
       type: DataTypes.STRING
     }
 }, { timestamps: false });
+
+StudentCourse.belongsTo(Schemes);
 
 module.exports = StudentCourse;
