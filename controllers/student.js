@@ -64,9 +64,16 @@ exports.getAttandance = asyncHandler(async (req, res, next) => {
   // Show error if no course exists
   if (!attandances) return next(new ErrorResponse("Failed to get course data", 404));
 
+  // Get current login student from database by id
+  const student = await Student.findOne({ where: { user_id: uid, id: id } });
+
+  // Show error if no student exists
+  if (!student) return next(new ErrorResponse("Failed to get student data", 404));
+
   // Return the result
   return res.status(200).json({
     success: true,
+    student,
     attandances
   });
 });
