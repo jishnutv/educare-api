@@ -43,7 +43,7 @@ app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
     "Access-Control-Allow-Headers",
-    "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With, X-User"
+    "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With, X-User, X-Student"
   );
   res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
   if ("OPTIONS" === req.method) {
@@ -97,7 +97,7 @@ app.use("/api/v1/about", about);
 app.use("/api/v1", contact);
 
 // Private
-app.use("/api/v1/student",tokenAuth, student);
+app.use("/api/v1",tokenAuth, student);
 
 // Error Handler
 app.use(errorHandler);

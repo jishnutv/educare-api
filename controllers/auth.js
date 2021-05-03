@@ -93,7 +93,7 @@ exports.reAuth = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse("Invalid authentication credential", 401));
 
   // Compare current refresh token with user refresh token
-  if (!refresh.includes(JSON.stringify(user.refreshToken)))
+  if (!refresh.includes(user.refreshToken))
     return next(new ErrorResponse("Refused to re-authenticate", 403));
 
   // Verify refresh token with jwt
