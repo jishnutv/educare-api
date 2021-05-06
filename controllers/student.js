@@ -15,12 +15,13 @@ exports.getStudent = asyncHandler(async (req, res, next) => {
   const student = await Student.findOne({ where: { user_id: uid, id: id } });
 
   // Show error if no student exists
-  if (!student) return next(new ErrorResponse("Failed to get student data", 404));
+  if (!student)
+    return next(new ErrorResponse("Failed to get student data", 404));
 
   // Return the result
   return res.status(200).json({
     success: true,
-    data: student
+    data: student,
   });
 });
 
@@ -32,7 +33,9 @@ exports.getStudentCourse = asyncHandler(async (req, res, next) => {
   const id = req.params.id;
 
   // Get current student course
-  const course = await StudentCourse.findAll({ where: { user_id: uid, id: id } });
+  const course = await StudentCourse.findAll({
+    where: { user_id: uid, id: id },
+  });
 
   // Show error if no course exists
   if (!course) return next(new ErrorResponse("Failed to get course data", 404));
@@ -47,7 +50,7 @@ exports.getStudentCourse = asyncHandler(async (req, res, next) => {
   return res.status(200).json({
     success: true,
     course,
-    scheme
+    scheme,
   });
 });
 
@@ -59,22 +62,30 @@ exports.getAttendance = asyncHandler(async (req, res, next) => {
   const id = req.params.id;
 
   // Get current student course
-  const attendances = await Attendances.findAll({ where: { user_id: uid, id: id } });
+  const attendances = await Attendances.findAll({
+    where: { user_id: uid, id: id },
+    include: [
+      {
+        model: Student,
+        as: "studentInfo",
+      },
+    ],
+  });
 
   // Show error if no course exists
-  if (!attendances) return next(new ErrorResponse("Failed to get course data", 404));
+  if (!attendances)
+    return next(new ErrorResponse("Failed to get course data", 404));
 
   // Get current login student from database by id
-  const student = await Student.findOne({ where: { user_id: uid, id: id } });
+  // const student = await Student.findOne({ where: { user_id: uid, id: id } });
 
   // Show error if no student exists
-  if (!student) return next(new ErrorResponse("Failed to get student data", 404));
+  // if (!student)
+  //   return next(new ErrorResponse("Failed to get student data", 404));
 
   // Return the result
   return res.status(200).json({
     success: true,
-    student,
     attendances
   });
 });
-

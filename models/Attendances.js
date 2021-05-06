@@ -1,5 +1,6 @@
 const DataTypes = require('sequelize');
 const db = require('../config/db')
+const Student = require("./Student");
 
 const Attendances = db.define('attandances', {
     id: {
@@ -37,5 +38,8 @@ const Attendances = db.define('attandances', {
       type: DataTypes.STRING
     }
 }, { timestamps: false });
+
+Student.hasMany(Attendances, {foreignKey: "student_id", as: "attendanceInfo"});
+Attendances.belongsTo(Student, {foreignKey: "student_id", as: "studentInfo"});
 
 module.exports = Attendances;
