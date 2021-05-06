@@ -39,7 +39,7 @@ const Attendances = db.define('attandances', {
     }
 }, { timestamps: false });
 
-Student.hasMany(Attendances, {foreignKey: "student_id", as: "attendanceInfo"});
+Student.hasMany(Attendances, {foreignKey: "student_id", as: "attendance"});
 Attendances.belongsTo(Student, {foreignKey: "student_id", as: "studentInfo"});
 
 module.exports = Attendances;

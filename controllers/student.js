@@ -62,12 +62,12 @@ exports.getAttendance = asyncHandler(async (req, res, next) => {
   const id = req.params.id;
 
   // Get current student course
-  const attendances = await Attendances.findAll({
+  const attendances = await Student.findOne({
     where: { user_id: uid, id: id },
     include: [
       {
-        model: Student,
-        as: "studentInfo",
+        model: Attendances,
+        as: "attendance",
       },
     ],
   });
