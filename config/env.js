@@ -19,6 +19,13 @@ module.exports = {
         host: process.env.HOST,
     },
 
+    google: {
+        clientId: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
+        redirectUri: process.env.REDIRECT_URI,
+        refreshToken: process.env.OAUTH_REFRESH_TOKEN
+    },
+
     email: {
         email_user: process.env.EMAIL_USER,
         email_password: process.env.EMAIL_PASSWORD,

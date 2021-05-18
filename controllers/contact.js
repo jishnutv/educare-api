@@ -1,17 +1,27 @@
-const asyncHandler = require("../middleware/async");
 const nodemailer = require("nodemailer");
-const Enquiry = require("../models/Enquiry");
 const handlebars = require("handlebars");
+const validator = require("validator");
+const { google } = require("googleapis");
+const asyncHandler = require("../middleware/async");
+const Enquiry = require("../models/Enquiry");
 const formatDate = require("../utils/formatDate");
 const readHtmlFile = require("../utils/readHtml");
-const validator = require("validator");
 const ErrorResponse = require("../utils/errorResponse");
 const env = require("../config/env");
+
+const clientId = env.google.clientId;
+const clientSecret = env.google.clientSecret;
+const redirectUri = env.google.redirectUri;
+const oauthRefreshToken = env.google.refreshToken;
+
+const oAuth2Client = new google.auth.OAuth2(clientId, clientSecret, redirectUri)
+oAuth2Client.setCredentials({ refresh_token: oauthRefreshToken })
 
 // @desc      Enquiry Form
 // @route     GET /api/v1/send-enquiry
 // @access    Public
 exports.sendEnquiry = asyncHandler(async (req, res, next) => {
+  const accessToken = await oAuth2Client.getAccessToken();
   // Get the data from request body
   let {
     user_id,
@@ -24,7 +34,6 @@ exports.sendEnquiry = asyncHandler(async (req, res, next) => {
     place,
     phone,
     email,
-    subject,
     qualification,
     some_more,
   } = req.body;
@@ -73,26 +82,27 @@ exports.sendEnquiry = asyncHandler(async (req, res, next) => {
 
   // Apply replacements to email template
   let htmlToSend = template(replacements);
-
+  
   // Create email transporter using nodemailer
   let transporter = nodemailer.createTransport({
     host: env.email.email_host,
-    port: 587,
-    secure: false,
+    port: 465,
+    secure: true,
     auth: {
+      type: "OAuth2",
       user: env.email.email_user,
-      pass: env.email.email_password,
-    },
-    tls: {
-      rejectUnauthorized: false,
-    },
+      clientId: clientId,
+      clientSecret: clientSecret,
+      refreshToken: oauthRefreshToken,
+      accessToken: accessToken
+    }
   });
 
   // Send email
   const send = await transporter.sendMail({
-    from: `"${data.name}" <${env.email.email_user}>`,
+    from: `Edu Care Learning<${env.email.email_user}>`,
     to: to_email,
-    subject: subject,
+    subject: "New course enquiry",
     text: "",
     html: htmlToSend,
   });
@@ -111,6 +121,7 @@ exports.sendEnquiry = asyncHandler(async (req, res, next) => {
 // @route     GET /api/v1/contact
 // @access    Public
 exports.contactUs = asyncHandler(async (req, res, next) => {
+  const accessToken = await oAuth2Client.getAccessToken();
   // Get the data from request body
   let {
     user_id,
@@ -122,24 +133,9 @@ exports.contactUs = asyncHandler(async (req, res, next) => {
     message
   } = req.body;
 
-  // Current date and time formatted
-  // let created = formatDate(new Date());
-  // let updated = formatDate(new Date());
-
   // Validate email
   if (!validator.isEmail(email))
     return next(new ErrorResponse("Please enter a valid email", 400));
-
-  
-  // Add data to database
-  // const data = await Enquiry.create({
-  //   user_id,
-  //   fullname,
-  //   phone,
-  //   email,
-  //   subject,
-  //   message
-  // });
 
   const html = await readHtmlFile("/templates/contact.html");
 
@@ -162,22 +158,23 @@ exports.contactUs = asyncHandler(async (req, res, next) => {
   // Create email transporter using nodemailer
   let transporter = nodemailer.createTransport({
     host: env.email.email_host,
-    port: 587,
-    secure: false,
+    port: 465,
+    secure: true,
     auth: {
+      type: "OAuth2",
       user: env.email.email_user,
-      pass: env.email.email_password,
-    },
-    tls: {
-      rejectUnauthorized: false,
-    },
+      clientId: clientId,
+      clientSecret: clientSecret,
+      refreshToken: oauthRefreshToken,
+      accessToken: accessToken
+    }
   });
 
   // Send email
   const send = await transporter.sendMail({
-    from: `"${data.name}" <${env.email.email_user}>`,
+    from: `Edu Care Learning<${env.email.email_user}>`,
     to: to_email,
-    subject: subject,
+    subject: `${fullname} Contacted you`,
     text: "",
     html: htmlToSend,
   });
@@ -188,6 +185,6 @@ exports.contactUs = asyncHandler(async (req, res, next) => {
   // Return the response
   return res.status(200).json({
     success: true,
-    msg: "Your enquiry has been send",
+    msg: "Your contact request has been send",
   });
 });

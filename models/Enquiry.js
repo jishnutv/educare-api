@@ -93,6 +93,6 @@ const Enquiry = db.define('enquiries', {
     updated_at: {
         type: DataTypes.STRING
     }
-})
+}, { timestamps: false });
 
 module.exports = Enquiry;
