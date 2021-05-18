@@ -1,5 +1,7 @@
-const { DataTypes } = require("sequelize");
+const DataTypes = require("sequelize");
 const db = require("../config/db");
+const Course = require("../models/Course");
+const StudentCourse = require("../models/StudentCourse");
 
 const Student = db.define("students", {
   id : {
@@ -7,6 +9,9 @@ const Student = db.define("students", {
     primaryKey: true
   },
   user_id: {
+    type: DataTypes.INTEGER
+  },
+  batch: {
     type: DataTypes.INTEGER
   },
   name: {
@@ -106,6 +111,20 @@ const Student = db.define("students", {
     type: DataTypes.STRING
   }
 },{ timestamps: false });
+
+Student.belongsToMany(Course, {
+  through: StudentCourse,
+  foreignKey: "student_id",
+  as: "courses",
+  timestamps: false
+});
+
+Course.belongsToMany(Student, {
+  through: StudentCourse,
+  foreignKey: "course_id",
+  as: "students",
+  timestamps: false
+});
 
 Student.prototype.toJSON = function () {
   const values = Object.assign({}, this.get());

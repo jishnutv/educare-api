@@ -6,7 +6,7 @@ const {
 const router = express.Router();
 
 router
-    .route('/')
+    .route('/:uid')
     .get(getCategories)
 
 module.exports = router; 

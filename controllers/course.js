@@ -8,32 +8,85 @@ const Tags = require("../models/Tags");
 // @route     GET /api/v1/courses
 // @access    Public
 exports.getCourses = asyncHandler(async (req, res, next) => {
-  const { uid, category } = req.query;
-  if(category) {
-    Course.findAll({where: {user_id: uid, cat_id: category}})
-    .then((courses) => {
-      res.status(200).json({
-        success: true,
-        data: courses
-      });
+  const { uid } = req.params;
+  const { category, tag } = req.query;
+
+  if (category) {
+    Course.findAll({
+      where: { user_id: uid, cat_id: category },
+      include: [
+        {
+          model: Tags,
+          as: "tags",
+        },
+      ],
     })
-    .catch((err) => {
-      next(new ErrorResponse("No courses found", 404));
-    });
-  }else {
-    Course.findAll({where: {user_id: uid}})
-    .then(async (courses) => {
-      const homeTags = await Tags.findAll({where: {user_id: uid}});
-      if (!courses) return next(new ErrorResponse("No courses found", 404));
-      res.status(200).json({
-        success: true,
-        courses,
-        homeTags
+      .then((courses) => {
+        res.status(200).json({
+          success: true,
+          data: courses,
+        });
+      })
+      .catch((err) => {
+        next(new ErrorResponse("No courses found", 404));
       });
+  } else if (tag) {
+    await Tags.findAll({
+      where: {
+        user_id: uid,
+        tagname: tag,
+      },
+      include: [
+        {
+          model: Course,
+          as: "courses",
+        },
+      ],
     })
-    .catch((err) => {
-      next(new ErrorResponse("No courses found", 404));
-    });
+      .then((course) => {
+        if (!course) {
+          return next(
+            new ErrorResponse(
+              `No course found with the id: ${req.params.id}`,
+              404
+            )
+          );
+        }
+
+        res.status(200).json({
+          success: true,
+          data: course,
+        });
+      })
+      .catch((err) => {
+        next(
+          new ErrorResponse(
+            `No courses found with the id: ${req.params.id}`,
+            404
+          )
+        );
+      });
+  } else {
+    Course.findAll({
+      where: { user_id: uid },
+      include: [
+        {
+          model: Tags,
+          as: "tags",
+        },
+      ],
+    })
+      .then((courses) => {
+        // const homeTags = await Tags.findAll({where: {user_id: uid}});
+        if (!courses) return next(new ErrorResponse("No courses found", 404));
+        res.status(200).json({
+          success: true,
+          courses,
+        });
+      })
+      .catch((err) => {
+        next(new ErrorResponse("No courses found", 404));
+      });
   }
 });
 
@@ -41,16 +94,20 @@ exports.getCourses = asyncHandler(async (req, res, next) => {
 // @route     GET /api/v1/courses/:id
 // @access    Public
 exports.getCourse = asyncHandler(async (req, res, next) => {
-  const { uid } = req.query;
+  const { uid } = req.params;
   await Course.findOne({
     where: {
       id: req.params.id,
       user_id: uid,
-      type: "C"
     },
+    include: [
+      {
+        model: Lessons,
+        as: "lessons",
+      },
+    ],
   })
-    .then(async (course) => {
-      const lesson = await Lessons.findAll({where: {user_id: uid, course_id: course.id}});
+    .then((course) => {
       if (!course) {
         return next(
           new ErrorResponse(
@@ -58,12 +115,11 @@ exports.getCourse = asyncHandler(async (req, res, next) => {
             404
           )
         );
-      }
+      } 
 
       res.status(200).json({
         success: true,
         data: course,
-        lesson: lesson
       });
     })
     .catch((err) => {

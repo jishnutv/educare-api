@@ -8,16 +8,27 @@ const Services = require("../models/Services");
 // @route     GET /api/v1/about
 // @access    Public
 exports.getAbout = asyncHandler(async (req, res, next) => {
-  const user = req.headers["x-user"];
+  const user = req.params.uid;
 
-  const profile = await UserProfile.findAll({where: {user_id: user}});
-  const teams = await Teams.findAll({where: {user_id: user}});
-  const services = await Services.findAll({where: {user_id: user}});
+  const profile = await UserProfile.findOne({
+    where: { user_id: user },
+    include: [
+      {
+        model: Teams,
+        as: "centerTeams"
+      },
+      {
+        model: Services,
+        as: "centerServices"
+      }
+    ],
+  });
 
-  if(!profile && !teams && !services) return next(new ErrorResponse("About data not found", 404));
+  if (!profile && !teams && !services)
+    return next(new ErrorResponse("About data not found", 404));
 
   res.status(200).json({
     success: true,
-    profile, teams, services
+    data: profile
   });
 });

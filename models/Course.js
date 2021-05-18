@@ -1,90 +1,129 @@
-const DataTypes = require('sequelize');
-const db = require('../config/db')
+const DataTypes = require("sequelize");
+const db = require("../config/db");
+const CourseTags = require("../models/CourseTags");
+const Tags = require("../models/Tags");
+const Lessons = require("../models/Lessons");
+const Schemes = require("./Schemes");
+const StudentCourse = require("./StudentCourse");
+const Certification = require("./Certification");
 
-const Course = db.define('all_course', {
+const Course = db.define(
+  "all_course",
+  {
     id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true
+      type: DataTypes.INTEGER,
+      primaryKey: true,
     },
     user_id: {
-        type: DataTypes.INTEGER,
+      type: DataTypes.INTEGER,
     },
     cat_id: {
-        type: DataTypes.INTEGER,
+      type: DataTypes.INTEGER,
     },
     scheme: {
-        type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     curiculam: {
-        type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     title: {
-        type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     certification: {
-        type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     desc_mal: {
-        type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     desc_eng: {
-        type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     course_info: {
-        type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     course_type: {
-        type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     istopten: {
-        type: DataTypes.BOOLEAN
+      type: DataTypes.BOOLEAN,
     },
     ispopular: {
-        type: DataTypes.BOOLEAN
+      type: DataTypes.BOOLEAN,
     },
     videolink: {
-        type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     img_name: {
-        type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     img_contrast: {
-        type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
     },
     offline_fee: {
-        type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
     },
     online_fee: {
-        type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
     },
     tax: {
-        type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     n_duration: {
-        type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
     },
     n_type: {
-        type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
     },
     f_duration: {
-        type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
     },
     type: {
-        type: DataTypes.STRING
-
+      type: DataTypes.STRING,
     },
     f_type: {
-        type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     status: {
-        type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     created_at: {
-        type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     updated_at: {
-        type: DataTypes.STRING
+      type: DataTypes.STRING,
     }
-}, { timestamps: false });
+  },
+  { timestamps: false }
+);
+
+Course.belongsToMany(Tags, {
+  through: CourseTags,
+  foreignKey: "course_id",
+  as: "tags",
+  timestamps: false,
+});
+
+Course.belongsTo(Schemes, {
+  through: StudentCourse,
+  foreignKey: "scheme",
+  as: "course_scheme",
+  timestamps: false,
+});
+
+Course.belongsTo(Certification, {
+  through: StudentCourse,
+  foreignKey: "certification",
+  as: "certificate",
+  timestamps: false
+});
+
+Tags.belongsToMany(Course, {
+  through: CourseTags,
+  foreignKey: "tag_id",
+  as: "courses",
+  timestamps: false,
+});
+
+Course.hasMany(Lessons, {foreignKey: "course_id", as: "lessons"});
 
 module.exports = Course;

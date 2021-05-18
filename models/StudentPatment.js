@@ -1,7 +1,9 @@
 const DataTypes = require('sequelize');
-const db = require('../config/db')
+const db = require('../config/db');
+const Course = require('./Course');
+const StudentBills = require('./StudentBills');
 
-const Lessons = db.define('lessons', {
+const StudentPayment = db.define('student_payments', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true
@@ -12,46 +14,34 @@ const Lessons = db.define('lessons', {
     course_id: {
       type: DataTypes.INTEGER
     },
-    module_id: {
+    student_id: {
       type: DataTypes.INTEGER
     },
-    order_id: {
+    bill_id: {
       type: DataTypes.INTEGER
     },
-    title: {
+    discount_rs: {
       type: DataTypes.STRING
     },
-    description: {
+    discount_per: {
       type: DataTypes.STRING
     },
-    status: {
+    dis_per_in_amount: {
       type: DataTypes.STRING
     },
-    content: {
+    payment_amount: {
       type: DataTypes.STRING
     },
-    type: {
+    day: {
       type: DataTypes.STRING
     },
-    duration: {
+    month: {
       type: DataTypes.STRING
     },
-    url: {
+    year: {
       type: DataTypes.STRING
     },
-    image1: {
-      type: DataTypes.STRING
-    },
-    image2: {
-      type: DataTypes.STRING
-    },
-    file: {
-      type: DataTypes.STRING
-    },
-    videolink: {
-      type: DataTypes.STRING
-    },
-    videosource: {
+    financial_year: {
       type: DataTypes.STRING
     },
     created_at: {
@@ -62,4 +52,7 @@ const Lessons = db.define('lessons', {
     }
 }, { timestamps: false });
 
-module.exports = Lessons;
+StudentBills.hasMany(StudentPayment, {foreignKey: "bill_id", as: "payment"});
+StudentPayment.belongsTo(StudentBills, {foreignKey: "bill_id", as: "payment"});
+
+module.exports = StudentPayment;

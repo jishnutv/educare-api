@@ -16,11 +16,11 @@
       class="nav-wrapper"
     >
       <h4 style="color: #ffffff; font-size: 1.2rem; margin: 0.2rem 0">
-        Contact
+        Enquiry
       </h4>
     </div>
     <h6 style="margin-top: 2rem; text-align: center; font-size: 1rem">
-      New message from,<br /><span style="color: #623aa2">{{name}}</span>
+      New course enquiry from,<br /><span style="color: #623aa2">{{name}}</span>
     </h6>
     <ul
       style="
@@ -31,6 +31,11 @@
         border-radius: 4px;
       "
     >
+      <li style="text-align: left; border-bottom: 1px solid rgba(0, 0, 0, 0.2)">
+        <h6 style="margin: 1rem 1.2rem; font-size: 1rem; font-weight: bold">
+          {{course_title}}
+        </h6>
+      </li>
       <li class="collection-item">
         <table style="border-collapse: collapse; width: 100%">
           <thead>
@@ -55,6 +60,18 @@
               <th
                 style="padding: 1rem 1.5rem; color: #414141; font-size: 0.8rem"
               >
+                Place:
+              </th>
+              <td
+                style="padding: 1rem 1.5rem; color: #414141; font-size: 0.8rem"
+              >
+                {{place}}
+              </td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(0, 0, 0, 0.12)">
+              <th
+                style="padding: 1rem 1.5rem; color: #414141; font-size: 0.8rem"
+              >
                 Phone:
               </th>
               <td
@@ -67,24 +84,24 @@
               <th
                 style="padding: 1rem 1.5rem; color: #414141; font-size: 0.8rem"
               >
-                Subject:
-              </th>
-              <td
-                style="padding: 1rem 1.5rem; color: #414141; font-size: 0.8rem"
-              >
-                {{subject}}
-              </td>
-            </tr>
-            <tr style="border-bottom: 1px solid rgba(0, 0, 0, 0.12)">
-              <th
-                style="padding: 1rem 1.5rem; color: #414141; font-size: 0.8rem"
-              >
                 Email
               </th>
               <td
                 style="padding: 1rem 1.5rem; color: #414141; font-size: 0.8rem"
               >
                 {{email}}
+              </td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(0, 0, 0, 0.12)">
+              <th
+                style="padding: 1rem 1.5rem; color: #414141; font-size: 0.8rem"
+              >
+                Education:
+              </th>
+              <td
+                style="padding: 1rem 1.5rem; color: #414141; font-size: 0.8rem"
+              >
+                {{education}}
               </td>
             </tr>
             <tr>

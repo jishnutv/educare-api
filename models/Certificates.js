@@ -1,7 +1,7 @@
 const DataTypes = require('sequelize');
 const db = require('../config/db')
 
-const Lessons = db.define('lessons', {
+const Certificates = db.define('certificates', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true
@@ -9,14 +9,11 @@ const Lessons = db.define('lessons', {
     user_id: {
       type: DataTypes.INTEGER,
     },
-    course_id: {
+    student_id: {
       type: DataTypes.INTEGER
     },
-    module_id: {
-      type: DataTypes.INTEGER
-    },
-    order_id: {
-      type: DataTypes.INTEGER
+    register_num: {
+      type: DataTypes.STRING
     },
     title: {
       type: DataTypes.STRING
@@ -24,34 +21,13 @@ const Lessons = db.define('lessons', {
     description: {
       type: DataTypes.STRING
     },
-    status: {
+    uploaded: {
       type: DataTypes.STRING
     },
-    content: {
+    certificate: {
       type: DataTypes.STRING
     },
     type: {
-      type: DataTypes.STRING
-    },
-    duration: {
-      type: DataTypes.STRING
-    },
-    url: {
-      type: DataTypes.STRING
-    },
-    image1: {
-      type: DataTypes.STRING
-    },
-    image2: {
-      type: DataTypes.STRING
-    },
-    file: {
-      type: DataTypes.STRING
-    },
-    videolink: {
-      type: DataTypes.STRING
-    },
-    videosource: {
       type: DataTypes.STRING
     },
     created_at: {
@@ -62,4 +38,4 @@ const Lessons = db.define('lessons', {
     }
 }, { timestamps: false });
 
-module.exports = Lessons;
+module.exports = Certificates;

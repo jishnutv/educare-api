@@ -6,7 +6,8 @@ const Categories = require("../models/Categories");
 // @route     GET /api/v1/categories
 // @access    Public
 exports.getCategories = asyncHandler(async (req, res, next) => {
-  const user = req.headers["x-user"];
+  const user = req.params.uid;
+  console.log(user);
   Categories.findAll({where: {user_id: user}})
     .then((categories) => {
       if (!categories) return next(new ErrorResponse("No categories found", 404));

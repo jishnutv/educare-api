@@ -1,5 +1,7 @@
 const DataTypes = require('sequelize');
 const db = require('../config/db')
+const Teams = require('../models/Teams');
+const Services = require('../models/Services');
 
 const UserProfile = db.define('centreprofiles', {
     id: {
@@ -48,6 +50,12 @@ const UserProfile = db.define('centreprofiles', {
     office: {
       type: DataTypes.STRING
     },
+    latitude: {
+      type: DataTypes.STRING
+    },
+    longitude: {
+      type: DataTypes.STRING
+    },
     services: {
       type: DataTypes.STRING
     },
@@ -82,5 +90,11 @@ const UserProfile = db.define('centreprofiles', {
       type: DataTypes.STRING
     }
 }, { timestamps: false });
+
+UserProfile.hasMany(Teams, {foreignKey: "user_id", as: "centerTeams"});
+Teams.belongsTo(UserProfile, {foreignKey: "user_id", as: "centerProfile"});
+
+UserProfile.hasMany(Services, {foreignKey: "user_id", as: "centerServices"});
+Services.belongsTo(UserProfile, {foreignKey: "user_id", as: "centerProfile"});
 
 module.exports = UserProfile;
