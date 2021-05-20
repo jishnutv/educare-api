@@ -1,7 +1,5 @@
 const DataTypes = require("sequelize");
 const db = require("../config/db");
-const CourseTags = require("../models/CourseTags");
-const Tags = require("../models/Tags");
 const Lessons = require("../models/Lessons");
 const Schemes = require("./Schemes");
 const StudentCourse = require("./StudentCourse");
@@ -59,6 +57,9 @@ const Course = db.define(
     img_contrast: {
       type: DataTypes.INTEGER,
     },
+    tags: {
+      type: DataTypes.INTEGER,
+    },
     offline_fee: {
       type: DataTypes.INTEGER,
     },
@@ -96,13 +97,6 @@ const Course = db.define(
   { timestamps: false }
 );
 
-Course.belongsToMany(Tags, {
-  through: CourseTags,
-  foreignKey: "course_id",
-  as: "tags",
-  timestamps: false,
-});
-
 Course.belongsTo(Schemes, {
   through: StudentCourse,
   foreignKey: "scheme",
@@ -115,13 +109,6 @@ Course.belongsTo(Certification, {
   foreignKey: "certification",
   as: "certificate",
   timestamps: false
-});
-
-Tags.belongsToMany(Course, {
-  through: CourseTags,
-  foreignKey: "tag_id",
-  as: "courses",
-  timestamps: false,
 });
 
 Course.hasMany(Lessons, {foreignKey: "course_id", as: "lessons"});
