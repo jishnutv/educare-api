@@ -134,6 +134,9 @@ exports.getAttendance = asyncHandler(async (req, res, next) => {
       {
         model: Attendances,
         as: "attendance",
+        where: {
+          user_id: uid,
+        }
       },
     ],
   });

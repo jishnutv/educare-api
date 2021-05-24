@@ -38,10 +38,6 @@ exports.sendEnquiry = asyncHandler(async (req, res, next) => {
     some_more,
   } = req.body;
 
-  // Current date and time formatted
-  // let created = formatDate(new Date());
-  // let updated = formatDate(new Date());
-
   // Validate email
   if (!validator.isEmail(email))
     return next(new ErrorResponse("Please enter a valid email", 400));
@@ -180,11 +176,11 @@ exports.contactUs = asyncHandler(async (req, res, next) => {
   });
 
   if (!send)
-    return next(new ErrorResponse("Failed to send contact", 403));
+    return next(new ErrorResponse("Failed to send request", 403));
 
   // Return the response
   return res.status(200).json({
     success: true,
-    msg: "Your contact request has been send",
+    msg: "Your request has been send",
   });
 });

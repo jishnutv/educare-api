@@ -4,6 +4,29 @@ const Student = require("../models/Student");
 const Faculties = require("../models/Faculties");
 const Batches = require("../models/Batches");
 const Course = require("../models/Course");
+const Attendances = require("../models/Attendances");
+
+// @desc      Get faculty profile
+// @route     GET /api/v1/faculty
+// @access    Private
+exports.getProfile = asyncHandler(async (req, res, next) => {
+  const { uid, id } = req.params;
+  console.log(uid + " " + id)
+  // Get current faculty student
+  const profile = await Faculties.findOne({
+    where: { user_id: uid, faculty_id: id },
+  });
+
+  // Show error if no student exists
+  if (!profile)
+    return next(new ErrorResponse("Failed to get faculty", 404));
+
+  // Return the result
+  return res.status(200).json({
+    success: true,
+    profile,
+  });
+});
 
 // @desc      Get faculty students
 // @route     GET /api/v1/faculty/students
@@ -17,7 +40,15 @@ exports.getStudents = asyncHandler(async (req, res, next) => {
     include: [
       {
         model: Student,
-        attributes: ["id", "user_id", "name", "reg_number", "dob", "photo"],
+        attributes: [
+          "id",
+          "user_id",
+          "batch",
+          "name",
+          "reg_number",
+          "dob",
+          "photo",
+        ],
         as: "students",
       },
     ],
@@ -88,4 +119,130 @@ exports.getCourses = asyncHandler(async (req, res, next) => {
     success: true,
     data: courses,
   });
+});
+
+// @desc      Get students by batch
+// @route     GET /api/v1/faculty/students/:uid/:bid
+// @access    Private
+exports.studentsByBatch = asyncHandler(async (req, res, next) => {
+  const { uid, bid } = req.params;
+
+  const students = await Student.findAll({
+    where: {
+      user_id: uid,
+      batch: bid,
+    },
+    attributes: ["id", "user_id", "batch", "name", "reg_number", "photo"],
+  });
+
+  // Show error if no batches exists
+  if (!students) return next(new ErrorResponse("Failed to get students", 404));
+
+  // Return the result
+  return res.status(200).json({
+    success: true,
+    students,
+  });
+});
+
+// @desc      Get faculty courses
+// @route     GET /api/v1/faculty/add-attendance-batch
+// @access    Private
+exports.addAttendanceBatch = asyncHandler(async (req, res, next) => {
+  const {
+    user_id,
+    student_id,
+    batch_id,
+    type,
+    date,
+    intime,
+    outtime,
+    duration,
+  } = req.body;
+
+
+  const dMs = Date.now();
+  const dNow = new Date(dMs);
+  const aDate = new Date(date);
+
+  function twoDigits(d) {
+    if (0 <= d && d < 10) return "0" + d.toString();
+    if (-10 < d && d < 0) return "-0" + (-1 * d).toString();
+    return d.toString();
+  }
+
+  Date.prototype.toMysqlDateTime = function () {
+    return (
+      this.getFullYear() +
+      "-" +
+      twoDigits(1 + this.getMonth()) +
+      "-" +
+      twoDigits(this.getDate()) +
+      " " +
+      twoDigits(this.getHours()) +
+      ":" +
+      twoDigits(this.getMinutes()) +
+      ":" +
+      twoDigits(this.getSeconds())
+    );
+  };
+
+  Date.prototype.toMysqlDate = function () {
+    return (
+      this.getFullYear() +
+      "-" +
+      twoDigits(1 + this.getMonth()) +
+      "-" +
+      twoDigits(this.getDate())
+    );
+  };
+
+  if (Array.isArray(student_id)) {
+    for (s of student_id) {
+      const data = await Attendances.create({
+        user_id,
+        student_id: s,
+        batch_id,
+        type,
+        date: aDate.toMysqlDate(),
+        intime,
+        outtime,
+        duration,
+        created_at: dNow.toMysqlDateTime(),
+        updated_at: dNow.toMysqlDateTime(),
+      });
+
+      // Show error if data not inserted
+      if (!data)
+        return next(new ErrorResponse("Failed to add attendance", 403));
+    }
+
+    // Return the result
+    return res.status(200).json({
+      success: true,
+      message: "Attendance added",
+    });
+  } else {
+    const data = await Attendances.create({
+      user_id,
+      student_id,
+      batch_id,
+      type,
+      date: aDate.toMysqlDate(),
+      intime,
+      outtime,
+      duration,
+      created_at: dNow.toMysqlDateTime(),
+      updated_at: dNow.toMysqlDateTime(),
+    });
+
+    // Show error if data not inserted
+    if (!data) return next(new ErrorResponse("Failed to add attendance", 403));
+
+    // Return the result
+    return res.status(200).json({
+      success: true,
+      message: "Attendance added",
+    });
+  }
 });
