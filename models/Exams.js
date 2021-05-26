@@ -4,7 +4,8 @@ const db = require('../config/db')
 const Exams = db.define('exams', {
     id: {
         type: DataTypes.INTEGER,
-        primaryKey: true
+        primaryKey: true,
+        autoIncrement: true
     },
     user_id: {
       type: DataTypes.INTEGER,

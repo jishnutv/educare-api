@@ -4,7 +4,6 @@ const validator = require("validator");
 const { google } = require("googleapis");
 const asyncHandler = require("../middleware/async");
 const Enquiry = require("../models/Enquiry");
-const formatDate = require("../utils/formatDate");
 const readHtmlFile = require("../utils/readHtml");
 const ErrorResponse = require("../utils/errorResponse");
 const env = require("../config/env");

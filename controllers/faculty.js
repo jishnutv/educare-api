@@ -5,21 +5,22 @@ const Faculties = require("../models/Faculties");
 const Batches = require("../models/Batches");
 const Course = require("../models/Course");
 const Attendances = require("../models/Attendances");
+const Exams = require("../models/Exams");
+const ExamStudents = require("../models/ExamStudents");
 
 // @desc      Get faculty profile
 // @route     GET /api/v1/faculty
 // @access    Private
 exports.getProfile = asyncHandler(async (req, res, next) => {
   const { uid, id } = req.params;
-  console.log(uid + " " + id)
-  // Get current faculty student
+
+  // Get faculty student profile
   const profile = await Faculties.findOne({
     where: { user_id: uid, faculty_id: id },
   });
 
   // Show error if no student exists
-  if (!profile)
-    return next(new ErrorResponse("Failed to get faculty", 404));
+  if (!profile) return next(new ErrorResponse("Failed to get faculty", 404));
 
   // Return the result
   return res.status(200).json({
@@ -57,6 +58,28 @@ exports.getStudents = asyncHandler(async (req, res, next) => {
   // Show error if no student exists
   if (!student)
     return next(new ErrorResponse("Failed to get student data", 404));
+
+  // Return the result
+  return res.status(200).json({
+    success: true,
+    data: student,
+  });
+});
+
+// @desc      Get faculty students
+// @route     GET /api/v1/faculty/students
+// @access    Private
+exports.getStudentProfile = asyncHandler(async (req, res, next) => {
+  const { uid, id } = req.params;
+
+  // Get current faculty student
+  const student = await Student.findOne({
+    where: { user_id: uid, id: id },
+  });
+
+  // Show error if no student exists
+  if (!student)
+    return next(new ErrorResponse("Failed to get student profile", 404));
 
   // Return the result
   return res.status(200).json({
@@ -145,7 +168,7 @@ exports.studentsByBatch = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @desc      Get faculty courses
+// @desc      Get faculty attendance
 // @route     GET /api/v1/faculty/add-attendance-batch
 // @access    Private
 exports.addAttendanceBatch = asyncHandler(async (req, res, next) => {
@@ -159,7 +182,6 @@ exports.addAttendanceBatch = asyncHandler(async (req, res, next) => {
     outtime,
     duration,
   } = req.body;
-
 
   const dMs = Date.now();
   const dNow = new Date(dMs);
@@ -243,6 +265,110 @@ exports.addAttendanceBatch = asyncHandler(async (req, res, next) => {
     return res.status(200).json({
       success: true,
       message: "Attendance added",
+    });
+  }
+});
+
+// @desc      Get faculty attendance
+// @route     GET /api/v1/faculty/add-attendance-batch
+// @access    Private
+exports.addExam = asyncHandler(async (req, res, next) => {
+  const {
+    user_id,
+    student_id,
+    title,
+    date,
+    start_time,
+    end_time,
+    description,
+  } = req.body;
+
+  const dMs = Date.now();
+  const dNow = new Date(dMs);
+  const eDate = new Date(date);
+
+  function twoDigits(d) {
+    if (0 <= d && d < 10) return "0" + d.toString();
+    if (-10 < d && d < 0) return "-0" + (-1 * d).toString();
+    return d.toString();
+  }
+
+  Date.prototype.toMysqlDateTime = function () {
+    return (
+      this.getFullYear() +
+      "-" +
+      twoDigits(1 + this.getMonth()) +
+      "-" +
+      twoDigits(this.getDate()) +
+      " " +
+      twoDigits(this.getHours()) +
+      ":" +
+      twoDigits(this.getMinutes()) +
+      ":" +
+      twoDigits(this.getSeconds())
+    );
+  };
+
+  Date.prototype.toMysqlDate = function () {
+    return (
+      this.getFullYear() +
+      "-" +
+      twoDigits(1 + this.getMonth()) +
+      "-" +
+      twoDigits(this.getDate())
+    );
+  };
+
+  const data = await Exams.create({
+    user_id,
+    title,
+    description,
+    date: eDate.toMysqlDate(),
+    start_time,
+    end_time,
+    created_at: dNow.toMysqlDateTime(),
+    updated_at: dNow.toMysqlDateTime(),
+  });
+
+  // Show error if data not inserted
+  if (!data) return next(new ErrorResponse("Failed to add exam", 403));
+
+  if (Array.isArray(student_id) && data) {
+    for (s of student_id) {
+      const stExam = ExamStudents.create({
+        user_id,
+        student_id: s,
+        exam_id: data.id,
+        created_at: dNow.toMysqlDateTime(),
+        updated_at: dNow.toMysqlDateTime(),
+      });
+
+      // Show error if data not inserted
+      if (!stExam)
+        return next(new ErrorResponse("Failed to add student exam", 403));
+    }
+    // Return the result
+    return res.status(200).json({
+      success: true,
+      message: "Batch exam added",
+    });
+  } else {
+    const stExam = ExamStudents.create({
+      user_id,
+      student_id,
+      exam_id: data.id,
+      created_at: dNow.toMysqlDateTime(),
+      updated_at: dNow.toMysqlDateTime(),
+    });
+
+    // Show error if data not inserted
+    if (!stExam)
+      return next(new ErrorResponse("Failed to add student exam", 403));
+
+    // Return the result
+    return res.status(200).json({
+      success: true,
+      message: "Student exam added",
     });
   }
 });

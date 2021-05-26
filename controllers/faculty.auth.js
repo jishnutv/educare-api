@@ -2,6 +2,7 @@ const asyncHandler = require("../middleware/async");
 const ErrorResponse = require("../utils/errorResponse");
 const jwt = require("jsonwebtoken");
 const validator = require("validator");
+const { google } = require("googleapis");
 const User = require("../models/User");
 const env = require("../config/env");
 const {
@@ -14,6 +15,14 @@ const readHtmlFile = require("../utils/readHtml");
 const nodemailer = require("nodemailer");
 const handlebars = require("handlebars");
 const Hashids = require("hashids");
+
+const clientId = env.google.clientId;
+const clientSecret = env.google.clientSecret;
+const redirectUri = env.google.redirectUri;
+const oauthRefreshToken = env.google.refreshToken;
+
+const oAuth2Client = new google.auth.OAuth2(clientId, clientSecret, redirectUri);
+oAuth2Client.setCredentials({ refresh_token: oauthRefreshToken });
 
 const hashids = new Hashids();
 
@@ -111,6 +120,7 @@ exports.reAuth = asyncHandler(async (req, res, next) => {
 // @route     GET /api/v1/auth/reset-password
 // @access    Public
 exports.resetPassword = asyncHandler(async (req, res, next) => {
+  const accessToken = await oAuth2Client.getAccessToken();
   // Get email from request body
   const email = req.body.email;
 
@@ -120,7 +130,6 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
 
   // Get user from database by email
   const user = await User.findOne({ where: { email: email, role: "user" } });
-  console.log(user);
 
   // Show error if no user exists
   if (!user)
@@ -155,20 +164,23 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
 
   // Create email transporter using nodemailer
   let transporter = nodemailer.createTransport({
-    service: "gmail",
-    //host: env.email.email_host,
-    //port: 465,
-    //secure: true,
+    host: env.email.email_host,
+    port: 465,
+    secure: true,
     auth: {
+      type: "OAuth2",
       user: env.email.email_user,
-      pass: env.email.email_password,
+      clientId: clientId,
+      clientSecret: clientSecret,
+      refreshToken: oauthRefreshToken,
+      accessToken: accessToken
     }
   });
 
   // Send email
   const send = await transporter.sendMail({
     from: `"Password reset" <${env.email.email_user}>`,
-    to: "jishnuprgm@gmail.com",
+    to: email,
     subject: "You requested to reset your password",
     text: "",
     html: htmlToSend,
