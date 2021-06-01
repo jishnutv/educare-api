@@ -140,7 +140,7 @@ exports.getCourses = asyncHandler(async (req, res, next) => {
   // Return the result
   return res.status(200).json({
     success: true,
-    data: courses,
+    courses
   });
 });
 
@@ -371,4 +371,36 @@ exports.addExam = asyncHandler(async (req, res, next) => {
       message: "Student exam added",
     });
   }
+});
+
+// @desc      Get student attendance
+// @route     GET /api/v1/student/attendance
+// @access    Private
+exports.getAttendance = asyncHandler(async (req, res, next) => {
+  const uid = req.params.uid;
+  const id = req.params.id;
+
+  // Get current student attendance
+  const attendances = await Student.findOne({
+    where: { user_id: uid, id: id },
+    include: [
+      {
+        model: Attendances,
+        as: "attendance",
+        where: {
+          user_id: uid,
+        }
+      },
+    ],
+  });
+
+  // Show error if no attendance
+  if (!attendances)
+    return next(new ErrorResponse("Failed to get course data", 404));
+
+  // Return the result
+  return res.status(200).json({
+    success: true,
+    attendances,
+  });
 });

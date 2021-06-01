@@ -7,7 +7,8 @@ const {
   addExam,
   studentsByBatch,
   getProfile,
-  getStudentProfile
+  getStudentProfile,
+  getAttendance
 } = require("../controllers/faculty");
 
 const router = express.Router();
@@ -15,6 +16,7 @@ const router = express.Router();
 router.route("/:uid/:id").get(getProfile);
 router.route("/students/:uid/:id").get(getStudents);
 router.route("/student/:uid/:id").get(getStudentProfile);
+router.route("/attendance/:uid/:id").get(getAttendance);
 router.route("/batches/:uid/:id").get(getBatches);
 router.route("/courses/:uid/:id").get(getCourses);
 router.route("/batch-students/:uid/:bid").get(studentsByBatch);
