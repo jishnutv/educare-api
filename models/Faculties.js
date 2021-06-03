@@ -44,6 +44,9 @@ const Faculties = db.define(
     resume: {
       type: DataTypes.STRING,
     },
+    photo: {
+      type: DataTypes.STRING,
+    },
     created_at: {
       type: DataTypes.STRING,
     },

@@ -15,13 +15,18 @@ const readHtmlFile = require("../utils/readHtml");
 const nodemailer = require("nodemailer");
 const handlebars = require("handlebars");
 const Hashids = require("hashids");
+const Faculties = require("../models/Faculties");
 
 const clientId = env.google.clientId;
 const clientSecret = env.google.clientSecret;
 const redirectUri = env.google.redirectUri;
 const oauthRefreshToken = env.google.refreshToken;
 
-const oAuth2Client = new google.auth.OAuth2(clientId, clientSecret, redirectUri);
+const oAuth2Client = new google.auth.OAuth2(
+  clientId,
+  clientSecret,
+  redirectUri
+);
 oAuth2Client.setCredentials({ refresh_token: oauthRefreshToken });
 
 const hashids = new Hashids();
@@ -43,11 +48,17 @@ exports.login = asyncHandler(async (req, res, next) => {
   // Show error if no user exists
   if (!user)
     return next(new ErrorResponse("No user found with this email", 404));
-  
+
+  const faculty = await Faculties.findOne({ where: { faculty_id: user.id } });
+
+  // Show error if no faculty exists
+  if (!user)
+    return next(new ErrorResponse("No faculty found ", 404));
+
   // Hashed password from user table
   let hashPswd = user.password;
   // Replace hashed password to nodejs bcrypt format
-  hashPswd = hashPswd.replace(/^\$2y(.+)$/i, '$2a$1');
+  hashPswd = hashPswd.replace(/^\$2y(.+)$/i, "$2a$1");
 
   // Return true if password matches
   const passwordMatch = await bcrypt
@@ -77,6 +88,7 @@ exports.login = asyncHandler(async (req, res, next) => {
   return res.status(200).json({
     success: true,
     uid: user.id,
+    faculty_id: faculty.id,
     accessToken: accessToken,
     refreshToken: refreshToken,
   });
@@ -173,8 +185,8 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
       clientId: clientId,
       clientSecret: clientSecret,
       refreshToken: oauthRefreshToken,
-      accessToken: accessToken
-    }
+      accessToken: accessToken,
+    },
   });
 
   // Send email
