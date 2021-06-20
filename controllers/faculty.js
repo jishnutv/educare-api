@@ -7,6 +7,8 @@ const Course = require("../models/Course");
 const Attendances = require("../models/Attendances");
 const Exams = require("../models/Exams");
 const ExamStudents = require("../models/ExamStudents");
+const Modules = require("../models/Modules");
+const Lessons = require("../models/Lessons");
 
 // @desc      Get faculty profile
 // @route     GET /api/v1/faculty
@@ -141,6 +143,51 @@ exports.getCourses = asyncHandler(async (req, res, next) => {
   return res.status(200).json({
     success: true,
     courses
+  });
+});
+
+// @desc      Get faculty course modules
+// @route     GET /api/v1/faculty/modules
+// @access    Private
+exports.getModules = asyncHandler(async (req, res, next) => {
+  const { uid, cid } = req.params;
+
+  // Get current student modules
+  const modules = await Modules.findAll({
+    where: { user_id: uid, course_id: cid },
+  });
+
+  // Show error if no modules
+  if (!modules)
+    return next(new ErrorResponse("Failed to get modules data", 404));
+
+  // Return the result
+  return res.status(200).json({
+    success: true,
+    modules,
+  });
+});
+
+// @desc      Get facultylessons
+// @route     GET /api/v1/faculty/lessons
+// @access    Private
+exports.getLessons = asyncHandler(async (req, res, next) => {
+  const uid = req.params.uid;
+  const mid = req.params.mid;
+
+  // Get current student modules
+  const lessons = await Lessons.findAll({
+    where: { user_id: uid, module_id: mid },
+  });
+
+  // Show error if no lessons
+  if (!lessons)
+    return next(new ErrorResponse("Failed to get lessons data", 404));
+
+  // Return the result
+  return res.status(200).json({
+    success: true,
+    lessons,
   });
 });
 
