@@ -70,7 +70,7 @@ try {
 }
 
 // Body parser
-// app.use(express.json());
+app.use(express.json());
 
 if (env.env === "development") {
   app.use(morgan("dev"));

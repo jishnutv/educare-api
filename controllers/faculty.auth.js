@@ -36,6 +36,7 @@ const hashids = new Hashids();
 // @access    Public
 exports.login = asyncHandler(async (req, res, next) => {
   // Get data from request body
+  console.log(req.body);
   const { email, password } = req.body;
 
   // Validate email
