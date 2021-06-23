@@ -137,7 +137,7 @@ exports.getCourses = asyncHandler(async (req, res, next) => {
 
   // Show error if no batches exists
   if (!courses)
-    return next(new ErrorResponse("Failed to get faclulty batches", 404));
+    return next(new ErrorResponse("Failed to get faclulty courses", 404));
 
   // Return the result
   return res.status(200).json({
@@ -159,7 +159,7 @@ exports.getModules = asyncHandler(async (req, res, next) => {
 
   // Show error if no modules
   if (!modules)
-    return next(new ErrorResponse("Failed to get modules data", 404));
+    return next(new ErrorResponse("Failed to get faclulty course modules", 404));
 
   // Return the result
   return res.status(200).json({
@@ -182,7 +182,7 @@ exports.getLessons = asyncHandler(async (req, res, next) => {
 
   // Show error if no lessons
   if (!lessons)
-    return next(new ErrorResponse("Failed to get lessons data", 404));
+    return next(new ErrorResponse("Failed to get faculty course lessons", 404));
 
   // Return the result
   return res.status(200).json({

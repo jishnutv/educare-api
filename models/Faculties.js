@@ -73,7 +73,7 @@ Faculties.belongsToMany(Batches, {
 
 Faculties.belongsToMany(Course, {
   through: FacultyCourses,
-  foreignKey: "course_id",
+  foreignKey: "faculty_id",
   as: "courses",
   timestamps: false
 });
