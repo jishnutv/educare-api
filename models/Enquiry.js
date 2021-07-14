@@ -9,6 +9,9 @@ const Enquiry = db.define('enquiries', {
     user_id: {
         type: DataTypes.INTEGER
     },
+    course_id: {
+        type: DataTypes.INTEGER
+    },
     fullname: {
         type: DataTypes.STRING
     },

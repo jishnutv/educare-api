@@ -9,6 +9,11 @@ const Exams = require("../models/Exams");
 const ExamStudents = require("../models/ExamStudents");
 const Modules = require("../models/Modules");
 const Lessons = require("../models/Lessons");
+const { mysqlDate, mysqlDateTime } = require("../utils/mysqlDate");
+const Assignments = require("../models/Assignment");
+const AssignmentStudents = require("../models/AssignmentStudents");
+const AssignmentSubmissions = require("../models/AssignmentSubmissions");
+const AssignmentFiles = require("../models/AssignmentFiles");
 
 // @desc      Get faculty profile
 // @route     GET /api/v1/faculty
@@ -142,7 +147,7 @@ exports.getCourses = asyncHandler(async (req, res, next) => {
   // Return the result
   return res.status(200).json({
     success: true,
-    courses
+    courses,
   });
 });
 
@@ -159,12 +164,39 @@ exports.getModules = asyncHandler(async (req, res, next) => {
 
   // Show error if no modules
   if (!modules)
-    return next(new ErrorResponse("Failed to get faclulty course modules", 404));
+    return next(
+      new ErrorResponse("Failed to get faclulty course modules", 404)
+    );
 
   // Return the result
   return res.status(200).json({
     success: true,
     modules,
+  });
+});
+
+exports.addModule = asyncHandler(async (req, res, next) => {
+  const { user_id, course_id, order_id, title, description, status } = req.body;
+
+  const data = await Modules.create({
+    user_id,
+    course_id,
+    order_id,
+    title,
+    description,
+    status,
+    created_at: mysqlDateTime(Date.now()),
+    updated_at: mysqlDateTime(Date.now()),
+  });
+
+  // Show error if course module not added
+  if (!data)
+    return next(new ErrorResponse("Failed to get faculty course lessons", 404));
+
+  // Return the result
+  return res.status(200).json({
+    success: true,
+    data: { message: "Module created" },
   });
 });
 
@@ -230,42 +262,6 @@ exports.addAttendanceBatch = asyncHandler(async (req, res, next) => {
     duration,
   } = req.body;
 
-  const dMs = Date.now();
-  const dNow = new Date(dMs);
-  const aDate = new Date(date);
-
-  function twoDigits(d) {
-    if (0 <= d && d < 10) return "0" + d.toString();
-    if (-10 < d && d < 0) return "-0" + (-1 * d).toString();
-    return d.toString();
-  }
-
-  Date.prototype.toMysqlDateTime = function () {
-    return (
-      this.getFullYear() +
-      "-" +
-      twoDigits(1 + this.getMonth()) +
-      "-" +
-      twoDigits(this.getDate()) +
-      " " +
-      twoDigits(this.getHours()) +
-      ":" +
-      twoDigits(this.getMinutes()) +
-      ":" +
-      twoDigits(this.getSeconds())
-    );
-  };
-
-  Date.prototype.toMysqlDate = function () {
-    return (
-      this.getFullYear() +
-      "-" +
-      twoDigits(1 + this.getMonth()) +
-      "-" +
-      twoDigits(this.getDate())
-    );
-  };
-
   if (Array.isArray(student_id)) {
     for (s of student_id) {
       const data = await Attendances.create({
@@ -273,12 +269,12 @@ exports.addAttendanceBatch = asyncHandler(async (req, res, next) => {
         student_id: s,
         batch_id,
         type,
-        date: aDate.toMysqlDate(),
+        date: mysqlDate(date),
         intime,
         outtime,
         duration,
-        created_at: dNow.toMysqlDateTime(),
-        updated_at: dNow.toMysqlDateTime(),
+        created_at: mysqlDateTime(Date.now()),
+        updated_at: mysqlDateTime(Date.now()),
       });
 
       // Show error if data not inserted
@@ -297,12 +293,12 @@ exports.addAttendanceBatch = asyncHandler(async (req, res, next) => {
       student_id,
       batch_id,
       type,
-      date: aDate.toMysqlDate(),
+      date: mysqlDate(date),
       intime,
       outtime,
       duration,
-      created_at: dNow.toMysqlDateTime(),
-      updated_at: dNow.toMysqlDateTime(),
+      created_at: mysqlDateTime(Date.now()),
+      updated_at: mysqlDateTime(Date.now()),
     });
 
     // Show error if data not inserted
@@ -436,7 +432,7 @@ exports.getAttendance = asyncHandler(async (req, res, next) => {
         as: "attendance",
         where: {
           user_id: uid,
-        }
+        },
       },
     ],
   });
@@ -451,3 +447,277 @@ exports.getAttendance = asyncHandler(async (req, res, next) => {
     attendances,
   });
 });
+
+exports.getAssignments = asyncHandler(async (req, res, next) => {
+  const { uid } = req.params;
+
+  const assignments = await Assignments.findAll({
+    where: { user_id: uid },
+  });
+
+  // Show error if no assignment
+  if (!assignments) return next(new ErrorResponse("No assignments found", 404));
+
+  // Return the result
+  return res.status(200).json({
+    success: true,
+    assignments,
+  });
+});
+
+exports.getAssignment = asyncHandler(async (req, res, next) => {
+  const { uid, id } = req.params;
+
+  const assignment = await Assignments.findOne({
+    where: { user_id: uid, id: id },
+    include: [
+      {
+        model: Course,
+        as: "course",
+        attributes: ["id", "title"],
+      },
+      {
+        model: Modules,
+        as: "module",
+        attributes: ["id", "title"],
+      },
+      {
+        model: Lessons,
+        as: "lesson",
+        attributes: ["id", "title"],
+      },
+    ],
+  });
+
+  // Show error if no assignment
+  if (!assignment) return next(new ErrorResponse("No assignment found", 404));
+
+  // Return the result
+  return res.status(200).json({
+    success: true,
+    assignment,
+  });
+});
+
+// @desc      Add assignment
+// @route     GET /api/v1/faculty/add-assignment
+// @access    Private
+exports.addAssignment = asyncHandler(async (req, res, next) => {
+  const {
+    user_id,
+    student_id,
+    batch_id,
+    course_id,
+    module_id,
+    lesson_id,
+    title,
+    description,
+    content,
+    last_date,
+    point,
+    status,
+    images,
+    files
+  } = req.body;
+
+  console.log(req.body);
+
+  const assignment = await Assignments.create({
+    user_id,
+    course_id,
+    module_id,
+    lesson_id,
+    title,
+    description,
+    content,
+    last_date: mysqlDate(new Date(last_date)),
+    point,
+    file1: files[0] ? files[0].file_name : "",
+    file2: files[1] ? files[1].file_name : "",
+    file3: files[2] ? files[2].file_name : "",
+    image1: images[0] ? images[0].img_name : "",
+    image2: images[1] ? images[1].img_name : "",
+    image3: images[2] ? images[2].img_name : "",
+    status,
+    created_at: mysqlDateTime(Date.now()),
+    updated_at: mysqlDateTime(Date.now()),
+  });
+
+  // Show error if data not inserted
+  if (!assignment)
+    return next(new ErrorResponse("Failed to careate assignment", 403));
+
+  if (Array.isArray(student_id)) {
+    for (s of student_id) {
+      const stAssignment = AssignmentStudents.create({
+        user_id,
+        assignment_id: assignment.id,
+        student_id: s,
+        batch_id,
+        created_at: mysqlDateTime(Date.now()),
+        updated_at: mysqlDateTime(Date.now()),
+      });
+
+      // Show error if data not inserted
+      if (!stAssignment)
+        return next(new ErrorResponse("Failed to add student exam", 403));
+    }
+    // Return the result
+    return res.status(200).json({
+      success: true,
+      assignment,
+    });
+  } else {
+    const stAssignment = AssignmentStudents.create({
+      user_id,
+      assignment_id: assignment.id,
+      student_id,
+      batch_id,
+      created_at: mysqlDateTime(Date.now()),
+      updated_at: mysqlDateTime(Date.now()),
+    });
+
+    // Show error if data not inserted
+    if (!stAssignment)
+      return next(new ErrorResponse("Failed to add student exam", 403));
+
+    // Return the result
+    return res.status(200).json({
+      success: true,
+      assignment,
+    });
+  }
+});
+
+exports.deleteAssignment = asyncHandler(async (req, res, next) => {
+  const { user_id, assignment_id } = req.params;
+
+  try {
+    const assStudent = await AssignmentStudents.destroy({
+      where: { assignment_id }
+    });
+
+    const assSubmission = await AssignmentSubmissions.destroy({
+      where: { assignment_id }
+    });
+
+    const assFiles = await AssignmentFiles.destroy({
+      where: { assignment_id }
+    });
+
+    const assignment = await Assignments.destroy({
+      where: { id: assignment_id }
+    });
+
+    // Return the result
+    return res.status(200).json({
+      success: true,
+      students:`Deleted ${assStudent} rocords`,
+      submission: `Deleted ${assSubmission} rocords`,
+      files: `Deleted ${assFiles} rocords`,
+      assignment: `Deleted ${assignment} rocords`
+    });
+  } catch (error) {
+    // Return the error
+    return next(new ErrorResponse(error, 403));
+  }
+})
+
+exports.getSubmissions = asyncHandler(async (req, res, next) => {
+  const { assignment_id } = req.params;
+
+  const submissions = await AssignmentSubmissions.findAll({
+    where: { assignment_id },
+    attributes: ["id", "title", "status", "created_at", "updated_at"],
+    include: [
+      {
+        model: Student,
+        as: "student",
+        attributes: [
+          "id",
+          "name",
+          "reg_number",
+          "photo",
+          "created_at",
+          "updated_at",
+        ],
+      },
+    ],
+  });
+
+  if (!submissions)
+    return next(new ErrorResponse("No submissions found!", 404));
+
+  // Return the result
+  return res.status(200).json({
+    success: true,
+    submissions,
+  });
+});
+
+exports.getSubmission = asyncHandler(async (req, res, next) => {
+  const { student_id } = req.params;
+
+  const submission = await AssignmentSubmissions.findOne({
+    where: { student_id },
+    include: [{ model: AssignmentFiles, as: "files" }],
+  });
+
+  if (!submission) return next(new ErrorResponse("No submission found!", 404));
+
+  // Return the result
+  return res.status(200).json({
+    success: true,
+    submission,
+  });
+});
+
+exports.verifySubmission = asyncHandler(async (req, res, next) => {
+  const {
+    student_id,
+    assignment_id,
+    obtainedpoint,
+    faculty_remarks,
+    verifeied_on,
+  } = req.body;
+
+  const submission = await AssignmentSubmissions.update(
+    {
+      obtainedpoint,
+      faculty_remarks,
+      verifeied_on: mysqlDate(verifeied_on),
+      status: "verified",
+    },
+    { where: { student_id, assignment_id } }
+  );
+
+  if (!submission)
+    return next(new ErrorResponse("Verification not completed!", 404));
+
+  // Return the result
+  return res.status(200).json({
+    success: true,
+    submission,
+  });
+});
+
+exports.changeStatus = asyncHandler(async (req, res, next) => {
+  const { user_id, id, status } = req.body;
+
+  const assiStatus = await Assignments.update(
+    {
+      status,
+    },
+    { where: { user_id, id } }
+  );
+
+  if (!assiStatus)
+    return next(new ErrorResponse("Assignment status not updated", 404));
+
+  // Return the result
+  return res.status(200).json({
+    success: true,
+    assiStatus,
+  });
+});
+

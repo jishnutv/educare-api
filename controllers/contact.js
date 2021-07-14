@@ -13,8 +13,12 @@ const clientSecret = env.google.clientSecret;
 const redirectUri = env.google.redirectUri;
 const oauthRefreshToken = env.google.refreshToken;
 
-const oAuth2Client = new google.auth.OAuth2(clientId, clientSecret, redirectUri)
-oAuth2Client.setCredentials({ refresh_token: oauthRefreshToken })
+const oAuth2Client = new google.auth.OAuth2(
+  clientId,
+  clientSecret,
+  redirectUri
+);
+oAuth2Client.setCredentials({ refresh_token: oauthRefreshToken });
 
 // @desc      Enquiry Form
 // @route     GET /api/v1/send-enquiry
@@ -41,7 +45,31 @@ exports.sendEnquiry = asyncHandler(async (req, res, next) => {
   if (!validator.isEmail(email))
     return next(new ErrorResponse("Please enter a valid email", 400));
 
-  
+  const dMs = Date.now();
+  const dNow = new Date(dMs);
+
+  function twoDigits(d) {
+    if (0 <= d && d < 10) return "0" + d.toString();
+    if (-10 < d && d < 0) return "-0" + (-1 * d).toString();
+    return d.toString();
+  }
+
+  Date.prototype.toMysqlDateTime = function () {
+    return (
+      this.getFullYear() +
+      "-" +
+      twoDigits(1 + this.getMonth()) +
+      "-" +
+      twoDigits(this.getDate()) +
+      " " +
+      twoDigits(this.getHours()) +
+      ":" +
+      twoDigits(this.getMinutes()) +
+      ":" +
+      twoDigits(this.getSeconds())
+    );
+  };
+
   // Add data to database
   const data = await Enquiry.create({
     user_id,
@@ -55,7 +83,11 @@ exports.sendEnquiry = asyncHandler(async (req, res, next) => {
     courseid,
     course_title,
     some_more,
+    created_at: dNow.toMysqlDateTime(),
+    updated_at: dNow.toMysqlDateTime(),
   });
+
+  console.log(data);
 
   const html = await readHtmlFile("/templates/enquiry.html");
 
@@ -77,7 +109,7 @@ exports.sendEnquiry = asyncHandler(async (req, res, next) => {
 
   // Apply replacements to email template
   let htmlToSend = template(replacements);
-  
+
   // Create email transporter using nodemailer
   let transporter = nodemailer.createTransport({
     host: env.email.email_host,
@@ -89,8 +121,8 @@ exports.sendEnquiry = asyncHandler(async (req, res, next) => {
       clientId: clientId,
       clientSecret: clientSecret,
       refreshToken: oauthRefreshToken,
-      accessToken: accessToken
-    }
+      accessToken: accessToken,
+    },
   });
 
   // Send email
@@ -102,8 +134,7 @@ exports.sendEnquiry = asyncHandler(async (req, res, next) => {
     html: htmlToSend,
   });
 
-  if (!send)
-    return next(new ErrorResponse("Failed to send your enquiry", 403));
+  if (!send) return next(new ErrorResponse("Failed to send your enquiry", 403));
 
   // Return the response
   return res.status(200).json({
@@ -118,15 +149,8 @@ exports.sendEnquiry = asyncHandler(async (req, res, next) => {
 exports.contactUs = asyncHandler(async (req, res, next) => {
   const accessToken = await oAuth2Client.getAccessToken();
   // Get the data from request body
-  let {
-    user_id,
-    to_email,
-    fullname,
-    phone,
-    email,
-    subject,
-    message
-  } = req.body;
+  let { user_id, to_email, fullname, phone, email, subject, message } =
+    req.body;
 
   // Validate email
   if (!validator.isEmail(email))
@@ -144,7 +168,7 @@ exports.contactUs = asyncHandler(async (req, res, next) => {
     subject: subject,
     phone: phone,
     email: email,
-    msg: message
+    msg: message,
   };
 
   // Apply replacements to email template
@@ -161,8 +185,8 @@ exports.contactUs = asyncHandler(async (req, res, next) => {
       clientId: clientId,
       clientSecret: clientSecret,
       refreshToken: oauthRefreshToken,
-      accessToken: accessToken
-    }
+      accessToken: accessToken,
+    },
   });
 
   // Send email
@@ -174,8 +198,7 @@ exports.contactUs = asyncHandler(async (req, res, next) => {
     html: htmlToSend,
   });
 
-  if (!send)
-    return next(new ErrorResponse("Failed to send request", 403));
+  if (!send) return next(new ErrorResponse("Failed to send request", 403));
 
   // Return the response
   return res.status(200).json({

@@ -46,9 +46,7 @@ exports.getCourses = asyncHandler(async (req, res, next) => {
   } else {
     Course.findAll({
       where: { user_id: uid },
-      order: [
-        ['id', 'DESC']
-      ],
+      order: [["id", "DESC"]],
     })
       .then((courses) => {
         if (!courses) return next(new ErrorResponse("No courses found", 404));
