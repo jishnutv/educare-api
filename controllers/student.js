@@ -91,8 +91,7 @@ exports.getModules = asyncHandler(async (req, res, next) => {
   });
 
   // Show error if no modules
-  if (!modules)
-    return next(new ErrorResponse("No modules found!", 404));
+  if (!modules) return next(new ErrorResponse("No modules found!", 404));
 
   // Return the result
   return res.status(200).json({
@@ -114,8 +113,7 @@ exports.getLessons = asyncHandler(async (req, res, next) => {
   });
 
   // Show error if no lessons
-  if (!lessons)
-    return next(new ErrorResponse("No lessons found!", 404));
+  if (!lessons) return next(new ErrorResponse("No lessons found!", 404));
 
   // Return the result
   return res.status(200).json({
@@ -146,8 +144,7 @@ exports.getAttendance = asyncHandler(async (req, res, next) => {
   });
 
   // Show error if no attendance
-  if (!attendances)
-    return next(new ErrorResponse("No attendance found!", 404));
+  if (!attendances) return next(new ErrorResponse("No attendance found!", 404));
 
   // Return the result
   return res.status(200).json({
@@ -186,8 +183,7 @@ exports.getPayment = asyncHandler(async (req, res, next) => {
   });
 
   // Show error if no attendance
-  if (!payment)
-    return next(new ErrorResponse("No payments found", 404));
+  if (!payment) return next(new ErrorResponse("No payments found", 404));
 
   // Return the result
   return res.status(200).json({
@@ -232,8 +228,7 @@ exports.getExams = asyncHandler(async (req, res, next) => {
   });
 
   // Show error if no student
-  if (!student)
-    return next(new ErrorResponse("Failed to get student", 404));
+  if (!student) return next(new ErrorResponse("Failed to get student", 404));
 
   const exams = await ExamStudents.findAll({
     where: {
@@ -271,8 +266,7 @@ exports.getClasses = asyncHandler(async (req, res, next) => {
   });
 
   // Show error if no student
-  if (!student)
-    return next(new ErrorResponse("Failed to get student", 404));
+  if (!student) return next(new ErrorResponse("Failed to get student", 404));
 
   // Get student classes
   const classes = await ClassStudents.findAll({
@@ -313,21 +307,21 @@ exports.getAssignments = asyncHandler(async (req, res, next) => {
         include: [
           {
             model: Course,
-            attributes: ['id', 'title', 'course_type'],
-            as: "course"
+            attributes: ["id", "title", "course_type"],
+            as: "course",
           },
           {
             model: Modules,
-            attributes: ['id', 'title', 'description'],
-            as: "module"
+            attributes: ["id", "title", "description"],
+            as: "module",
           },
           {
             model: Lessons,
-            attributes: ['id', 'title', 'description', 'type', 'duration'],
-            as: "lesson"
-          }
+            attributes: ["id", "title", "description", "type", "duration"],
+            as: "lesson",
+          },
         ],
-      }
+      },
     ],
   });
 
@@ -359,25 +353,24 @@ exports.getAssignment = asyncHandler(async (req, res, next) => {
       },
       {
         model: Course,
-        attributes: ['id', 'title', 'course_type'],
-        as: "course"
+        attributes: ["id", "title", "course_type"],
+        as: "course",
       },
       {
         model: Modules,
-        attributes: ['id', 'title', 'description'],
-        as: "module"
+        attributes: ["id", "title", "description"],
+        as: "module",
       },
       {
         model: Lessons,
-        attributes: ['id', 'title', 'description', 'type', 'duration'],
-        as: "lesson"
-      }
+        attributes: ["id", "title", "description", "type", "duration"],
+        as: "lesson",
+      },
     ],
   });
 
   // Show error if no assignments
-  if (!assignement)
-    return next(new ErrorResponse("No assignment found!", 404));
+  if (!assignement) return next(new ErrorResponse("No assignment found!", 404));
 
   // Return the result
   return res.status(200).json({
@@ -395,19 +388,18 @@ exports.getSubmission = asyncHandler(async (req, res, next) => {
   const submission = await AssignmentSubmissions.findOne({
     where: {
       assignment_id: aid,
-      student_id: sid
+      student_id: sid,
     },
     include: [
       {
         model: AssignmentFiles,
-        as: 'files'
-      }
-    ]
-  })
+        as: "files",
+      },
+    ],
+  });
 
   // Show error if no submission
-  if (!submission)
-    return next(new ErrorResponse("No submission found!", 404));
+  if (!submission) return next(new ErrorResponse("No submission found!", 404));
 
   // Return the result
   return res.status(200).json({
@@ -417,34 +409,25 @@ exports.getSubmission = asyncHandler(async (req, res, next) => {
 });
 
 exports.submission = asyncHandler(async (req, res, next) => {
-  const {
+  const { student_id, assignment_id, title, message, content, images } =
+    req.body;
+
+  const submission = await AssignmentSubmissions.create({
     student_id,
     assignment_id,
     title,
     message,
     content,
-    images
-  } = req.body;
-
-  const submission = await AssignmentSubmissions.create(
-    {
-      student_id,
-      assignment_id,
-      title,
-      message,
-      content,
-      status: "notverified",
-      created_at: mysqlDateTime(Date.now()),
-      updated_at: mysqlDateTime(Date.now()),
-    }
-  );
+    status: "notverified",
+    created_at: mysqlDateTime(Date.now()),
+    updated_at: mysqlDateTime(Date.now()),
+  });
 
   if (!submission)
     return next(new ErrorResponse("Verification not completed!", 404));
 
-  if(Array.isArray(images)) {
-
-    for(i of images) {
+  if (Array.isArray(images)) {
+    for (i of images) {
       const submissionFiles = await AssignmentFiles.create({
         assignment_id,
         submission_id: submission.id,
@@ -464,4 +447,73 @@ exports.submission = asyncHandler(async (req, res, next) => {
     success: true,
     submission,
   });
+});
+
+// @desc      Get student submission
+// @route     GET /api/v1/student/submission
+// @access    Private
+exports.editSubmission = asyncHandler(async (req, res, next) => {
+  const { id, title, message, content, images } = req.body;
+
+  const submission = await AssignmentSubmissions.update(
+    {
+      title,
+      message,
+      content,
+      updated_at: mysqlDateTime(Date.now()),
+    },
+    { where: { id } }
+  );
+
+  if (!submission)
+    return next(new ErrorResponse("Verification not completed!", 404));
+
+  if (Array.isArray(images)) {
+    for (i of images) {
+      const subFiles = await AssignmentFiles.update(
+        {
+          file_name: i.img_name,
+          updated_at: mysqlDateTime(Date.now()),
+        },
+        { where: { id: i.id, submission_id: id } }
+      );
+
+      // Show error if data not inserted
+      if (!subFiles)
+        return next(new ErrorResponse("Failed update submission", 403));
+    }
+  }
+
+  // Return the result
+  return res.status(200).json({
+    success: true,
+    msg: "Submission updated"
+  });
+});
+
+// @desc      Get student submission
+// @route     GET /api/v1/student/submission
+// @access    Private
+exports.deleteSubmission = asyncHandler(async (req, res, next) => {
+  const id = req.params.id;
+
+  try {
+    const assSubmission = await AssignmentSubmissions.destroy({
+      where: { id },
+    });
+
+    const assFiles = await AssignmentFiles.destroy({
+      where: { submission_id: id },
+    });
+
+    // Return the result
+    return res.status(200).json({
+      success: true,
+      submission: `Deleted ${assSubmission} rocords`,
+      files: `Deleted ${assFiles} rocords`,
+    });
+  } catch (error) {
+    // Return the error
+    return next(new ErrorResponse(error, 403));
+  }
 });

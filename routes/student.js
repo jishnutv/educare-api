@@ -12,7 +12,9 @@ const {
   getAssignments,
   getAssignment,
   getSubmission,
-  submission
+  submission,
+  editSubmission,
+  deleteSubmission
 } = require("../controllers/student");
 
 const router = express.Router();
@@ -30,5 +32,7 @@ router.route("/assignments/:uid/:id").get(getAssignments);
 router.route("/assignment/:id").get(getAssignment);
 router.route("/submission/:sid/:aid").get(getSubmission);
 router.route("/add-submission").post(submission);
+router.route("/edit-submission").post(editSubmission);
+router.route("/delete-submission/:id").delete(deleteSubmission);
 
 module.exports = router;

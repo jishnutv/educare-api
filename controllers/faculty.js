@@ -517,7 +517,7 @@ exports.addAssignment = asyncHandler(async (req, res, next) => {
     point,
     status,
     images,
-    files
+    files,
   } = req.body;
 
   console.log(req.body);
@@ -594,34 +594,86 @@ exports.deleteAssignment = asyncHandler(async (req, res, next) => {
 
   try {
     const assStudent = await AssignmentStudents.destroy({
-      where: { assignment_id }
+      where: { assignment_id },
     });
 
     const assSubmission = await AssignmentSubmissions.destroy({
-      where: { assignment_id }
+      where: { assignment_id },
     });
 
     const assFiles = await AssignmentFiles.destroy({
-      where: { assignment_id }
+      where: { assignment_id },
     });
 
     const assignment = await Assignments.destroy({
-      where: { id: assignment_id }
+      where: { id: assignment_id },
     });
 
     // Return the result
     return res.status(200).json({
       success: true,
-      students:`Deleted ${assStudent} rocords`,
+      students: `Deleted ${assStudent} rocords`,
       submission: `Deleted ${assSubmission} rocords`,
       files: `Deleted ${assFiles} rocords`,
-      assignment: `Deleted ${assignment} rocords`
+      assignment: `Deleted ${assignment} rocords`,
     });
   } catch (error) {
     // Return the error
     return next(new ErrorResponse(error, 403));
   }
-})
+});
+
+exports.updateAssignment = asyncHandler(async (req, res, next) => {
+  const id = req.params.assignment_id;
+  const {
+    course_id,
+    module_id,
+    lesson_id,
+    title,
+    description,
+    content,
+    last_date,
+    point,
+    status,
+    image1,
+    image2,
+    image3,
+    file1,
+    file2,
+    file3,
+  } = req.body;
+
+  const assignment = await Assignments.update(
+    {
+      course_id,
+      module_id,
+      lesson_id,
+      title,
+      description,
+      content,
+      last_date,
+      point,
+      status,
+      image1,
+      image2,
+      image3,
+      file1,
+      file2,
+      file3,
+      updated_at: mysqlDateTime(Date.now()),
+    },
+    { where: { id } }
+  );
+
+  if (!assignment)
+    return next(new ErrorResponse("Failed to update assignment", 403));
+
+  // Return the result
+  return res.status(200).json({
+    success: true,
+    assignment
+  });
+});
 
 exports.getSubmissions = asyncHandler(async (req, res, next) => {
   const { assignment_id } = req.params;
@@ -720,4 +772,3 @@ exports.changeStatus = asyncHandler(async (req, res, next) => {
     assiStatus,
   });
 });
-
