@@ -14,10 +14,13 @@ exports.getCourses = asyncHandler(async (req, res, next) => {
 
   if (category) {
     Course.findAll({
-      where: { user_id: uid, cat_id: category, type: {
-        [Op.or]: ['P', 'C']
-      }
-   },
+      where: {
+        user_id: uid,
+        cat_id: category,
+        type: {
+          [Op.or]: ["P", "C"],
+        },
+      },
     })
       .then((courses) => {
         res.status(200).json({
@@ -36,8 +39,8 @@ exports.getCourses = asyncHandler(async (req, res, next) => {
           [Op.substring]: tag,
         },
         type: {
-          [Op.or]: ['P', 'C']
-        }
+          [Op.or]: ["P", "C"],
+        },
       },
     })
       .then((courses) => {
@@ -51,11 +54,13 @@ exports.getCourses = asyncHandler(async (req, res, next) => {
       });
   } else {
     Course.findAll({
-      where: { user_id: uid },
+      where: {
+        user_id: uid,
+        type: {
+          [Op.or]: ["P", "C"],
+        },
+      },
       order: [["id", "DESC"]],
-      type: {
-        [Op.or]: ['P', 'C']
-      }
     })
       .then((courses) => {
         if (!courses) return next(new ErrorResponse("No courses found", 404));
