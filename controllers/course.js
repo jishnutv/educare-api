@@ -14,7 +14,7 @@ exports.getCourses = asyncHandler(async (req, res, next) => {
 
   if (category) {
     Course.findAll({
-      where: { user_id: uid, cat_id: category },
+      where: { user_id: uid, cat_id: category, type="C", type="P" },
     })
       .then((courses) => {
         res.status(200).json({
