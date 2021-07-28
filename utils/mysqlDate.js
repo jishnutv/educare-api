@@ -41,17 +41,17 @@ Date.prototype.toMysqlDate = function () {
 };
 
 const mysqlDateTime = (date) => {
-  let d = new Date(date);
+  let d = new Date(date).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });;
   return d.toMysqlDateTime();
 };
 
 const mysqlDate = (date) => {
-  let d = new Date(date);
+  let d = new Date(date).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
   return d.toMysqlDate();
 };
 
 const mysqlTime = (date) => {
-  let d = new Date(date);
+  let d = new Date(date).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });;
   return d.toMysqlTime();
 };
 
