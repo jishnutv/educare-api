@@ -20,6 +20,16 @@ Date.prototype.toMysqlDateTime = function () {
   );
 };
 
+Date.prototype.toMysqlTime = function () {
+  return (
+    twoDigits(this.getHours()) +
+    ":" +
+    twoDigits(this.getMinutes()) +
+    ":" +
+    twoDigits(this.getSeconds())
+  );
+};
+
 Date.prototype.toMysqlDate = function () {
   return (
     this.getFullYear() +
@@ -40,7 +50,13 @@ const mysqlDate = (date) => {
   return d.toMysqlDate();
 };
 
+const mysqlTime = (date) => {
+  let d = new Date(date);
+  return d.toMysqlTime();
+};
+
 module.exports = {
   mysqlDateTime,
   mysqlDate,
+  mysqlTime
 };

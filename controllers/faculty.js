@@ -9,7 +9,7 @@ const Exams = require("../models/Exams");
 const ExamStudents = require("../models/ExamStudents");
 const Modules = require("../models/Modules");
 const Lessons = require("../models/Lessons");
-const { mysqlDate, mysqlDateTime } = require("../utils/mysqlDate");
+const { mysqlDate, mysqlDateTime, mysqlTime } = require("../utils/mysqlDate");
 const Assignments = require("../models/Assignment");
 const AssignmentStudents = require("../models/AssignmentStudents");
 const AssignmentSubmissions = require("../models/AssignmentSubmissions");
@@ -270,8 +270,8 @@ exports.addAttendanceBatch = asyncHandler(async (req, res, next) => {
         batch_id,
         type,
         date: mysqlDate(date),
-        intime,
-        outtime,
+        intime: mysqlTime(intime),
+        outtime: mysqlTime(outtime),
         duration,
         created_at: mysqlDateTime(Date.now()),
         updated_at: mysqlDateTime(Date.now()),
@@ -294,8 +294,8 @@ exports.addAttendanceBatch = asyncHandler(async (req, res, next) => {
       batch_id,
       type,
       date: mysqlDate(date),
-      intime,
-      outtime,
+      intime: mysqlTime(intime),
+      outtime: mysqlTime(outtime),
       duration,
       created_at: mysqlDateTime(Date.now()),
       updated_at: mysqlDateTime(Date.now()),
@@ -519,8 +519,6 @@ exports.addAssignment = asyncHandler(async (req, res, next) => {
     images,
     files,
   } = req.body;
-
-  console.log(req.body);
 
   const assignment = await Assignments.create({
     user_id,
