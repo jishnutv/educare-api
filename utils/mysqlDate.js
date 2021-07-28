@@ -4,55 +4,43 @@ function twoDigits(d) {
   return d.toString();
 }
 
-Date.prototype.toMysqlDateTime = function () {
-  return (
-    this.getFullYear() +
-    "-" +
-    twoDigits(1 + this.getMonth()) +
-    "-" +
-    twoDigits(this.getDate()) +
-    " " +
-    twoDigits(this.getHours()) +
-    ":" +
-    twoDigits(this.getMinutes()) +
-    ":" +
-    twoDigits(this.getSeconds())
-  );
-};
-
-Date.prototype.toMysqlTime = function () {
-  return (
-    twoDigits(this.getHours()) +
-    ":" +
-    twoDigits(this.getMinutes()) +
-    ":" +
-    twoDigits(this.getSeconds())
-  );
-};
-
-Date.prototype.toMysqlDate = function () {
-  return (
-    this.getFullYear() +
-    "-" +
-    twoDigits(1 + this.getMonth()) +
-    "-" +
-    twoDigits(this.getDate())
-  );
-};
-
 const mysqlDateTime = (date) => {
-  let d = new Date(date).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });;
-  return d.toMysqlDateTime();
+  let d = new Date(date);
+  return (
+    d.getFullYear() +
+    "-" +
+    twoDigits(1 + d.getMonth()) +
+    "-" +
+    twoDigits(d.getDate()) +
+    " " +
+    twoDigits(d.getHours()) +
+    ":" +
+    twoDigits(d.getMinutes()) +
+    ":" +
+    twoDigits(d.getSeconds())
+  );
 };
 
 const mysqlDate = (date) => {
-  let d = new Date(date).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
-  return d.toMysqlDate();
+  let d = new Date(date);
+  return (
+    d.getFullYear() +
+    "-" +
+    twoDigits(1 + d.getMonth()) +
+    "-" +
+    twoDigits(d.getDate())
+  );
 };
 
 const mysqlTime = (date) => {
-  let d = new Date(date).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });;
-  return d.toMysqlTime();
+  let d = new Date(date);
+  return (
+    twoDigits(d.getHours()) +
+    ":" +
+    twoDigits(d.getMinutes()) +
+    ":" +
+    twoDigits(d.getSeconds())
+  );
 };
 
 module.exports = {
