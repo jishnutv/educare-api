@@ -12,6 +12,7 @@ const {
   verifySubmission,
   changeStatus,
   addModule,
+  addLesson,
   addAttendanceBatch,
   addExam,
   studentsByBatch,
@@ -41,6 +42,7 @@ router.route("/submission/:student_id").get(getSubmission);
 router.route("/add-attendance").post(addAttendanceBatch);
 router.route("/add-exam").post(addExam);
 router.route("/add-module").post(addModule);
+router.route("/add-lesson").post(addLesson);
 router.route("/add-assignment").post(addAssignment);
 router.route("/add-assignment").post(addAssignment);
 router.route("/verify-submission").post(verifySubmission);

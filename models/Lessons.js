@@ -4,7 +4,7 @@ const db = require('../config/db')
 const Lessons = db.define('lessons', {
     id: {
         type: DataTypes.INTEGER,
-        primaryKey: true
+        primaryKey: true,
     },
     user_id: {
       type: DataTypes.INTEGER,

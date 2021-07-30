@@ -214,12 +214,58 @@ exports.getLessons = asyncHandler(async (req, res, next) => {
 
   // Show error if no lessons
   if (!lessons)
-    return next(new ErrorResponse("Failed to get faculty course lessons", 404));
+    return next(new ErrorResponse("Failed to create faculty course modules", 404));
 
   // Return the result
   return res.status(200).json({
     success: true,
     lessons,
+  });
+});
+
+exports.addLesson = asyncHandler(async (req, res, next) => {
+  const {
+    user_id,
+    course_id,
+    module_id,
+    order_id,
+    title,
+    description,
+    status,
+    content,
+    type,
+    duration,
+    url,
+    videlink,
+    videosource,
+  } = req.body;
+
+  const data = await Lessons.create({
+    user_id,
+    course_id,
+    module_id,
+    order_id,
+    title,
+    description,
+    status,
+    content,
+    type,
+    duration: mysqlTime(duration),
+    url,
+    videlink,
+    videosource,
+    created_at: mysqlDateTime(Date.now()),
+    updated_at: mysqlDateTime(Date.now()),
+  });
+
+  // Show error if course lesson not added
+  if (!data)
+    return next(new ErrorResponse("Failed to create faculty course lessons", 404));
+
+  // Return the result
+  return res.status(200).json({
+    success: true,
+    data: { message: "Lesson created" },
   });
 });
 
@@ -669,7 +715,7 @@ exports.updateAssignment = asyncHandler(async (req, res, next) => {
   // Return the result
   return res.status(200).json({
     success: true,
-    assignment
+    assignment,
   });
 });
 
