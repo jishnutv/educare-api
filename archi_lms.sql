@@ -1,95 +1,217 @@
--- phpMyAdmin SQL Dump
--- version 5.0.2
--- https://www.phpmyadmin.net/
+-- MySQL dump 10.13  Distrib 8.0.27, for Linux (x86_64)
 --
--- Host: 127.0.0.1:3306
--- Generation Time: May 30, 2021 at 11:42 AM
--- Server version: 5.7.31
--- PHP Version: 7.3.21
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
+-- Host: localhost    Database: archi_lms
+-- ------------------------------------------------------
+-- Server version	8.0.27-0ubuntu0.20.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `lms_test`
---
-
--- --------------------------------------------------------
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
 -- Table structure for table `all_courses`
 --
 
 DROP TABLE IF EXISTS `all_courses`;
-CREATE TABLE IF NOT EXISTS `all_courses` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `cat_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `scheme` bigint(20) UNSIGNED DEFAULT NULL,
-  `certification` bigint(20) UNSIGNED DEFAULT NULL,
-  `curiculam` varchar(200) CHARACTER SET latin1 DEFAULT NULL,
-  `title` varchar(80) CHARACTER SET latin1 NOT NULL,
-  `desc_mal` longtext CHARACTER SET utf8mb4,
-  `desc_eng` text CHARACTER SET latin1,
-  `course_info` text CHARACTER SET latin1,
-  `course_type` varchar(20) CHARACTER SET latin1 DEFAULT NULL,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `all_courses` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned DEFAULT NULL,
+  `cat_id` bigint unsigned DEFAULT NULL,
+  `scheme` bigint unsigned DEFAULT NULL,
+  `certification` bigint unsigned DEFAULT NULL,
+  `curiculam` varchar(200) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+  `title` varchar(80) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `desc_mal` longtext CHARACTER SET utf8 COLLATE utf8_general_ci,
+  `desc_eng` text CHARACTER SET latin1 COLLATE latin1_swedish_ci,
+  `course_info` text CHARACTER SET latin1 COLLATE latin1_swedish_ci,
+  `course_type` varchar(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
   `istopten` tinyint(1) DEFAULT NULL,
   `ispopular` tinyint(1) DEFAULT NULL,
-  `videolink` text CHARACTER SET latin1,
-  `img_name` varchar(150) CHARACTER SET latin1 DEFAULT NULL,
-  `img_contrast` int(11) DEFAULT NULL,
-  `tags` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
-  `offline_fee` int(11) DEFAULT NULL,
-  `online_fee` int(11) DEFAULT NULL,
-  `tax` varchar(10) CHARACTER SET latin1 DEFAULT NULL,
-  `n_duration` int(11) DEFAULT NULL,
-  `n_type` varchar(10) CHARACTER SET latin1 DEFAULT NULL,
-  `f_duration` int(11) DEFAULT NULL,
-  `type` enum('C','P') CHARACTER SET latin1 DEFAULT NULL,
-  `f_type` varchar(10) CHARACTER SET latin1 DEFAULT NULL,
-  `status` varchar(20) CHARACTER SET latin1 DEFAULT NULL,
+  `videolink` text CHARACTER SET latin1 COLLATE latin1_swedish_ci,
+  `img_name` varchar(150) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+  `img_contrast` int DEFAULT NULL,
+  `tags` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+  `offline_fee` int DEFAULT NULL,
+  `online_fee` int DEFAULT NULL,
+  `tax` varchar(10) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+  `n_duration` int DEFAULT NULL,
+  `n_type` varchar(10) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+  `f_duration` int DEFAULT NULL,
+  `type` enum('C','P','PC') CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+  `f_type` varchar(10) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+  `status` varchar(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `par_ind` (`user_id`),
   KEY `category_fk` (`cat_id`),
   KEY `scheme on course` (`scheme`),
-  KEY `certification on course` (`certification`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  KEY `certification on course` (`certification`),
+  CONSTRAINT `category_fk` FOREIGN KEY (`cat_id`) REFERENCES `categories` (`id`),
+  CONSTRAINT `certification on course` FOREIGN KEY (`certification`) REFERENCES `certifications` (`id`),
+  CONSTRAINT `scheme on course` FOREIGN KEY (`scheme`) REFERENCES `schemes` (`id`),
+  CONSTRAINT `user_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `all_courses`
 --
 
-INSERT INTO `all_courses` (`id`, `user_id`, `cat_id`, `scheme`, `certification`, `curiculam`, `title`, `desc_mal`, `desc_eng`, `course_info`, `course_type`, `istopten`, `ispopular`, `videolink`, `img_name`, `img_contrast`, `tags`, `offline_fee`, `online_fee`, `tax`, `n_duration`, `n_type`, `f_duration`, `type`, `f_type`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 5, 1, 1, '', 'Abacus Training', '5 വയസ്സുമുതല്‍ കുട്ടികള്‍ക്ക് അബാക്കസ്സ് പഠനം നല്‍കുന്നതിലൂടെ പഠനത്തില്‍ മികച്ച വിജയം നേടുവാന്‍ സാധിക്കുന്നു. കുട്ടികളിലെ ഏകാഗ്രത, ശ്രദ്ധ, ഓര്‍മ്മശക്തി എന്നിവ വര്‍ദ്ധിപ്പിക്കാനും, ഗണിതശാസ്ത്രത്തെ രസകരമായി വിദ്യാര്‍ത്ഥികളില്‍ എത്തിക്കുവാനും തന്‍മൂലം പഠനം ലളിതവും വിനോദകരവും ആക്കാന്‍ കുട്ടികളെ അബാക്കസ്സ് പഠനത്തിലൂടെ സഹായിക്കുന്നു', 'We use the Abacus tool and concept at our Archikites Abacus Academy, to help children learn the technique.\r\nThe importance of brain development is vital to optimise the growth of the human brain and its function. Through studies in developmental neurobiology, it is proven that experiences in early life affects different stages of development and aiding a child’s learning, helps provide the brain with a promising beginning.', 'Brain Development, Confidence Building, Improved calculation skills, Mastering Arithmetic, Having fun with maths, memory techniques Exercise', 'online', 1, 1, 'https://youtu.be/R6DfLXP1yjQ', '1_1621760003.jpg', 3, 'abacus,anadham,anadham2021', 2500, 2500, 'NO', 6, 'month', 25, 'C', 'day', 'ACT', '2021-04-29 03:46:48', '2021-05-23 08:53:23'),
-(3, 1, 2, 3, 1, '', 'DIPLOMA IN FINANCIAL ACCOUNTING', NULL, 'Higher course on accounting.  For advanced understanding of accounting practice.  This makes a student an expert in accounting since the course is job oriented.\r\nTally, Peachtree, QuickBooks', 'apply the accounting concepts, summarise the meaning and evolution of financial management, prepare financial statement, prepare the profit and loss accounts, create balance sheet, prepare cash flow statement, indian accounting standards, prepare bank reconciliation statement', 'both', 0, 1, NULL, '', 3, NULL, 14000, 14000, 'NO', 7, 'month', 3, 'P', 'month', 'ACT', '2021-05-18 12:57:03', '2021-05-19 17:25:33'),
-(4, 1, 1, 3, 1, '', 'Diploma in Graphic Designing', 'ഫൈൻ ആർട്സ്, ഡിസൈനിങ് എന്നിവയുടെ പ്രാഥമിക പാഠങ്ങൾ പഠിച്ചു കൊണ്ട് മികച്ച ഒരു ഗ്രാഫിക് ഡിസൈനർ ആവാൻ നിങ്ങളെ സഹായിക്കുന്നതാണ് ആർച്ചി കൈറ്റ്സ് ഗ്രാഫിക് ഡിസൈനിങ് കോഴ്സ്. സർഗാത്മകമായ നിങ്ങളുടെ മനസ്സിലെ ആശയങ്ങളെ ഡിസൈനുകൾ ആക്കി മാറ്റാൻ ആവശ്യമായ എല്ലാ സോഫ്റ്റ്വെയർ ടൂളുകളും ഇതിൽ പരിശീലിപ്പിക്കുന്നു .', 'Archikites graphic designing exceptional because it also focuses on principles of fine arts and designing. So for a graphic designer learned from our institute computer and software is a tool to materials their designing ideas in mind.\r\n\r\nAdobe Suite Study\r\nAdobe photoshop\r\nCorel draw\r\nDreamweaver \r\nAdobe illustrator\r\nAdobe InDesign', 'Graphic Designer, Desktop Publisher, Graphic Artist, Layout Designer, Freelance Work', 'both', 1, 1, 'HPRExILrnU', '1_1621762538.jpg', 7, NULL, 16000, 15000, 'NO', 6, 'month', 3, 'P', 'month', 'ACT', '2021-05-19 17:55:19', '2021-05-23 09:37:49'),
-(5, 1, 2, 3, 2, '', 'MANUAL ACCOUNTING AND TALLY', 'മാനുവൽ അക്കൗണ്ടിംഗ് ബാലപാഠങ്ങൾ പഠിപ്പിച്ചു കൊണ്ട് അക്കൗണ്ടിൽ നിങ്ങളെ ഒരു വിദഗ്ധൻ ആക്കാൻ ലക്ഷ്യമാക്കിക്കൊണ്ട് ആരംഭിച്ചതാണ് അക്കൗണ്ടിംഗ് ആൻഡ് ടാലി കോഴ്സ്.  ലൈവ് അക്കൗണ്ടിംഗ് ഉള്ള പ്രാക്ടിക്കൽ ട്രെയിനിങ് ആണ് ഇതിൻ്റെ  പ്രത്യേകത.', 'Archikites Education Hub focuses on an accountants ability to handle all accounting problems by skilling them in manual accounting also.  Practice on live accounts is a specialty of this course.', 'Have an understanding of basic Accounting concepts and principals, Be able to generate Accounting and Inventory Masters, Vouchers and Basic report in Tally, Have an understanding of the concept of features of payroll Accounting etc.', 'both', 1, 0, '5Le4A4mlcoQ', '1_1621757878.jpg', 5, 'Accounting,Tally', 10500, 10000, 'NO', 120, 'hour', 20, 'C', 'day', 'ACT', '2021-05-23 07:50:57', '2021-05-23 09:02:31'),
-(6, 1, 7, 3, 2, '', 'Office Automation', 'ഓഫീസ് ഓട്ടോമേഷൻ:\r\nനിങ്ങളെ ഒരു നല്ല ഓഫീസ് അസിസ്റ്റൻറ് ആയി വളർത്തി എടുക്കാൻ സഹായിക്കുന്ന കോഴ്സ് ആണിത്. ഒരു തവണ രജിസ്റ്റർ ചെയ്യുന്നതോടുകൂടി എല്ലാകാലത്തേക്കും പഠിച്ച കാര്യങ്ങൾ  അപ്ഡേറ്റ് ചെയ്യാനുള്ള അവസരം ലഭിക്കുന്നു. സംശയ നിവാരണത്തിനും ഇന്ന് ജോലിസംബന്ധമായ പ്രതിസന്ധികൾ എങ്ങനെ നേരിടാം എന്നതിനെക്കുറിച്ചും സഹായം ലഭിക്കുന്നു.', 'Office Automation:\r\nThis course modules an office assistant. Assignments are done as a part of the course.  Unlimited updating of the knowledge for the student who register once.  Sessions for doubt clearing are the uniqueness of this course.', 'Computer Fundamentals,  Operating system like windows/linux, Microsoft Word, Microsoft Excel, MS powerpoint, Internet Banking services, Interview Tips, Projects etc', 'both', 1, 0, NULL, '1_1621927450.jpg', 7, NULL, 4500, 4000, 'NO', 80, 'hour', 10, 'P', 'day', 'ACT', '2021-05-25 07:24:10', '2021-05-25 07:24:10'),
-(7, 1, 7, 3, 1, '', 'Eata Entry Operator', 'ഡാറ്റാ എൻട്രിയിൽ ഒരു നല്ല ജോലി ലഭിക്കാൻ ഈ കോഴ്സിൽ ചേരുക. ഡാറ്റാ എൻട്രിയുടെ എല്ലാവശങ്ങളും കമ്പ്യൂട്ടർ ഓപ്പറേഷനും ഇതിൽ ഉൾക്കൊള്ളിച്ചിരിക്കുന്നു .വീട്ടിലിരുന്ന് തന്നെ ജോലി ചെയ്യാൻ ആവശ്യമായ പരിശീലനം ലഭിക്കുന്നു.', 'Join this course to make Data Entry as your career.  All aspects of data entry and computer operations are covered in this course.  You can become a freelance data entry operator at home or office.', 'Job Role: Data entry work, Front office assistant,', 'both', 0, 0, NULL, '1_1621929885.jpg', 3, NULL, 4000, 3500, 'NO', 60, 'hour', 10, 'P', 'day', 'ACT', '2021-05-25 08:04:45', '2021-05-25 08:04:45'),
-(8, 1, 7, 3, 2, '', 'DCA - Diploma in Computer Applications', 'കമ്പ്യൂട്ടർ മേഖലയിൽ ഉന്നത വിദ്യാഭ്യാസത്തിനുള്ള അടിസ്ഥാനയോഗ്യതയാണിത് . കമ്പ്യൂട്ടർ സാങ്കേതിക വിദ്യയുടെ എല്ലാ അടിസ്ഥാന പാഠങ്ങളും മനസ്സിലാക്കാൻ ഈ കോഴ്സ് ഉത്തമമാണ് മറ്റു സ്ഥാപനങ്ങളിൽ നിന്ന് വ്യത്യസ്തമായി  ഭാവിയെ മുന്നിൽ കണ്ടുകൊണ്ട് രൂപകൽപ്പന ചെയ്തതാണ് ആർച്ചി കൈറ്റ്സ് കമ്പ്യൂട്ടർ ഡിപ്ലോമ കോഴ്സ്.', 'DCA:  This is a basic qualification course for any higher computer application course.  All fundamentals of computer technology are discussed and made thorough in this course.  Archikites DCA is special and unique of all other institutes.', 'Computer fundamentals, word processing, spreadsheet management skill, programming language in C, Java Programming, Seminar etc.', 'both', 1, 0, NULL, '1_1621931705.jpg', 3, NULL, 12000, 11500, 'NO', 400, 'hour', 4, 'P', 'month', 'ACT', '2021-05-25 08:35:05', '2021-05-25 08:35:05'),
-(9, 1, 8, 3, 2, '', 'DIPLOMA IN AUTOCAD AND 3ds MAX', 'Autocad\r\nസിവിൽ, മെക്കാനിക്കൽ, ഇലക്ട്രിക്കൽ, ഡ്രാഫ്റ്റ്മാൻ ജോലി അന്വേഷിക്കുന്ന ഏതൊരു വിദ്യാർഥിക്കും ചേരാവുന്ന ഏറ്റവും പ്രയോജനപ്രദമായ കോഴ്സ് ആണ് ഓട്ടോകാഡ്. ആർച്ചി കൈറ്റ്സ് ലെ  വിദഗ്ധരായ പരിശീലകർ നിങ്ങൾ ഈ ജോലിയിൽ തിളങ്ങാൻ സഹായിക്കുന്നു.\r\n\r\n3DMAX\r\nആർച്ചി കൈറ്റ്സ് ലെ മറ്റൊരു  തൊഴിലധിഷ്ഠിത കോഴ്സ് . ഇൻറീരിയർ, എക്സ്റ്റീരിയർ ഡിസൈനിംഗ്, ത്രീഡി മോഡലിംഗ്. ഇമേജിങ് എന്നിവ വിശദമായി പരിശീലിപ്പിക്കുകയും  അത് സംബന്ധമായ ജോലിക്ക് വിദ്യാർത്ഥികളെ പ്രാപ്തരാക്കുകയും ചെയ്യുന്നു.\r\n\r\n3D and AutoCAD\r\nമെക്കാനിക്കൽ ഡ്രോയിങ്ൻ്റെയും,  ത്രീഡി മോഡലിംഗ്. ഡിസൈൻ, ഇവയുടെയും ബാലപാഠങ്ങൾ അറിയാവുന്നവർക്ക് ചേരാവുന്ന കോഴ്സാണ് ഇത്.  ത്രീഡി മോഡലിംഗ്. ഡിസൈൻ ,ഓട്ടോകാഡ് എന്നീ സോഫ്റ്റ്വെയറുകളുടെ ആഴത്തിലുള്ള പഠനം ആണ് ഇതുവഴി ലക്ഷ്യമാക്കുന്നത്.', 'Autocad:  A students who wants to become a civil or mechanical or electrical draughtsman can join this course.  Our faculties are expert enough to make your skills sharp and specific for the job.\r\n\r\n3DMAX: Another job oriented course from Archikites. This course gives more awareness on 3D designing and applied aspects of any type of modeling and designing including interior and exterior designing.\r\n\r\n3D and AutoCAD:  If you know the basics of mechanical drawing and 3D designing this is an advanced course for you for applying higher post in any company as 3D and AutoCAD designer', 'Interior Designer, Interior Architect, 3D Visualizer', 'both', 0, 0, 'https://www.youtube.com/watch?v=-HPRExILrnU', '1_1622289244.jpg', 3, NULL, 16000, 15500, 'NO', 4, 'month', 2, 'P', 'month', 'ACT', '2021-05-29 11:31:57', '2021-05-29 12:10:02');
+LOCK TABLES `all_courses` WRITE;
+/*!40000 ALTER TABLE `all_courses` DISABLE KEYS */;
+INSERT INTO `all_courses` VALUES (1,1,5,1,1,'1_1627904787.pdf','Abacus Training','5 വയസ്സുമുതല്‍ കുട്ടികള്‍ക്ക് അബാക്കസ്സ് പഠനം നല്‍കുന്നതിലൂടെ പഠനത്തില്‍ മികച്ച വിജയം നേടുവാന്‍ സാധിക്കുന്നു. കുട്ടികളിലെ ഏകാഗ്രത, ശ്രദ്ധ, ഓര്‍മ്മശക്തി എന്നിവ വര്‍ദ്ധിപ്പിക്കാനും, ഗണിതശാസ്ത്രത്തെ രസകരമായി വിദ്യാര്‍ത്ഥികളില്‍ എത്തിക്കുവാനും തന്‍മൂലം പഠനം ലളിതവും വിനോദകരവും ആക്കാന്‍ കുട്ടികളെ അബാക്കസ്സ് പഠനത്തിലൂടെ സഹായിക്കുന്നു','We use the Abacus tool and concept at our Archikites Abacus Academy, to help children learn the technique. \r\n\r\nThe importance of brain development is vital to optimise the growth of the human brain and its function. Through studies in developmental neurobiology, it is proven that experiences in early life affects different stages of development and aiding a child’s learning, helps provide the brain with a promising beginning.','Brain Development, Confidence Building, Improved calculation skills, Mastering Arithmetic, Having fun with maths, Memory technique exercise','online',1,1,'R6DfLXP1yjQ','1_1624089035.jpg',3,'abacus,anadham,anadham2021',3000,3000,'NO',6,'month',40,'C','day','ACT','2021-04-29 03:46:48','2021-08-02 06:16:27'),(3,1,2,3,1,'','DIPLOMA IN FINANCIAL ACCOUNTING','അക്കൗണ്ടിംഗ് മേഖലയിൽ പ്രവർത്തിക്കുന്നവർക്ക് കൂടുതൽ ഉയരങ്ങളിലെത്താൻ സഹായിക്കുന്ന ഡിപ്ലോമ കോഴ്സ് ആണിത്. ജോബ് ഓറിയൻറഡ് ആയ ഈ കോഴ്സ് കഴിഞ്ഞിറങ്ങുന്ന ഏതൊരു വിദ്യാർഥിക്കും അക്കൗണ്ടിംഗ് മേഖലയിൽ ഉയർന്ന ജോലി ലഭിക്കുന്നതാണ്.','Higher course on accounting.  For advanced understanding of accounting practice.  This makes a student an expert in accounting since the course is job oriented.\r\nTally, Peachtree, QuickBooks','apply the accounting concepts, summarise the meaning and evolution of financial management, prepare financial statement, prepare the profit and loss accounts, create balance sheet, prepare cash flow statement, indian accounting standards, prepare bank reconciliation statement','both',0,1,'5Le4A4mlcoQ','1_1623900370.jpg',3,'Accounting',18000,18000,'NO',7,'month',3,'P','month','ACT','2021-05-18 12:57:03','2021-11-30 00:38:05'),(4,1,1,3,1,'','Diploma in Graphic Designing','ഫൈൻ ആർട്സ്, ഡിസൈനിങ് എന്നിവയുടെ പ്രാഥമിക പാഠങ്ങൾ പഠിച്ചു കൊണ്ട് മികച്ച ഒരു ഗ്രാഫിക് ഡിസൈനർ ആവാൻ നിങ്ങളെ സഹായിക്കുന്നതാണ് ആർച്ചി കൈറ്റ്സ് ഗ്രാഫിക് ഡിസൈനിങ് കോഴ്സ്. സർഗാത്മകമായ നിങ്ങളുടെ മനസ്സിലെ ആശയങ്ങളെ ഡിസൈനുകൾ ആക്കി മാറ്റാൻ ആവശ്യമായ എല്ലാ സോഫ്റ്റ്വെയർ ടൂളുകളും ഇതിൽ പരിശീലിപ്പിക്കുന്നു .','Archikites graphic designing exceptional because it also focuses on principles of fine arts and designing. So for a graphic designer learned from our institute computer and software is a tool to materials their designing ideas in mind.\r\n\r\nAdobe Suite Study\r\nAdobe photoshop\r\nCorel draw\r\nDreamweaver \r\nAdobe illustrator\r\nAdobe InDesign','Graphic Designer, Desktop Publisher, Graphic Artist, Layout Designer, Freelance Work','both',1,1,'HPRExILrnU','1_1623899562.jpg',7,'Design',28000,25000,'NO',6,'month',3,'P','month','ACT','2021-05-19 17:55:19','2021-11-30 00:43:18'),(5,1,2,3,2,'','MANUAL ACCOUNTING AND TALLY','മാനുവൽ അക്കൗണ്ടിംഗ് ബാലപാഠങ്ങൾ പഠിപ്പിച്ചു കൊണ്ട് അക്കൗണ്ടിൽ നിങ്ങളെ ഒരു വിദഗ്ധൻ ആക്കാൻ ലക്ഷ്യമാക്കിക്കൊണ്ട് ആരംഭിച്ചതാണ് അക്കൗണ്ടിംഗ് ആൻഡ് ടാലി കോഴ്സ്.  ലൈവ് അക്കൗണ്ടിംഗ് ഉള്ള പ്രാക്ടിക്കൽ ട്രെയിനിങ് ആണ് ഇതിൻ്റെ  പ്രത്യേകത.','Archikites Education Hub focuses on an accountants ability to handle all accounting problems by skilling them in manual accounting also.  Practice on live accounts is a specialty of this course.','Have an understanding of basic Accounting concepts and principals, Be able to generate Accounting and Inventory Masters, Vouchers and Basic report in Tally, Have an understanding of the concept of features of payroll Accounting etc.','both',1,0,'5Le4A4mlcoQ','1_1623900449.jpg',5,'Accounting,Tally',12000,10000,'NO',120,'hour',20,'C','day','ACT','2021-05-23 07:50:57','2021-11-30 00:37:09'),(6,1,7,3,2,'','Office Automation','ഓഫീസ് ഓട്ടോമേഷൻ:\r\nനിങ്ങളെ ഒരു നല്ല ഓഫീസ് അസിസ്റ്റൻറ് ആയി വളർത്തി എടുക്കാൻ സഹായിക്കുന്ന കോഴ്സ് ആണിത്. ഒരു തവണ രജിസ്റ്റർ ചെയ്യുന്നതോടുകൂടി എല്ലാകാലത്തേക്കും പഠിച്ച കാര്യങ്ങൾ  അപ്ഡേറ്റ് ചെയ്യാനുള്ള അവസരം ലഭിക്കുന്നു. സംശയ നിവാരണത്തിനും ഇന്ന് ജോലിസംബന്ധമായ പ്രതിസന്ധികൾ എങ്ങനെ നേരിടാം എന്നതിനെക്കുറിച്ചും സഹായം ലഭിക്കുന്നു.','Office Automation:\r\nThis course modules an office assistant. Assignments are done as a part of the course.  Unlimited updating of the knowledge for the student who register once.  Sessions for doubt clearing are the uniqueness of this course.','Computer Fundamentals,  Operating system like windows/linux, Microsoft Word, Microsoft Excel, MS powerpoint, Internet Banking services, Interview Tips, Projects etc','both',1,0,NULL,'1_1623899596.jpg',7,NULL,5000,4000,'NO',80,'hour',10,'P','day','ACT','2021-05-25 07:24:10','2021-11-30 00:43:08'),(7,1,7,3,1,'','Data Entry Operator','ഡാറ്റാ എൻട്രിയിൽ ഒരു നല്ല ജോലി ലഭിക്കാൻ ഈ കോഴ്സിൽ ചേരുക. ഡാറ്റാ എൻട്രിയുടെ എല്ലാവശങ്ങളും കമ്പ്യൂട്ടർ ഓപ്പറേഷനും ഇതിൽ ഉൾക്കൊള്ളിച്ചിരിക്കുന്നു .വീട്ടിലിരുന്ന് തന്നെ ജോലി ചെയ്യാൻ ആവശ്യമായ പരിശീലനം ലഭിക്കുന്നു.','Join this course to make Data Entry as your career.  All aspects of data entry and computer operations are covered in this course.  You can become a freelance data entry operator at home or office.','Job Role: Data entry work, Front office assistant,','both',0,0,NULL,'1_1623899663.jpg',3,NULL,6000,5500,'NO',60,'hour',10,'P','day','ACT','2021-05-25 08:04:45','2021-11-30 00:43:37'),(8,1,7,3,2,'','DCA - Diploma in Computer Applications','കമ്പ്യൂട്ടർ മേഖലയിൽ ഉന്നത വിദ്യാഭ്യാസത്തിനുള്ള അടിസ്ഥാനയോഗ്യതയാണിത് . കമ്പ്യൂട്ടർ സാങ്കേതിക വിദ്യയുടെ എല്ലാ അടിസ്ഥാന പാഠങ്ങളും മനസ്സിലാക്കാൻ ഈ കോഴ്സ് ഉത്തമമാണ് മറ്റു സ്ഥാപനങ്ങളിൽ നിന്ന് വ്യത്യസ്തമായി  ഭാവിയെ മുന്നിൽ കണ്ടുകൊണ്ട് രൂപകൽപ്പന ചെയ്തതാണ് ആർച്ചി കൈറ്റ്സ് കമ്പ്യൂട്ടർ ഡിപ്ലോമ കോഴ്സ്.','DCA:  This is a basic qualification course for any higher computer application course.  All fundamentals of computer technology are discussed and made thorough in this course.  Archikites DCA is special and unique of all other institutes.','Computer fundamentals, Word processing, Spreadsheet management skill, Programming in C, Java Programming, Seminar etc.','both',1,0,NULL,'1_1623900398.jpg',3,NULL,15000,14500,'NO',400,'hour',4,'P','month','ACT','2021-05-25 08:35:05','2021-11-30 00:43:57'),(9,1,8,3,2,'','DIPLOMA IN AUTOCAD AND 3ds MAX','Autocad\r\nസിവിൽ, മെക്കാനിക്കൽ, ഇലക്ട്രിക്കൽ, ഡ്രാഫ്റ്റ്മാൻ ജോലി അന്വേഷിക്കുന്ന ഏതൊരു വിദ്യാർഥിക്കും ചേരാവുന്ന ഏറ്റവും പ്രയോജനപ്രദമായ കോഴ്സ് ആണ് ഓട്ടോകാഡ്. ആർച്ചി കൈറ്റ്സ് ലെ  വിദഗ്ധരായ പരിശീലകർ നിങ്ങൾ ഈ ജോലിയിൽ തിളങ്ങാൻ സഹായിക്കുന്നു.\r\n\r\n3DMAX\r\nആർച്ചി കൈറ്റ്സ് ലെ മറ്റൊരു  തൊഴിലധിഷ്ഠിത കോഴ്സ് . ഇൻറീരിയർ, എക്സ്റ്റീരിയർ ഡിസൈനിംഗ്, ത്രീഡി മോഡലിംഗ്. ഇമേജിങ് എന്നിവ വിശദമായി പരിശീലിപ്പിക്കുകയും  അത് സംബന്ധമായ ജോലിക്ക് വിദ്യാർത്ഥികളെ പ്രാപ്തരാക്കുകയും ചെയ്യുന്നു.\r\n\r\n3D and AutoCAD\r\nമെക്കാനിക്കൽ ഡ്രോയിങ്ൻ്റെയും,  ത്രീഡി മോഡലിംഗ്. ഡിസൈൻ, ഇവയുടെയും ബാലപാഠങ്ങൾ അറിയാവുന്നവർക്ക് ചേരാവുന്ന കോഴ്സാണ് ഇത്.  ത്രീഡി മോഡലിംഗ്. ഡിസൈൻ ,ഓട്ടോകാഡ് എന്നീ സോഫ്റ്റ്വെയറുകളുടെ ആഴത്തിലുള്ള പഠനം ആണ് ഇതുവഴി ലക്ഷ്യമാക്കുന്നത്.','Autocad:  A students who wants to become a civil or mechanical or electrical draughtsman can join this course.  Our faculties are expert enough to make your skills sharp and specific for the job.\r\n\r\n3DMAX: Another job oriented course from Archikites. This course gives more awareness on 3D designing and applied aspects of any type of modeling and designing including interior and exterior designing.\r\n\r\n3D and AutoCAD:  If you know the basics of mechanical drawing and 3D designing this is an advanced course for you for applying higher post in any company as 3D and AutoCAD designer','Interior Designer, Interior Architect, 3D Visualizer','both',0,0,'HPRExILrnU','1_1623899824.jpg',3,NULL,28000,15500,'NO',4,'month',2,'P','month','ACT','2021-05-29 11:31:57','2021-11-30 00:44:27'),(10,1,1,5,1,'','Diploma in Digital Imaging','അടിസ്ഥാന വിദ്യാഭ്യാസ യോഗ്യത ഇല്ലാത്തവർക്ക് പോലും മികച്ച സർഗ്ഗാത്മകമായ മനസ്സ് ഉണ്ടെങ്കിൽ വിദഗ്ധനായ ഡിസൈനർ ആവാൻ സഹായിക്കുന്ന ഒരു കോഴ്സ് ആണ് ഇത്. ജ്വല്ലറി ഡിസൈൻ, ഫോട്ടോ സ്റ്റുഡിയോ വർക്കുകൾ തുടങ്ങി എളുപ്പത്തിൽ ജോലി ലഭിക്കാൻ സഹായിക്കുന്ന ഒരു കോഴ്സാണിത്.','Diploma in Digital Imaging :  It is also a job oriented course for those who don’t have a basic academic qualification but posses a creative mind.  Many designing tools including jewelry design are composed in this course.','Graphic Design, Photo-studio works, Advertisements, image retouching, Colouring.','both',0,0,NULL,'1_1623899985.jpg',5,'Design,Graphics',20000,14000,'NO',240,'hour',2,'P','month','ACT','2021-06-12 15:59:08','2021-11-30 00:45:07'),(11,1,1,6,1,'','Arabic Graphic Design Course','പ്രാദേശികമായി മറ്റു സ്ഥാപനങ്ങളിൽ വിരളമായ ഒരു കോഴ്സ് ആണ് അറബിക് ഗ്രാഫിക് ഡിസൈനിങ് കോഴ്സ്.  ഗൾഫ് രാജ്യങ്ങളിൽ ഏറ്റവും ഉയർന്ന ശമ്പളത്തിൽ ജോലി ചെയ്യാൻ പ്രാപ്തരാക്കുന്ന ഒരു കോഴ്സ്. ഗ്രാഫിക് ഡിസൈനിങ് അടിസ്ഥാനപാഠങ്ങൾ അറബി ഭാഷയുടെ പ്രത്യേകതകൾ എന്നിവ ഇതിൽ പരിശീലിപ്പിക്കുന്നു.   പഠനം പൂർത്തിയാക്കിയ  നിരവധി വിദ്യാർത്ഥികളാണ് ഗൾഫിൽ ജോലി ചെയുന്നത്.','Arabic Graphic design course:  Archikites special course for those who aspire gulf jobs of high salary.  Packaging design which is in high demand is taught in this course apart from the basics of graphic designing and DTP tools.','Rollup Design, Packaging design, arabic typing, logo flyer designing etc.','both',1,0,NULL,'1_1623900220.jpg',3,'Design,Graphics',25000,16000,'NO',60,'hour',40,'P','hour','ACT','2021-06-15 06:27:26','2021-11-30 00:42:51'),(12,1,8,7,2,'','Diploma in Interior Designing','ഇൻറീരിയർ ഡിസൈനർ ജോലി അന്വേഷിക്കുന്നവർക്ക് ഏറ്റവും അനുയോജ്യമായ കോഴ്സ് ആണ് ഇത്. ഇൻറീരിയർ ഡിസൈൻ സോഫ്റ്റ്വെയറുകളുടെ പ്രായോഗിക പഠനവും തൊഴിൽ പരിചയവും ഈ കോഴ്സ് ലൂടെ നൽകുന്നു.','Even if you don’t have high academic degrees, you can join this course if you cave a eye on interior beauty of a building or landscape.  All applied aspects of interior designing and software packages are taught in this course.','Interior Architect, Draughtsman, Interior designer, 3D Visualizer, Architeture Assistant.','both',1,0,NULL,'1_1623900298.jpg',7,'Design,Architect,Interior',30000,20000,'NO',4,'month',160,'P','hour','ACT','2021-06-15 10:14:59','2021-11-30 00:45:21'),(13,1,8,7,1,'','Master Diploma in Interior and Architectural designing','കെട്ടിട നിർമ്മാണ മേഖലയിൽ ഏറ്റവും ആവശ്യം നേരിടുന്ന ഒരു ഒരു വിഭാഗമാണ് ആണ് ആർക്കിടെക്ച്ചർ ഡിസൈനർ. ഈ ജോലിയിൽ ഇതിൽ പ്രവേശിക്കാൻ  ലക്ഷ്യംവയ്ക്കുന്ന വിദ്യാർത്ഥികൾക്ക് ചേരാവുന്ന കോഴ്സാണ്.  സിവിൽ എൻജിനീയർമാരുടെ അസ്സിസ്റ്റൻസ്, ഫീൽഡ് എക്സ്പീരിയൻസ്, സൂപ്പർ വിഷൻ  വിദ്യാർത്ഥികൾക്ക് ലഭ്യമാക്കും.','Architectural designing: This course is of high demand nowadays as construction industry is evergreen industry in world.  Now-a-days all armature and professional construction companies appoint an architectural designer in their company.  Archikites prepares you to fit for this job.',NULL,'offline',0,0,NULL,'1_1623900316.jpg',5,NULL,30000,NULL,'NO',1,'year',480,'P','hour','ACT','2021-06-15 10:57:28','2021-11-30 00:45:29'),(14,1,3,8,1,'','Diploma in  Graphic & Web Engineering','സാങ്കേതികവിദ്യ നമ്മുടെ ജീവിതത്തെ വളരെയധികം മാറ്റിമറിച്ചു. ദൈനംദിന അടിസ്ഥാനത്തിൽ ഇലക്ട്രോണിക് ഉപകരണങ്ങൾ, മൾട്ടിമീഡിയ, കമ്പ്യൂട്ടറുകൾ എന്നിവ ലോക വിപണിയെ  കൈകാര്യം ചെയ്യുന്നു. ഗ്രാഫിക്‌സും   ഇന്റർനെറ്റും ഗവണ്മെന്റ് തലത്തിലും പ്രൈവറ്റ് മേഖലയിലും  കൂടുതൽ പ്രാധാന്യമർഹിക്കുന്നു, കാരണം ഇത് തീർച്ചയായും ഭാവിയിലെ മാധ്യമമാണ്. സോഫ്റ്റ്‌വെയർ ഡവലപ്മെന്റ് സ്ഥാപനം കൂടിയായ  അർച്ചി കൈറ്റ്സ് വിദ്യാർത്ഥികൾക്ക് ലൈവ് പ്രൊജക്റ്റ് ചെയ്തു തന്നെ പഠിക്കാനുള്ള അവസരമാണ് ഉള്ളത്.','Technology has changed our life enormously. We deal with electronic devices, multimedia and computers on an everyday basis . Graphics and the Internet are becoming more and more important at the governmental and private sector, as it is certainly the medium of the future. Archie Kites, also a software development company offers students the opportunity to learn by live projects.','All graphic softwares, Photoshop, Illustrator , Web Technology & Value added service , Bootstrap and CSS, Illustrate how HTML can be used to create web pages','both',1,1,'RxIdsblNPBE','1_1623900347.jpg',3,'Webdesign,Web & Apps',22000,22000,'NO',12,'month',480,'P','hour','ACT','2021-06-15 17:23:18','2021-11-30 00:46:18'),(15,1,6,9,1,'','Spoken English Coaching 21 Days Programme','പഠനം വെറുമൊരു മനസ്സിലാക്കാൻ പ്രക്രിയയല്ല , പകരം നമ്മുടെ ജീവിതത്തിൽ വഴികാട്ടി ആവേണ്ട  അനുഭവ പരിചയങ്ങൾ ആണ്. പഠനത്തിന് പ്രായം തടസമല്ല, സംസാരിച്ചു പഠിക്കാൻ നിങ്ങൾ തയ്യാറാണെങ്കിൽ സംസാരം മാത്രം നടത്തി പഠിപ്പിക്കുന്ന 21 ദിവസം കൊണ്ടുള്ള ഈ കോഴ്സിൽ  ഇന്ന് തന്നെ ജോയിൻ ചെയുക. പിന്നീട് മറ്റുള്ളവർക്കു പരിചയപ്പെടുത്തുക.','Education is not only an activity of learning but a process which leads to a prosperous living.   KLC aims at making you skillful and efficient in your occupation and to lead a successful career life.  Get a right turn for this TIME!!! Be proficient, change your personality and attend interviews confidently. Now this is your time and right course to change your life in short time with experts.','Expert Facilitators, Enhance your Career, Extensive Learning Repository, Learn Malayalam Through English','both',1,1,NULL,'1_1623900501.jpg',3,NULL,4000,3000,'NO',21,'day',45,'C','hour','ACT','2021-06-16 07:44:31','2021-06-17 03:28:21'),(16,1,11,11,3,'','Digital Marketing',NULL,'Digital Marketing is the new-age door-to-door advertising. It is the marketing component involving the internet and online-based digital technologies and/or devices. It includes understanding the target audience, analyzing the market, and tracking data trends in addition to reaching the right customers at the right time and showing them the right information.','SEO, Google Business, Google Maps, Sales Funnel, Page Optimization, Payment Processing,\r\nAffiliate Marketing, Keyword Research, YouTube Marketing, WordPress, Social Engineering','online',0,1,'ea3HJjmedT8','1_1624521280.jpg',3,'Digital Marketing',2999,2999,'YES',4,'month',2,'C','month','ACT','2021-06-24 07:54:40','2021-06-24 07:54:40'),(17,1,7,3,1,'','Microsoft Word',NULL,'Used to make professional-quality documents, letters, reports, etc., MS Word is a word processor developed by Microsoft. It has advanced features which allow you to format and edit your files and documents in the best possible way.','Start typing new document, Rules for typing in word, Use styles to format test, Edit and print your documents, Use page numbering &  Mail merge, Chart & diagram, Create Cover page,  Hyperlink, Book mark and Cross reference','both',0,0,NULL,'1_1624614742.jpg',3,NULL,2500,1000,'NO',10,'day',10,'C','hour','ACT','2021-06-25 07:44:10','2021-11-26 04:21:55'),(18,1,7,3,1,'','Microsoft Excel',NULL,'Microsoft Excel is a spreadsheet developed by Microsoft for Windows, macOS, Android and iOS. It features calculation, graphing tools, pivot tables, and a macro programming language called Visual Basic for Applications.','Mixed types chart, Condition formatting, Add multiple rules, Absolute reference, Filters, Sorting','both',0,0,NULL,'1_1624614772.jpg',7,NULL,2500,1000,'NO',10,'day',10,'C','hour','ACT','2021-06-25 08:29:56','2021-11-26 04:21:38'),(19,1,7,3,1,'','Microsoft Powerpoint',NULL,'Microsoft PowerPoint is a powerful slide show presentation program. It is a standard component of the company\'s Microsoft Office suite software, and is bundled together with Word, Excel, and other office productivity tools. The program uses slides to convey information rich in multimedia.','Customize Color Schemes, Add Animation effects, Use the Slide, Notes and Handout Masters, Create, Edit and Import Charts, Manage Hyperlinks and Create Custom Shows','both',0,0,NULL,'1_1624614789.jpg',3,NULL,2500,1000,'NO',7,'day',5,'C','day','ACT','2021-06-25 09:40:27','2021-11-30 00:58:39'),(20,1,13,3,1,'','ISM Malayalam Typing',NULL,'This keyboard lets you type in Malayalam with the standardised Inscript layout. It is easy to use for people familiar with Malayalam, or with other Inscript\r\nkeyboards. The keyboard uses a normal English (QWERTY) keyboard.','Inscript language study, Vowels and Consonants, ML:MLTT:FML Fonts, Keystroke Examples, Accuracy testing','both',0,0,NULL,'1_1624948754.jpg',3,NULL,3500,2000,'NO',7,'day',5,'C','day','ACT','2021-06-29 06:30:05','2021-11-30 00:58:08'),(21,1,13,3,1,'','English Typing',NULL,'Typing Master for Windows is a complete touch typing tutor application with a real-time analysis widget. Meter analyses your typing skills and creates tailored exercises. Take a free 1-week touch typing course to find your weak spots and eliminate them.','Beginner Course, Capital Letters, Letters ; Numbers ; Symbols, Practice Exercise, Accuracy Testing','both',0,0,NULL,'1_1624950362.jpg',3,NULL,3500,2000,'NO',7,'day',5,'C','day','ACT','2021-06-29 07:06:02','2021-11-30 00:58:24'),(22,1,13,3,1,'','Arabic Typing',NULL,'The Arabic script is written from right to left in a cursive style, in which most of the letters are written in slightly different forms according to whether they stand alone or are joined to a following or preceding letter. The basic letter form remains unchanged. In most cases, the letters transcribe consonants or consonants and a few vowels, so most Arabic alphabets are abjads. It does not have capital letters.','Allows users to type in Arabic using a regular English keyboard, Simple and intuitive typing solution, Create Word documents;Presentations;Excel Sheets or write e-mails in Arabic, Accuracy Testing','both',0,0,NULL,'1_1624951379.jpg',3,NULL,5000,2000,'NO',5,'day',NULL,'C','year','ACT','2021-06-29 07:22:59','2021-11-30 00:57:45'),(23,1,7,3,1,'','Advanced Excel',NULL,'When you understand Excel at a more advanced level, you will have the ability to use its more sophisticated tools, which will allow you to complete your tasks and analyze your data more quickly. It will also allow you to keep team members up-to-date on data, which can streamline the workflow process.','Working With Multiple Worksheets and Workbooks, Using Lookup Formulas and Formula Auditing, Working with Advanced Functions, Data Validations, Working with Templates, Working with Reports, Charts','both',0,0,NULL,'1_1624952551.jpg',3,NULL,4500,4000,'NO',15,'day',NULL,'C','year','ACT','2021-06-29 07:42:31','2021-11-15 06:14:11'),(24,1,1,3,1,'','Adobe Photoshop',NULL,'If you can dream it, you can make it with Photoshop. Create beautiful images, graphics, paintings, and 3D artwork on your desktop. Join Today.','Pen tool, Clone stamp tool, Shape tools, Measuring and navigation, Selection tools (Cropping; Slicing; Magic wand etc)','both',0,0,NULL,'1_1624954089.jpg',3,NULL,5000,4500,'NO',15,'day',NULL,'C','year','ACT','2021-06-29 08:08:09','2021-06-29 09:39:56'),(25,1,1,3,1,'','Adobe Illustrator',NULL,'Adobe Illustrator is the industry standard design app that lets you capture your creative vision with shapes, color, effects, and typography. Work across desktop and mobile devices and quickly create beautiful designs that can go anywhere—print, web and apps, video and animations, and more.\r\nEasily and Intuitively Create Stunning Illustrations and Graphics. Join!','Variety of tools to select; create; and manipulate objects or artworks in Illustrator, Drawing; typing; painting; reshaping, Slicing and cutting;symbolism;moving and zooming and graph, Basic tools-Selection tools: Paintbrush tools: Pen tools: Pencil tools','offline',0,0,NULL,'1_1624954683.jpg',3,NULL,5000,NULL,'NO',15,'day',NULL,'C','year','ACT','2021-06-29 08:18:03','2021-06-29 08:18:03'),(26,1,1,3,1,'','CorelDRAW',NULL,'CorelDRAW is a vector graphics editor developed and marketed by Corel Corporation. CorelDraw is designed to edit two-dimensional images such as logos and posters, design templates and use it to create beautiful creative designs for your business.','Integrated suite of professional applications, Dedicated illustration and design tools, Unmatched file format compatibility, Advanced standards compliance','offline',0,0,NULL,'1_1624955294.jpg',3,NULL,5000,NULL,'NO',15,'day',NULL,'C','year','ACT','2021-06-29 08:28:14','2021-06-29 08:28:14'),(27,1,1,3,1,'','Adobe Premier Pro',NULL,'If you are looking for a video editing application that will allow you to edit videos however you want them, Adobe Premiere Pro is the best answer. Premiere Pro is used by professionals across the world for every type of production from business & marketing videos, music videos to documentaries, feature films. This full course is the best way to jump right in and start editing.\r\n\r\nMake videos the way you imagine them!','Master Premiere Pro and be CONFIDENT Editing Your Own Videos, Export and save your videos for HD playback, Design clean and professional titles for you videos, Color correct your video to fix issues with white balance and exposure, Edit an entire video from beginning to end; using professional and efficient techniques','both',0,0,NULL,'1_1625125663.jpg',3,NULL,5000,4500,'NO',10,'day',NULL,'C','year','ACT','2021-07-01 07:47:43','2021-07-01 07:47:43'),(28,1,1,3,1,'','Adobe PageMaker',NULL,'Adobe PageMaker allows you to create high-quality publications, ranging from simple one-page flyers to complex reports. With this program you can create your own publications from scratch or use its predesigned templates and clip-art illustrations that you can modify according to your needs and likes.','Create different type of content, Integrated with PDF Files, Compatible with Windows, Free Access, Multiple Tools','both',0,0,NULL,'1_1625125996.jpg',3,NULL,2500,2000,'NO',5,'day',NULL,'C','year','ACT','2021-07-01 07:53:17','2021-07-01 07:56:25'),(29,1,2,3,2,'','Post Graduate Diploma In Computerized Financial Accounting - PGDCFA',NULL,'Higher course on accounting. For advanced understanding of accounting practice. This makes a student an expert in accounting since the course is job oriented. Office Automation, Tally, Peachtree, QuickBooks, Project work and Training. \r\n\r\nFinance is the lifeblood of any business and accounting is known as the language of business. Management accounting prepares students to develop understanding of the role and importance of management accounting in organisations.','Computer Fundamentals, Operating system like Windows / Linux, Microsoft word, Excel, PowerPoint, Internet banking services, Have an understanding of basic Accounting concept and principals, Be able to generate Accounting and inventory masters, Vouchers and Basic report in Tally, Create balance sheet, Indian Accounting  standards, prepare bank reconciliation statement.','both',0,0,NULL,'1_1627556501.jpg',3,NULL,25000,17500,'NO',8,'month',4,'P','month','ACT','2021-07-05 05:32:39','2021-11-30 00:46:49'),(30,1,7,3,1,'','Advanced DTP',NULL,'Desktop publishing (DTP) is the process of combining and assembling text and graphic images (pictures, graphs, illustrations, photographs, etc. ) electronically on a computer screen to output professional-looking publications such as flyers, newsletters, brochures, business forms, books and magazines.','Adobe Photoshop, Adobe Page maker, Coral Draw, ISM Malayalam','both',0,0,NULL,'1_1627556489.jpg',3,NULL,10000,10500,'NO',4,'month',45,'P','day','ACT','2021-07-22 07:42:58','2021-11-30 00:47:06'),(31,1,2,3,1,'','Diploma In Foreign Accounting',NULL,'Foreign Accounting  course is  primarily covers all-important ingredients of business activity for various industries like “accounting, inventory, manufacturing, taxation, banking, and payroll, etc.','Module 1- Function of accounting, Basic terms used in accounting, Recording of transactions, Accounts Types, Journal, Banking, transactions, Ledger posting, Day book, Financial Statement. Modle 2 - Comprised Accounting, Peachtree, Quick book, Microsoft Excel','both',0,0,NULL,'1_1627556472.jpg',3,NULL,18000,11000,'NO',4,'month',2,'P','month','ACT','2021-07-22 07:56:29','2021-11-30 00:39:02'),(32,1,1,3,1,'','Digital Album Designing','ഡിജിറ്റൽ ഫോട്ടോ ആൽബങ്ങൾ ഒരു എക്സ്ക്ലൂസീവ് സ്റ്റൈലിഷ് രീതിയിൽ ജനങ്ങളുടെ ഓർമ്മകൾ അവതരിപ്പിക്കാൻ ഒരു പുതിയ സർഗ്ഗാത്മക \"മീഡിയ\" ആണ്. ഡിജിറ്റൽ ആൽബം ഡിസൈനിംഗ് വിവാഹങ്ങളും പുനസമാഗമങ്ങളും മുതൽ വാർഷികങ്ങളും ബേബി ഷവറുകളും വരെ ജീവിതത്തിലെ എല്ലാ പ്രത്യേക ഇവന്റുകൾക്കും ഒരു തരം ആൽബങ്ങൾ സൃഷ്ടിക്കാൻ ഫോട്ടോഗ്രാഫർമാരുമായി പ്രവർത്തിക്കുന്ന ഒരു നൂതന ഡിസൈൻ സാങ്കേതികവിദ്യയാണ്. ഡിജിറ്റൽ ആൽബങ്ങൾ കൂടുതൽ കൂടുതൽ ജനപ്രിയമായിക്കൊണ്ടിരിക്കുന്നു, അതിനാൽ രസകരമായ ഒരു ബിസിനസ്സ് ആകാം.','Digital Photo Albums are a new and creative \"media\" to present peoples memories in an exclusive and stylish way. Digital Album Designing is an innovative design technique that works with photographers to create one-of-a-kind albums for all of life’s special events from weddings and reunions to anniversaries and baby showers. Digital albums are getting more and more popular, and can therefore be an interesting business','Adobe Photoshop, Adobe illustrate, Photoshop Lightroom, Photo editing, manipulation, cover design, photo retouching, album designing, Digital Painting','both',0,0,NULL,'1_1627556458.jpg',3,NULL,15000,1100,'NO',2,'month',30,'P','hour','ACT','2021-07-22 08:02:31','2021-11-30 00:47:45'),(33,1,8,3,1,'','Diploma In Autocad',NULL,'Diploma in AutoCAD Course is a short-term certified diploma. AutoCAD is used in construction, architecture, and preparation of manufacturing blueprints and other engineering plans. AutoCAD is used by : Design professionals who create conceptual designs, 3D models','Isometric View, Basic 2d drawing creation, dimension, drawing plans, drawing tools, layer usage, plotting, layers, 3d views, rendering',NULL,NULL,NULL,NULL,'',3,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'PC',NULL,'ACT','2021-07-22 08:18:47','2021-07-22 08:21:00'),(35,1,5,1,1,'','Abacus 3rd Level','അബാക്കസ് 3rd ലെവൽ കോഴ്‌സ്  ലെവൽ 2   പൂർത്തിയാക്കിയവർക്കുള്ളതാണ്. 5 വയസ്സുമുതല്‍ കുട്ടികള്‍ക്ക് അബാക്കസ്സ് പഠനം നല്‍കുന്നതിലൂടെ പഠനത്തില്‍ മികച്ച വിജയം നേടുവാന്‍ സാധിക്കുന്നു. കുട്ടികളിലെ ഏകാഗ്രത, ശ്രദ്ധ, ഓര്‍മ്മശക്തി എന്നിവ വര്‍ദ്ധിപ്പിക്കാനും, ഗണിതശാസ്ത്രത്തെ രസകരമായി വിദ്യാര്‍ത്ഥികളില്‍ എത്തിക്കുവാനും തന്‍മൂലം പഠനം ലളിതവും വിനോദകരവും ആക്കാന്‍ കുട്ടികളെ അബാക്കസ്സ് പഠനത്തിലൂടെ സഹായിക്കുന്നു','We use the Abacus tool and concept at our Archikites Abacus Academy, to help children learn the technique. The importance of brain development is vital to optimise the growth of the human brain and its function. Through studies in developmental neurobiology, it is proven that experiences in early life affects different stages of development and aiding a child’s learning, helps provide the brain with a promising beginning.',NULL,'online',0,0,'Jh8qjVDY3mc','1_1635235442.jpg',3,'Abacus',3000,3000,'NO',5,'month',3,'C','month','ACT','2021-08-16 00:41:37','2021-10-26 02:34:02'),(36,1,5,1,1,'','Abacus 2nd level','അബാക്കസ് 2nd ലെവൽ കോഴ്‌സ്  ആദ്യ ലെവൽ ( Level 1 )   പൂർത്തിയാക്കിയവർക്കുള്ളതാണ്.  5 വയസ്സുമുതല്‍ കുട്ടികള്‍ക്ക് അബാക്കസ്സ് പഠനം നല്‍കുന്നതിലൂടെ പഠനത്തില്‍ മികച്ച വിജയം നേടുവാന്‍ സാധിക്കുന്നു. കുട്ടികളിലെ ഏകാഗ്രത, ശ്രദ്ധ, ഓര്‍മ്മശക്തി എന്നിവ വര്‍ദ്ധിപ്പിക്കാനും, ഗണിതശാസ്ത്രത്തെ രസകരമായി വിദ്യാര്‍ത്ഥികളില്‍ എത്തിക്കുവാനും തന്‍മൂലം പഠനം ലളിതവും വിനോദകരവും ആക്കാന്‍ കുട്ടികളെ അബാക്കസ്സ് പഠനത്തിലൂടെ സഹായിക്കുന്നു.','The Abacus is an ancient, simple calculating/computing tool still used all over the world. It\'s a very useful learning device for those who wish to learn the basics of arithmetic. It is also useful for the visually challenged. Mastering the abacus helps in performing addition, subtraction, multiplication, and division quickly.',NULL,'online',0,0,NULL,'1_1635234138.jpg',7,'Abacus',3000,3000,'NO',6,'month',3,'C','month','ACT','2021-10-22 22:33:37','2021-10-26 02:12:18'),(37,1,5,1,1,'','Abacus 2nd Level',NULL,'The abacus, also called a counting frame, is a calculating tool which has been used since ancient times. It was used in the ancient Near East, Europe, China, and Russia, centuries before the adoption of the Arabic numeral system',NULL,'both',0,0,NULL,'',3,NULL,3500,3500,'NO',6,'month',3,'C','month','ACT','2021-12-23 05:32:01','2021-12-23 05:32:01');
+/*!40000 ALTER TABLE `all_courses` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
+--
+-- Table structure for table `assignements`
+--
+
+DROP TABLE IF EXISTS `assignements`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `assignements` (
+  `id` bigint unsigned NOT NULL,
+  `user_id` bigint unsigned NOT NULL,
+  `course_id` bigint unsigned NOT NULL,
+  `module_id` bigint unsigned NOT NULL,
+  `lesson_id` bigint unsigned NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `description` text,
+  `content` text NOT NULL,
+  `last_date` date DEFAULT NULL,
+  `point` varchar(20) DEFAULT NULL,
+  `file1` varchar(255) DEFAULT NULL,
+  `file2` varchar(255) DEFAULT NULL,
+  `file3` varchar(255) DEFAULT NULL,
+  `image1` varchar(100) NOT NULL,
+  `image2` varchar(100) NOT NULL,
+  `image3` varchar(100) NOT NULL,
+  `status` enum('active','notactive') NOT NULL DEFAULT 'active',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `assignements`
+--
+
+LOCK TABLES `assignements` WRITE;
+/*!40000 ALTER TABLE `assignements` DISABLE KEYS */;
+/*!40000 ALTER TABLE `assignements` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `assignment_files`
+--
+
+DROP TABLE IF EXISTS `assignment_files`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `assignment_files` (
+  `id` bigint unsigned NOT NULL,
+  `assignment_id` bigint unsigned NOT NULL,
+  `submission_id` bigint unsigned NOT NULL,
+  `student_id` bigint unsigned NOT NULL,
+  `file` blob,
+  `file_name` varchar(200) DEFAULT NULL,
+  `f_type` varchar(150) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `assignment_files`
+--
+
+LOCK TABLES `assignment_files` WRITE;
+/*!40000 ALTER TABLE `assignment_files` DISABLE KEYS */;
+/*!40000 ALTER TABLE `assignment_files` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `assignment_students`
+--
+
+DROP TABLE IF EXISTS `assignment_students`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `assignment_students` (
+  `id` bigint unsigned NOT NULL,
+  `user_id` bigint unsigned NOT NULL,
+  `assignment_id` bigint unsigned NOT NULL,
+  `student_id` bigint unsigned NOT NULL,
+  `batch_id` int NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '2021-06-29 06:30:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `assignment_students`
+--
+
+LOCK TABLES `assignment_students` WRITE;
+/*!40000 ALTER TABLE `assignment_students` DISABLE KEYS */;
+/*!40000 ALTER TABLE `assignment_students` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `assignment_submissions`
+--
+
+DROP TABLE IF EXISTS `assignment_submissions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `assignment_submissions` (
+  `id` bigint unsigned NOT NULL,
+  `student_id` bigint unsigned NOT NULL,
+  `assignment_id` bigint unsigned NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `message` text,
+  `content` text NOT NULL,
+  `status` varchar(30) DEFAULT NULL,
+  `obtainedpoint` varchar(20) DEFAULT NULL,
+  `faculty_remarks` varchar(255) DEFAULT NULL,
+  `verifeied_on` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `assignment_submissions`
+--
+
+LOCK TABLES `assignment_submissions` WRITE;
+/*!40000 ALTER TABLE `assignment_submissions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `assignment_submissions` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `attandances`
 --
 
 DROP TABLE IF EXISTS `attandances`;
-CREATE TABLE IF NOT EXISTS `attandances` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `student_id` bigint(20) NOT NULL,
-  `batch_id` bigint(20) NOT NULL,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `attandances` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned NOT NULL,
+  `student_id` bigint NOT NULL,
+  `batch_id` bigint NOT NULL,
   `type` varchar(50) NOT NULL,
   `date` date NOT NULL,
   `intime` time NOT NULL,
@@ -98,90 +220,86 @@ CREATE TABLE IF NOT EXISTS `attandances` (
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=605 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `attandances`
 --
 
-INSERT INTO `attandances` (`id`, `user_id`, `student_id`, `batch_id`, `type`, `date`, `intime`, `outtime`, `duration`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 2, 'Morning', '2021-04-29', '10:00:00', '11:00:00', '01:00:00', '2021-04-29 04:03:37', '2021-04-29 04:03:37'),
-(2, 15, 1, 2, 'Evening', '2021-05-03', '20:53:00', '21:55:00', '01:02:00', '2021-05-03 06:51:11', '2021-05-03 06:51:11'),
-(3, 15, 2, 2, 'Evening', '2021-05-03', '20:53:00', '21:55:00', '01:02:00', '2021-05-03 06:51:11', '2021-05-03 06:51:11'),
-(4, 15, 1, 2, 'Morning', '2021-05-03', '09:00:00', '10:10:00', '01:10:00', '2021-05-03 06:52:35', '2021-05-03 06:52:35'),
-(5, 15, 2, 2, 'Morning', '2021-05-03', '09:00:00', '10:10:00', '01:10:00', '2021-05-03 06:52:36', '2021-05-03 06:52:36'),
-(6, 1, 2, 2, 'Morning', '2021-05-11', '23:21:00', '21:01:00', '02:20:00', '2021-05-18 15:49:43', '2021-05-18 15:49:43'),
-(7, 1, 1, 2, 'Fullday', '2021-05-23', '20:12:00', '21:00:00', '00:48:00', '2021-05-23 09:42:20', '2021-05-23 09:42:20'),
-(8, 1, 2, 2, 'Fullday', '2021-05-23', '20:12:00', '21:00:00', '00:48:00', '2021-05-23 09:42:20', '2021-05-23 09:42:20');
-
--- --------------------------------------------------------
+LOCK TABLES `attandances` WRITE;
+/*!40000 ALTER TABLE `attandances` DISABLE KEYS */;
+INSERT INTO `attandances` VALUES (1,1,1,2,'Morning','2021-04-29','10:00:00','11:00:00','01:00:00','2021-04-29 04:03:37','2021-04-29 04:03:37'),(2,15,1,2,'Evening','2021-05-03','20:53:00','21:55:00','01:02:00','2021-05-03 06:51:11','2021-05-03 06:51:11'),(3,15,2,2,'Evening','2021-05-03','20:53:00','21:55:00','01:02:00','2021-05-03 06:51:11','2021-05-03 06:51:11'),(4,15,1,2,'Morning','2021-05-03','09:00:00','10:10:00','01:10:00','2021-05-03 06:52:35','2021-05-03 06:52:35'),(5,15,2,2,'Morning','2021-05-03','09:00:00','10:10:00','01:10:00','2021-05-03 06:52:36','2021-05-03 06:52:36'),(6,1,2,2,'Morning','2021-05-11','23:21:00','21:01:00','02:20:00','2021-05-18 15:49:43','2021-05-18 15:49:43'),(7,1,1,2,'Fullday','2021-05-23','20:12:00','21:00:00','00:48:00','2021-05-23 09:42:20','2021-05-23 09:42:20'),(8,1,2,2,'Fullday','2021-05-23','20:12:00','21:00:00','00:48:00','2021-05-23 09:42:20','2021-05-23 09:42:20'),(9,1,1,2,'Morning','2021-01-06','11:00:00','12:00:00','01:00:00','2021-05-31 19:17:57','2021-05-31 19:17:57'),(10,1,2,2,'Morning','2021-01-06','11:00:00','12:00:00','01:00:00','2021-05-31 19:17:57','2021-05-31 19:17:57'),(11,1,3,2,'Morning','2021-01-06','11:00:00','12:00:00','01:00:00','2021-05-31 19:17:57','2021-05-31 19:17:57'),(12,1,21,8,'Evening','2021-05-06','17:00:00','18:45:00','01:45:00','2021-06-05 18:18:10','2021-06-05 18:18:10'),(13,1,22,8,'Evening','2021-05-06','17:00:00','18:45:00','01:45:00','2021-06-05 18:18:10','2021-06-05 18:18:10'),(14,1,23,8,'Evening','2021-05-06','17:00:00','18:45:00','01:45:00','2021-06-05 18:18:10','2021-06-05 18:18:10'),(15,1,25,8,'Evening','2021-05-06','17:00:00','18:45:00','01:45:00','2021-06-05 18:18:10','2021-06-05 18:18:10'),(16,1,26,8,'Evening','2021-05-06','17:00:00','18:45:00','01:45:00','2021-06-05 18:18:10','2021-06-05 18:18:10'),(17,1,27,8,'Evening','2021-05-06','17:00:00','18:45:00','01:45:00','2021-06-05 18:18:10','2021-06-05 18:18:10'),(18,1,31,10,'Morning','2021-06-28','10:30:00','01:20:00','09:10:00','2021-06-28 08:09:40','2021-06-28 08:09:40'),(19,1,1,2,'Morning','2021-06-27','10:30:00','11:30:00','01:00:00','2021-06-28 08:34:39','2021-06-28 08:34:39'),(20,1,2,2,'Morning','2021-06-27','10:30:00','11:30:00','01:00:00','2021-06-28 08:34:39','2021-06-28 08:34:39'),(21,1,4,2,'Morning','2021-06-27','10:30:00','11:30:00','01:00:00','2021-06-28 08:34:39','2021-06-28 08:34:39'),(22,1,8,2,'Morning','2021-06-27','10:30:00','11:30:00','01:00:00','2021-06-28 08:34:39','2021-06-28 08:34:39'),(23,1,28,2,'Morning','2021-06-27','10:30:00','11:30:00','01:00:00','2021-06-28 08:34:39','2021-06-28 08:34:39'),(24,1,29,10,'Morning','2021-06-28','11:30:00','01:30:00','10:00:00','2021-06-29 11:32:32','2021-06-29 11:32:32'),(25,1,29,10,'Morning','2021-06-29','11:30:00','01:15:00','10:15:00','2021-06-29 11:33:49','2021-06-29 11:33:49'),(26,1,31,10,'Morning','2021-06-29','11:30:00','01:15:00','10:15:00','2021-06-29 11:33:49','2021-06-29 11:33:49'),(27,1,31,10,'Morning','2021-06-30','12:10:00','01:40:00','10:30:00','2021-06-30 08:05:59','2021-06-30 08:05:59'),(28,1,31,10,'Morning','2021-07-01','12:10:00','01:45:00','10:25:00','2021-07-05 05:37:49','2021-07-05 05:37:49'),(29,1,29,10,'Morning','2021-07-01','11:30:00','01:30:00','10:00:00','2021-07-05 05:38:32','2021-07-05 05:38:32'),(30,1,29,10,'Morning','2021-07-02','11:30:00','01:15:00','10:15:00','2021-07-05 05:43:36','2021-07-05 05:43:36'),(31,1,30,15,'Morning','2021-07-27','11:40:00','01:40:00','10:00:00','2021-07-27 08:05:17','2021-07-27 08:05:17'),(32,1,41,15,'Morning','2021-07-26','11:30:00','01:30:00','10:00:00','2021-07-27 08:24:23','2021-07-27 08:24:23'),(33,1,35,15,'Morning','2021-07-27','11:40:00','01:40:00','10:00:00','2021-07-27 08:24:50','2021-07-27 08:24:50'),(34,1,30,15,'Morning','2021-07-27','11:40:00','01:40:00','10:00:00','2021-07-27 08:25:21','2021-07-27 08:25:21'),(35,1,42,10,'Morning','2021-07-26','11:40:00','01:40:00','10:00:00','2021-07-27 08:25:56','2021-07-27 08:25:56'),(36,1,42,10,'Morning','2021-07-27','10:30:00','12:30:00','02:00:00','2021-07-27 08:26:41','2021-07-27 08:26:41'),(37,1,40,4,'Morning','2021-07-27','09:00:00','11:10:00','02:10:00','2021-07-27 08:27:26','2021-07-27 08:27:26'),(38,1,29,10,'Morning','2021-07-27','10:30:00','12:30:00','02:00:00','2021-07-27 08:28:12','2021-07-27 08:28:12'),(39,1,29,10,'Morning','2021-07-28','10:30:00','12:00:00','01:30:00','2021-07-28 08:05:39','2021-07-28 08:05:39'),(40,1,42,10,'Morning','2021-07-28','10:00:00','12:30:00','02:30:00','2021-07-28 08:06:16','2021-07-28 08:06:16'),(41,1,40,4,'Morning','2021-07-28','09:00:00','11:30:00','02:30:00','2021-07-28 08:07:37','2021-07-28 08:07:37'),(42,1,43,13,'Morning','2021-07-28','09:15:00','11:30:00','02:15:00','2021-07-28 08:17:34','2021-07-28 08:17:34'),(43,1,33,9,'Afternoon','2021-07-26','01:30:00','03:30:00','02:00:00','2021-07-28 08:21:15','2021-07-28 08:21:15'),(44,1,33,9,'Afternoon','2021-07-27','01:30:00','03:30:00','02:00:00','2021-07-28 08:21:51','2021-07-28 08:21:51'),(45,1,36,13,'Afternoon','2021-07-25','01:30:00','03:30:00','02:00:00','2021-07-28 08:23:49','2021-07-28 08:23:49'),(46,1,36,13,'Afternoon','2021-07-27','01:30:00','03:30:00','02:00:00','2021-07-28 08:24:15','2021-07-28 08:24:15'),(47,1,33,9,'Afternoon','2021-07-28','01:30:00','03:30:00','02:00:00','2021-07-28 10:09:46','2021-07-28 10:09:46'),(49,1,9,4,'Morning','2021-07-29','18:47:25','19:47:25','01:00:00','2021-07-28 18:47:38','2021-07-28 18:47:38'),(50,1,9,4,'Morning','2021-07-29','19:00:01','20:00:01','01:00:00','2021-07-28 19:00:16','2021-07-28 19:00:16'),(51,1,42,10,'Morning','2021-07-29','09:50:00','11:30:00','01:40:00','2021-07-29 07:26:28','2021-07-29 07:26:28'),(52,1,40,4,'Morning','2021-07-29','09:00:00','11:00:00','02:00:00','2021-07-29 07:27:01','2021-07-29 07:27:01'),(53,1,43,13,'Morning','2021-07-29','09:10:00','11:30:00','02:20:00','2021-07-29 07:27:47','2021-07-29 07:27:47'),(54,1,29,10,'Morning','2021-07-29','10:30:00','12:30:00','02:00:00','2021-07-29 07:28:28','2021-07-29 07:28:28'),(55,1,30,15,'Morning','2021-07-29','11:40:00','01:30:00','10:10:00','2021-07-29 07:28:55','2021-07-29 07:28:55'),(56,1,31,10,'Morning','2021-07-29','11:00:00','12:50:00','01:50:00','2021-07-29 07:29:21','2021-07-29 07:29:21'),(57,1,9,4,'Morning','2021-07-29','22:02:58','23:02:58','01:00:00','2021-07-29 22:03:12','2021-07-29 22:03:12'),(58,1,9,4,'Morning','2021-07-29','22:06:06','23:06:26','01:00:20','2021-07-29 22:06:37','2021-07-29 22:06:37'),(59,1,43,13,'Morning','2021-07-30','09:15:00','11:15:00','02:00:00','2021-07-30 08:12:49','2021-07-30 08:12:49'),(60,1,30,15,'Morning','2021-07-30','11:36:00','01:30:00','10:06:00','2021-07-30 08:13:47','2021-07-30 08:13:47'),(61,1,9,4,'Morning','2021-07-31','02:55:19','03:55:19','01:00:00','2021-07-31 02:55:36','2021-07-31 02:55:36'),(62,1,1,2,'Morning','2021-07-31','11:00:00','12:30:00','01:30:00','2021-08-02 03:02:26','2021-08-02 03:02:26'),(63,1,2,2,'Morning','2021-07-31','11:00:00','12:30:00','01:30:00','2021-08-02 03:02:26','2021-08-02 03:02:26'),(64,1,3,2,'Morning','2021-07-31','11:00:00','12:30:00','01:30:00','2021-08-02 03:02:26','2021-08-02 03:02:26'),(65,1,4,2,'Morning','2021-07-31','11:00:00','12:30:00','01:30:00','2021-08-02 03:02:26','2021-08-02 03:02:26'),(66,1,8,2,'Morning','2021-07-31','11:00:00','12:30:00','01:30:00','2021-08-02 03:02:26','2021-08-02 03:02:26'),(67,1,28,2,'Morning','2021-07-31','11:00:00','12:30:00','01:30:00','2021-08-02 03:02:26','2021-08-02 03:02:26'),(68,1,10,1,'Morning','2021-08-01','11:00:00','12:30:00','01:30:00','2021-08-02 03:04:21','2021-08-02 03:04:21'),(69,1,11,1,'Morning','2021-08-01','11:00:00','12:30:00','01:30:00','2021-08-02 03:04:21','2021-08-02 03:04:21'),(70,1,12,1,'Morning','2021-08-01','11:00:00','12:30:00','01:30:00','2021-08-02 03:04:21','2021-08-02 03:04:21'),(71,1,14,1,'Morning','2021-08-01','11:00:00','12:30:00','01:30:00','2021-08-02 03:04:21','2021-08-02 03:04:21'),(72,1,15,1,'Morning','2021-08-01','11:00:00','12:30:00','01:30:00','2021-08-02 03:04:21','2021-08-02 03:04:21'),(73,1,16,1,'Morning','2021-08-01','11:00:00','12:30:00','01:30:00','2021-08-02 03:04:21','2021-08-02 03:04:21'),(74,1,17,1,'Morning','2021-08-01','11:00:00','12:30:00','01:30:00','2021-08-02 03:04:21','2021-08-02 03:04:21'),(75,1,18,1,'Morning','2021-08-01','11:00:00','12:30:00','01:30:00','2021-08-02 03:04:21','2021-08-02 03:04:21'),(76,1,39,1,'Morning','2021-08-01','11:00:00','12:30:00','01:30:00','2021-08-02 03:04:21','2021-08-02 03:04:21'),(77,1,43,13,'Morning','2021-08-02','09:10:00','11:00:00','01:50:00','2021-08-03 04:50:56','2021-08-03 04:50:56'),(78,1,43,13,'Morning','2021-08-03','09:10:00','11:00:00','01:50:00','2021-08-03 04:51:20','2021-08-03 04:51:20'),(79,1,30,15,'Morning','2021-08-02','11:30:00','13:00:00','01:30:00','2021-08-03 04:51:48','2021-08-03 04:51:48'),(80,1,30,15,'Morning','2021-08-03','11:40:00','01:40:00','10:00:00','2021-08-03 04:52:14','2021-08-03 04:52:14'),(81,1,40,4,'Morning','2021-08-02','09:30:00','11:30:00','02:00:00','2021-08-03 04:52:51','2021-08-03 04:52:51'),(82,1,40,4,'Morning','2021-08-03','10:00:00','12:00:00','02:00:00','2021-08-03 04:53:15','2021-08-03 04:53:15'),(83,1,42,10,'Morning','2021-08-02','09:30:00','11:30:00','02:00:00','2021-08-03 04:53:43','2021-08-03 04:53:43'),(84,1,42,10,'Morning','2021-08-03','09:30:00','11:30:00','02:00:00','2021-08-03 04:54:06','2021-08-03 04:54:06'),(85,1,36,13,'Afternoon','2021-08-02','01:30:00','03:30:00','02:00:00','2021-08-03 04:54:29','2021-08-03 04:54:29'),(86,1,36,13,'Afternoon','2021-08-03','01:40:00','03:40:00','02:00:00','2021-08-03 04:54:54','2021-08-03 04:54:54'),(87,1,44,7,'Morning','2021-08-02','09:40:00','11:40:00','02:00:00','2021-08-03 04:55:16','2021-08-03 04:55:16'),(88,1,29,10,'Morning','2021-08-03','10:30:00','12:00:00','01:30:00','2021-08-03 04:55:59','2021-08-03 04:55:59'),(89,1,29,10,'Morning','2021-08-05','11:30:07','13:30:07','02:00:00','2021-08-06 16:18:01','2021-08-06 16:18:01'),(90,1,30,15,'Afternoon','2021-07-08','01:30:36','03:35:36','02:05:00','2021-08-06 16:58:26','2021-08-06 16:58:26'),(91,1,36,13,'Afternoon','2021-06-08','01:30:02','03:30:02','02:00:00','2021-08-06 16:59:43','2021-08-06 16:59:43'),(92,1,43,13,'Morning','2021-09-08','09:31:00','11:32:24','02:01:23','2021-08-09 11:33:09','2021-08-09 11:33:09'),(93,1,43,13,'Morning','2021-09-08','09:31:00','11:32:24','02:01:23','2021-08-09 11:33:09','2021-08-09 11:33:09'),(94,1,60,9,'Morning','2021-08-09','09:40:00','11:55:00','02:15:00','2021-08-09 11:56:38','2021-08-09 11:56:38'),(95,1,29,10,'Morning','2021-08-06','11:30:00','01:30:00','10:00:00','2021-08-10 00:22:05','2021-08-10 00:22:05'),(96,1,29,10,'Morning','2021-08-09','11:30:00','01:30:00','10:00:00','2021-08-10 00:22:36','2021-08-10 00:22:36'),(97,1,9,4,'Afternoon','2021-08-09','02:00:00','04:00:00','02:00:00','2021-08-10 00:23:14','2021-08-10 00:23:14'),(98,1,61,7,'Morning','2021-08-09','11:30:00','01:30:00','10:00:00','2021-08-10 00:23:49','2021-08-10 00:23:49'),(99,1,45,17,'Evening','2021-08-08','04:00:00','05:00:00','01:00:00','2021-08-10 00:25:05','2021-08-10 00:25:05'),(100,1,48,17,'Evening','2021-08-08','04:00:00','05:00:00','01:00:00','2021-08-10 00:25:05','2021-08-10 00:25:05'),(101,1,49,17,'Evening','2021-08-08','04:00:00','05:00:00','01:00:00','2021-08-10 00:25:05','2021-08-10 00:25:05'),(102,1,50,17,'Evening','2021-08-08','04:00:00','05:00:00','01:00:00','2021-08-10 00:25:05','2021-08-10 00:25:05'),(103,1,52,17,'Evening','2021-08-08','04:00:00','05:00:00','01:00:00','2021-08-10 00:25:05','2021-08-10 00:25:05'),(104,1,53,17,'Evening','2021-08-08','04:00:00','05:00:00','01:00:00','2021-08-10 00:25:05','2021-08-10 00:25:05'),(105,1,55,17,'Evening','2021-08-08','04:00:00','05:00:00','01:00:00','2021-08-10 00:25:05','2021-08-10 00:25:05'),(106,1,56,17,'Evening','2021-08-08','04:00:00','05:00:00','01:00:00','2021-08-10 00:25:05','2021-08-10 00:25:05'),(107,1,57,17,'Evening','2021-08-08','04:00:00','05:00:00','01:00:00','2021-08-10 00:25:05','2021-08-10 00:25:05'),(108,1,58,17,'Evening','2021-08-08','04:00:00','05:00:00','01:00:00','2021-08-10 00:25:05','2021-08-10 00:25:05'),(109,1,59,17,'Evening','2021-08-08','04:00:00','05:00:00','01:00:00','2021-08-10 00:25:05','2021-08-10 00:25:05'),(110,1,1,2,'Morning','2021-08-09','10:00:00','11:30:00','01:30:00','2021-08-10 00:27:09','2021-08-10 00:27:09'),(111,1,2,2,'Morning','2021-08-09','10:00:00','11:30:00','01:30:00','2021-08-10 00:27:09','2021-08-10 00:27:09'),(112,1,3,2,'Morning','2021-08-09','10:00:00','11:30:00','01:30:00','2021-08-10 00:27:09','2021-08-10 00:27:09'),(113,1,4,2,'Morning','2021-08-09','10:00:00','11:30:00','01:30:00','2021-08-10 00:27:09','2021-08-10 00:27:09'),(114,1,7,2,'Morning','2021-08-09','10:00:00','11:30:00','01:30:00','2021-08-10 00:27:10','2021-08-10 00:27:10'),(115,1,8,2,'Morning','2021-08-09','10:00:00','11:30:00','01:30:00','2021-08-10 00:27:10','2021-08-10 00:27:10'),(116,1,28,2,'Morning','2021-08-09','10:00:00','11:30:00','01:30:00','2021-08-10 00:27:10','2021-08-10 00:27:10'),(117,1,46,2,'Morning','2021-08-09','10:00:00','11:30:00','01:30:00','2021-08-10 00:27:10','2021-08-10 00:27:10'),(118,1,47,2,'Morning','2021-08-09','10:00:00','11:30:00','01:30:00','2021-08-10 00:27:10','2021-08-10 00:27:10'),(119,1,42,10,'Morning','2021-10-08','09:30:03','11:30:05','02:00:02','2021-08-10 12:24:08','2021-08-10 12:24:08'),(120,1,40,4,'Morning','2021-10-08','09:30:02','11:30:02','02:00:00','2021-08-10 12:25:02','2021-08-10 12:25:02'),(122,1,60,9,'Morning','2021-08-11','09:30:00','12:53:00','03:23:00','2021-08-11 12:54:06','2021-08-11 12:54:06'),(123,1,29,10,'Morning','2021-08-11','11:30:02','01:21:02','10:08:59','2021-08-12 09:20:13','2021-08-12 09:20:13'),(124,1,9,4,'Afternoon','2021-08-10','02:00:44','04:11:44','02:11:00','2021-08-12 09:24:47','2021-08-12 09:24:47'),(125,1,43,13,'Morning','2021-11-08','09:30:27','11:32:27','02:02:00','2021-08-12 09:25:00','2021-08-12 09:25:00'),(126,1,9,4,'Afternoon','2021-08-11','02:20:26','04:15:26','01:55:00','2021-08-12 09:25:30','2021-08-12 09:25:30'),(127,1,36,13,'Morning','2021-11-08','09:30:32','11:30:32','02:00:00','2021-08-12 09:25:38','2021-08-12 09:25:38'),(128,1,33,9,'Morning','2021-08-13','09:40:00','11:30:00','01:50:00','2021-08-13 12:42:39','2021-08-13 12:42:39'),(129,1,60,9,'Morning','2021-08-12','09:30:00','12:00:00','02:30:00','2021-08-13 17:07:01','2021-08-13 17:07:01'),(130,1,43,13,'Morning','2021-08-13','09:20:00','11:25:00','02:05:00','2021-08-13 18:30:44','2021-08-13 18:30:44'),(131,1,9,4,'Morning','2021-08-13','11:01:12','01:01:13','09:59:59','2021-08-16 14:02:22','2021-08-16 14:02:22'),(132,1,64,7,'Morning','2021-08-16','11:49:43','01:40:45','10:08:57','2021-08-16 15:06:56','2021-08-16 15:06:56'),(133,1,33,9,'Morning','2021-08-16','09:40:00','11:40:00','02:00:00','2021-08-16 04:07:33','2021-08-16 04:07:33'),(134,1,43,13,'Morning','2021-08-17','09:30:00','11:30:00','02:00:00','2021-08-17 19:00:22','2021-08-17 19:00:22'),(135,1,43,13,'Morning','2021-08-16','09:30:00','11:30:00','02:00:00','2021-08-17 19:01:18','2021-08-17 19:01:18'),(136,1,42,10,'Morning','2021-08-17','09:30:00','11:30:00','02:00:00','2021-08-17 19:02:14','2021-08-17 19:02:14'),(137,1,30,15,'Morning','2021-08-17','11:30:00','11:30:00','02:00:00','2021-08-17 19:03:30','2021-08-17 19:03:30'),(138,1,61,7,'Morning','2021-08-23','11:30:00','01:30:00','10:00:00','2021-08-23 23:39:32','2021-08-23 23:39:32'),(139,1,61,7,'Morning','2021-08-19','11:30:00','01:30:00','10:00:00','2021-08-23 23:41:34','2021-08-23 23:41:34'),(140,1,48,17,'Evening','2021-08-23','04:00:00','05:00:00','01:00:00','2021-08-23 23:47:01','2021-08-23 23:47:01'),(141,1,49,17,'Evening','2021-08-23','04:00:00','05:00:00','01:00:00','2021-08-23 23:47:01','2021-08-23 23:47:01'),(142,1,50,17,'Evening','2021-08-23','04:00:00','05:00:00','01:00:00','2021-08-23 23:47:01','2021-08-23 23:47:01'),(143,1,38,16,'Evening','2021-08-23','04:00:00','05:00:00','01:00:00','2021-08-23 23:48:08','2021-08-23 23:48:08'),(144,1,39,1,'Evening','2021-08-23','04:00:00','05:00:00','01:00:00','2021-08-23 23:48:36','2021-08-23 23:48:36'),(145,1,61,7,'Morning','2021-08-24','11:30:42','01:30:29','10:00:12','2021-08-24 14:04:59','2021-08-24 14:04:59'),(146,1,60,9,'Morning','2021-08-24','09:31:00','12:15:00','02:44:00','2021-08-24 16:54:06','2021-08-24 16:54:06'),(147,1,33,9,'Morning','2021-08-25','09:30:00','11:30:00','01:59:59','2021-08-26 10:20:30','2021-08-26 10:20:30'),(148,1,60,9,'Morning','2021-08-26','10:31:00','12:30:00','01:58:59','2021-08-26 12:32:42','2021-08-26 12:32:42'),(149,1,60,9,'Morning','2021-08-26','09:00:00','12:30:00','03:30:00','2021-08-26 12:33:37','2021-08-26 12:33:37'),(150,1,9,4,'Morning','2021-08-25','11:34:00','01:29:00','10:04:59','2021-08-26 16:34:22','2021-08-26 16:34:22'),(151,1,9,4,'Morning','2021-08-26','12:00:13','02:34:23','09:25:49','2021-08-26 16:34:49','2021-08-26 16:34:49'),(152,1,64,7,'Morning','2021-08-25','11:34:52','01:34:52','09:59:59','2021-08-26 16:35:13','2021-08-26 16:35:13'),(153,1,61,7,'Morning','2021-08-24','11:35:15','01:32:15','10:02:59','2021-08-26 16:35:40','2021-08-26 16:35:40'),(154,1,9,4,'Morning','2021-08-27','11:30:00','02:20:00','09:10:00','2021-08-27 03:10:17','2021-08-27 03:10:17'),(155,1,64,7,'Morning','2021-10-26','11:30:00','02:00:00','09:30:00','2021-08-27 03:13:12','2021-08-27 03:13:12'),(156,1,87,9,'Morning','2021-08-24','09:30:00','11:30:00','02:00:00','2021-08-27 14:17:41','2021-08-27 14:17:41'),(157,1,87,9,'Morning','2021-08-26','09:30:00','11:30:00','02:00:00','2021-08-27 14:18:23','2021-08-27 14:18:23'),(158,1,33,9,'Morning','2021-08-27','09:45:00','12:45:00','03:00:00','2021-08-27 14:19:41','2021-08-27 14:19:41'),(159,1,30,15,'Morning','2021-08-24','11:30:00','01:30:00','10:00:00','2021-08-27 22:44:02','2021-08-27 22:44:02'),(160,1,43,13,'Morning','2021-08-23','09:00:00','11:30:00','02:30:00','2021-08-27 22:44:38','2021-08-27 22:44:38'),(161,1,60,9,'Afternoon','2021-08-27','02:00:00','04:30:00','02:30:00','2021-08-28 09:45:04','2021-08-28 09:45:04'),(162,1,43,13,'Morning','2021-08-25','09:00:00','11:30:00','02:30:00','2021-08-27 22:45:14','2021-08-27 22:45:14'),(163,1,43,13,'Morning','2021-08-27','09:15:00','11:30:00','02:15:00','2021-08-27 22:45:37','2021-08-27 22:45:37'),(164,1,36,13,'Morning','2021-08-23','09:30:00','11:30:00','02:00:00','2021-08-27 22:46:05','2021-08-27 22:46:05'),(165,1,36,13,'Morning','2021-08-27','09:30:00','11:30:00','02:00:00','2021-08-27 22:46:28','2021-08-27 22:46:28'),(166,1,40,4,'Morning','2021-08-24','09:15:00','11:30:00','02:15:00','2021-08-27 22:47:28','2021-08-27 22:47:28'),(167,1,64,7,'Morning','2021-08-31','12:00:09','01:45:09','10:14:59','2021-08-31 12:43:24','2021-08-31 12:43:24'),(168,1,64,7,'Morning','2021-09-01','11:13:26','02:20:30','08:52:55','2021-09-01 14:20:36','2021-09-01 14:20:36'),(169,1,9,4,'Morning','2021-09-01','11:37:59','02:30:57','09:07:01','2021-09-01 14:21:04','2021-09-01 14:21:04'),(170,1,33,9,'Morning','2021-09-01','09:40:00','11:45:00','02:05:00','2021-09-01 15:57:23','2021-09-01 15:57:23'),(171,1,60,9,'Afternoon','2021-09-01','02:15:00','04:15:00','02:00:00','2021-09-01 16:18:34','2021-09-01 16:18:34'),(172,1,17,1,'Evening','2021-09-01','03:00:30','05:00:00','01:59:29','2021-09-01 19:08:50','2021-09-01 19:08:50'),(173,1,22,8,'Evening','2021-09-01','03:00:30','05:00:00','01:59:30','2021-09-01 19:09:32','2021-09-01 19:09:32'),(174,1,84,17,'Evening','2021-09-01','04:00:00','05:00:00','01:00:00','2021-09-01 19:10:32','2021-09-01 19:10:32'),(175,1,88,16,'Evening','2021-09-01','03:00:30','05:00:00','01:59:30','2021-09-01 19:11:25','2021-09-01 19:11:25'),(176,1,103,1,'Evening','2021-09-01','03:30:00','05:01:09','01:31:09','2021-09-01 21:43:06','2021-09-01 21:43:06'),(177,1,11,1,'Evening','2021-09-01','03:30:38','05:01:00','01:30:22','2021-09-01 21:44:02','2021-09-01 21:44:02'),(178,1,91,1,'Evening','2021-09-01','04:10:09','04:31:18','00:21:09','2021-09-01 21:45:36','2021-09-01 21:45:36'),(179,1,108,1,'Evening','2021-09-01','03:30:21','05:00:01','01:29:40','2021-09-01 21:47:57','2021-09-01 21:47:57'),(180,1,14,1,'Morning','2021-09-02','11:00:30','01:00:00','10:00:29','2021-09-02 21:48:44','2021-09-02 21:48:44'),(181,1,64,7,'Morning','2021-09-02','12:02:15','01:30:31','10:31:43','2021-09-02 21:48:54','2021-09-02 21:48:54'),(182,1,15,1,'Morning','2021-09-02','12:00:00','01:00:00','10:59:59','2021-09-02 21:49:22','2021-09-02 21:49:22'),(183,1,78,17,'Evening','2021-09-02','03:15:28','04:00:28','00:45:00','2021-09-02 21:49:56','2021-09-02 21:49:56'),(184,1,12,1,'Evening','2021-09-02','03:47:56','04:14:56','00:27:00','2021-09-02 21:51:13','2021-09-02 21:51:13'),(185,1,18,1,'Evening','2021-09-02','03:22:37','04:04:37','00:42:00','2021-09-02 21:52:29','2021-09-02 21:52:29'),(186,1,18,1,'Evening','2021-09-02','03:22:37','04:04:37','00:42:00','2021-09-02 21:53:03','2021-09-02 21:53:03'),(187,1,18,1,'Evening','2021-09-02','03:22:37','04:04:37','00:42:00','2021-09-02 21:53:04','2021-09-02 21:53:04'),(188,1,27,8,'Evening','2021-09-02','04:05:45','05:10:41','01:04:56','2021-09-02 21:54:00','2021-09-02 21:54:00'),(189,1,101,1,'Evening','2021-09-02','03:30:29','05:03:14','01:32:45','2021-09-02 21:54:52','2021-09-02 21:54:52'),(190,1,26,8,'Evening','2021-09-02','04:07:10','05:11:05','01:03:55','2021-09-02 21:55:36','2021-09-02 21:55:36'),(191,1,91,1,'Evening','2021-09-02','03:02:56','03:43:59','00:41:03','2021-09-02 21:56:11','2021-09-02 21:56:11'),(192,1,60,9,'Afternoon','2021-09-02','02:00:00','04:15:00','02:15:00','2021-09-03 09:33:46','2021-09-03 09:33:46'),(193,1,33,9,'Morning','2021-09-03','09:45:00','11:45:00','02:00:00','2021-09-03 15:28:32','2021-09-03 15:28:32'),(194,1,60,9,'Afternoon','2021-09-03','02:00:00','04:15:00','02:15:00','2021-09-03 19:11:49','2021-09-03 19:11:49'),(195,1,45,17,'Morning','2021-09-03','11:30:00','01:00:00','10:30:00','2021-09-03 22:44:38','2021-09-03 22:44:38'),(196,1,55,17,'Morning','2021-09-03','11:30:00','01:00:00','10:30:00','2021-09-03 22:44:38','2021-09-03 22:44:38'),(197,1,57,17,'Morning','2021-09-03','11:30:00','01:00:00','10:30:00','2021-09-03 22:44:38','2021-09-03 22:44:38'),(198,1,58,17,'Morning','2021-09-03','11:30:00','01:00:00','10:30:00','2021-09-03 22:44:38','2021-09-03 22:44:38'),(199,1,59,17,'Morning','2021-09-03','11:30:00','01:00:00','10:30:00','2021-09-03 22:44:38','2021-09-03 22:44:38'),(200,1,65,17,'Morning','2021-09-03','11:30:00','01:00:00','10:30:00','2021-09-03 22:44:38','2021-09-03 22:44:38'),(201,1,69,17,'Morning','2021-09-03','11:30:00','01:00:00','10:30:00','2021-09-03 22:44:38','2021-09-03 22:44:38'),(202,1,78,17,'Morning','2021-09-03','11:30:00','01:00:00','10:30:00','2021-09-03 22:44:38','2021-09-03 22:44:38'),(203,1,79,17,'Morning','2021-09-03','11:30:00','01:00:00','10:30:00','2021-09-03 22:44:38','2021-09-03 22:44:38'),(204,1,81,17,'Morning','2021-09-03','11:30:00','01:00:00','10:30:00','2021-09-03 22:44:38','2021-09-03 22:44:38'),(205,1,86,17,'Morning','2021-09-03','11:30:00','01:00:00','10:30:00','2021-09-03 22:44:38','2021-09-03 22:44:38'),(206,1,26,8,'Evening','2021-09-03','03:00:00','03:30:00','00:30:00','2021-09-03 22:45:26','2021-09-03 22:45:26'),(207,1,27,8,'Evening','2021-09-03','03:00:00','03:30:00','00:30:00','2021-09-03 22:45:55','2021-09-03 22:45:55'),(208,1,16,1,'Evening','2021-09-03','03:00:00','03:30:00','00:30:00','2021-09-03 22:46:56','2021-09-03 22:46:56'),(209,1,51,1,'Morning','2021-09-03','11:30:00','01:00:00','10:30:00','2021-09-03 22:48:01','2021-09-03 22:48:01'),(210,1,54,17,'Evening','2021-09-03','03:40:00','05:00:00','01:20:00','2021-09-03 22:49:28','2021-09-03 22:49:28'),(211,1,65,17,'Morning','2021-09-04','10:00:00','11:00:00','01:00:00','2021-09-05 23:21:42','2021-09-05 23:21:42'),(212,1,59,17,'Morning','2021-09-04','10:00:00','10:30:00','00:30:00','2021-09-05 23:24:02','2021-09-05 23:24:02'),(213,1,54,17,'Morning','2021-09-04','10:00:00','10:30:00','00:30:00','2021-09-05 23:24:28','2021-09-05 23:24:28'),(214,1,51,1,'Morning','2021-09-04','10:00:00','10:30:00','00:30:00','2021-09-05 23:24:48','2021-09-05 23:24:48'),(215,1,27,8,'Morning','2021-09-04','10:30:00','11:00:00','00:30:00','2021-09-05 23:27:18','2021-09-05 23:27:18'),(216,1,26,8,'Morning','2021-06-04','10:30:00','11:00:00','00:30:00','2021-09-05 23:27:40','2021-09-05 23:27:40'),(217,1,80,17,'Morning','2021-09-04','11:00:00','11:30:00','00:30:00','2021-09-05 23:28:24','2021-09-05 23:28:24'),(218,1,8,2,'Morning','2021-09-04','11:00:00','11:30:00','00:30:00','2021-09-05 23:28:47','2021-09-05 23:28:47'),(219,1,48,17,'Evening','2021-09-04','03:30:00','05:00:00','01:30:00','2021-09-05 23:30:13','2021-09-05 23:30:13'),(220,1,39,1,'Evening','2021-06-04','04:00:00','05:00:00','01:00:00','2021-09-05 23:30:42','2021-09-05 23:30:42'),(221,1,38,16,'Evening','2021-09-04','04:00:00','05:10:00','01:10:00','2021-09-05 23:35:22','2021-09-05 23:35:22'),(222,1,83,17,'Morning','2021-09-06','10:00:00','11:00:00','01:00:00','2021-09-06 00:23:04','2021-09-06 00:23:04'),(223,1,107,1,'Morning','2021-09-06','10:00:00','11:00:00','01:00:00','2021-09-06 00:23:04','2021-09-06 00:23:04'),(224,1,68,17,'Morning','2021-09-06','10:00:00','11:00:00','01:00:00','2021-09-06 00:23:35','2021-09-06 00:23:35'),(225,1,99,1,'Morning','2021-09-06','10:00:00','11:00:00','01:00:00','2021-09-06 00:23:56','2021-09-06 00:23:56'),(226,1,94,1,'Morning','2021-09-06','10:30:00','11:00:00','00:30:00','2021-09-06 00:24:18','2021-09-06 00:24:18'),(227,1,33,9,'Morning','2021-09-06','09:30:00','12:30:00','03:00:00','2021-09-06 11:58:48','2021-09-06 11:58:48'),(228,1,75,17,'Evening','2021-09-06','03:00:00','05:00:00','02:00:00','2021-09-06 22:36:27','2021-09-06 22:36:27'),(229,1,78,17,'Evening','2021-09-06','03:00:00','05:00:00','02:00:00','2021-09-06 22:36:27','2021-09-06 22:36:27'),(230,1,105,1,'Evening','2021-09-06','04:00:00','05:00:00','01:00:00','2021-09-06 22:39:17','2021-09-06 22:39:17'),(231,1,47,2,'Evening','2021-09-06','03:00:00','04:00:00','01:00:00','2021-09-06 22:40:18','2021-09-06 22:40:18'),(232,1,104,1,'Evening','2021-09-06','03:30:00','04:00:00','00:30:00','2021-09-06 22:40:49','2021-09-06 22:40:49'),(233,1,2,2,'Evening','2021-09-06','03:30:00','05:00:00','01:30:00','2021-09-06 22:41:28','2021-09-06 22:41:28'),(234,1,8,2,'Evening','2021-09-06','03:00:00','03:30:00','00:30:00','2021-09-06 22:42:33','2021-09-06 22:42:33'),(235,1,9,4,'Morning','2021-09-05','11:30:00','13:00:00','01:30:00','2021-09-06 23:00:40','2021-09-06 23:00:40'),(236,1,9,4,'Morning','2021-09-06','12:15:00','02:30:00','09:45:00','2021-09-06 23:01:32','2021-09-06 23:01:32'),(237,1,64,7,'Morning','2021-09-05','12:00:00','01:30:00','10:30:00','2021-09-06 23:02:15','2021-09-06 23:02:15'),(238,1,64,7,'Morning','2021-09-06','12:00:00','01:30:00','10:30:00','2021-09-06 23:02:49','2021-09-06 23:02:49'),(239,1,60,9,'Afternoon','2021-09-06','02:15:00','04:15:00','02:00:00','2021-09-07 10:23:11','2021-09-07 10:23:11'),(240,1,60,9,'Afternoon','2021-09-06','02:15:00','04:15:00','02:00:00','2021-09-08 10:12:19','2021-09-08 10:12:19'),(241,1,60,9,'Afternoon','2021-09-07','02:15:00','04:15:00','02:00:00','2021-09-08 10:13:00','2021-09-08 10:13:00'),(242,1,60,9,'Morning','2021-09-08','09:45:00','11:45:00','01:59:59','2021-09-08 10:13:55','2021-09-08 10:13:55'),(243,1,33,9,'Morning','2021-09-08','09:45:00','11:45:00','02:00:00','2021-09-08 10:15:01','2021-09-08 10:15:01'),(244,1,87,9,'Morning','2021-09-07','11:30:00','01:31:00','09:58:59','2021-09-08 10:16:29','2021-09-08 10:16:29'),(245,1,50,17,'Evening','2021-09-07','03:30:00','05:00:00','01:30:00','2021-09-07 23:34:46','2021-09-07 23:34:46'),(246,1,70,17,'Evening','2021-09-07','03:30:00','05:00:00','01:30:00','2021-09-07 23:34:46','2021-09-07 23:34:46'),(247,1,16,1,'Evening','2021-09-07','03:30:00','05:00:00','01:30:00','2021-09-07 23:35:17','2021-09-07 23:35:17'),(248,1,90,1,'Evening','2021-09-07','03:30:00','05:00:00','01:30:00','2021-09-07 23:37:14','2021-09-07 23:37:14'),(249,1,53,17,'Evening','2021-09-07','03:30:00','05:00:00','01:30:00','2021-09-07 23:38:26','2021-09-07 23:38:26'),(250,1,95,1,'Morning','2021-09-08','10:00:00','10:45:00','00:45:00','2021-09-07 23:42:57','2021-09-07 23:42:57'),(251,1,36,13,'Morning','2021-07-09','09:31:19','11:31:19','02:00:00','2021-09-08 13:12:39','2021-09-08 13:12:39'),(252,1,43,13,'Morning','2021-08-09','09:21:22','11:30:15','02:08:53','2021-09-08 13:13:27','2021-09-08 13:13:27'),(253,1,64,7,'Afternoon','2021-09-07','12:00:00','01:40:00','10:20:00','2021-09-08 03:20:41','2021-09-08 03:20:41'),(254,1,30,15,'Morning','2021-08-09','11:30:39','01:30:39','09:59:59','2021-09-08 14:20:43','2021-09-08 14:20:43'),(255,1,64,7,'Afternoon','2021-09-08','12:15:00','02:15:00','10:00:00','2021-09-08 03:21:17','2021-09-08 03:21:17'),(256,1,95,1,'Morning','2021-09-08','10:10:00','10:45:00','00:35:00','2021-09-08 03:21:46','2021-09-08 03:21:46'),(257,1,64,7,'Afternoon','2021-09-09','12:00:00','02:00:00','10:00:00','2021-09-09 02:58:35','2021-09-09 02:58:35'),(258,1,9,4,'Afternoon','2021-09-09','12:00:00','02:30:00','09:30:00','2021-09-09 02:59:32','2021-09-09 02:59:32'),(259,1,70,17,'Evening','2021-09-08','04:00:00','05:00:00','01:00:00','2021-09-09 03:11:25','2021-09-09 03:11:25'),(260,1,88,16,'Evening','2021-09-08','03:30:00','04:30:00','01:00:00','2021-09-09 03:12:38','2021-09-09 03:12:38'),(261,1,88,16,'Evening','2021-09-08','03:30:00','04:30:00','01:00:00','2021-09-09 03:12:38','2021-09-09 03:12:38'),(262,1,24,8,'Evening','2021-09-08','03:30:00','04:30:00','01:00:00','2021-09-09 03:13:14','2021-09-09 03:13:14'),(263,1,1,2,'Morning','2021-09-09','11:00:00','11:30:00','00:30:00','2021-09-09 03:14:08','2021-09-09 03:14:08'),(264,1,10,1,'Morning','2021-09-09','10:00:00','11:30:00','01:30:00','2021-09-09 03:15:57','2021-09-09 03:15:57'),(265,1,14,1,'Morning','2021-09-09','10:00:00','11:30:00','01:30:00','2021-09-09 03:15:57','2021-09-09 03:15:57'),(266,1,91,1,'Morning','2021-09-09','10:00:00','11:30:00','01:30:00','2021-09-09 03:15:57','2021-09-09 03:15:57'),(267,1,92,1,'Morning','2021-09-09','10:00:00','11:30:00','01:30:00','2021-09-09 03:15:57','2021-09-09 03:15:57'),(268,1,101,1,'Morning','2021-09-09','10:00:00','11:30:00','01:30:00','2021-09-09 03:15:58','2021-09-09 03:15:58'),(269,1,22,8,'Evening','2021-09-08','03:30:00','05:00:00','01:30:00','2021-09-09 03:16:59','2021-09-09 03:16:59'),(270,1,11,1,'Evening','2021-09-08','03:30:00','05:00:00','01:30:00','2021-09-09 03:17:41','2021-09-09 03:17:41'),(271,1,17,1,'Evening','2021-09-08','03:30:00','05:00:00','01:30:00','2021-09-09 03:17:41','2021-09-09 03:17:41'),(272,1,111,13,'Afternoon','2021-09-09','02:00:19','04:00:17','01:59:58','2021-09-09 15:57:16','2021-09-09 15:57:16'),(273,1,110,13,'Afternoon','2021-09-09','02:00:00','04:00:00','02:00:00','2021-09-09 15:58:02','2021-09-09 15:58:02'),(274,1,110,13,'Afternoon','2021-09-09','02:00:00','04:00:00','02:00:00','2021-09-09 15:58:03','2021-09-09 15:58:03'),(275,1,110,13,'Afternoon','2021-08-09','02:00:40','04:00:20','01:59:40','2021-09-09 15:58:49','2021-09-09 15:58:49'),(276,1,110,13,'Afternoon','2021-07-09','02:00:16','04:00:00','01:59:44','2021-09-09 15:59:24','2021-09-09 15:59:24'),(277,1,110,13,'Afternoon','2021-07-09','02:00:16','04:00:00','01:59:44','2021-09-09 15:59:23','2021-09-09 15:59:23'),(278,1,110,13,'Afternoon','2021-07-09','02:00:16','04:00:00','01:59:44','2021-09-09 15:59:26','2021-09-09 15:59:26'),(279,1,110,13,'Afternoon','2021-07-09','02:00:16','04:00:00','01:59:44','2021-09-09 15:59:26','2021-09-09 15:59:26'),(280,1,110,13,'Afternoon','2021-07-09','02:00:16','04:00:00','01:59:44','2021-09-09 15:59:26','2021-09-09 15:59:26'),(281,1,43,13,'Morning','2021-09-09','09:30:58','11:32:38','02:01:40','2021-09-09 16:00:01','2021-09-09 16:00:01'),(282,1,43,13,'Morning','2021-09-09','09:30:58','11:32:38','02:01:40','2021-09-09 16:00:04','2021-09-09 16:00:04'),(283,1,43,13,'Morning','2021-09-09','09:30:58','11:32:38','02:01:40','2021-09-09 16:00:05','2021-09-09 16:00:05'),(284,1,30,15,'Morning','2021-06-09','11:00:00','01:30:31','09:29:28','2021-09-09 16:03:16','2021-09-09 16:03:16'),(285,1,43,13,'Morning','2021-06-09','09:32:42','11:33:42','02:01:00','2021-09-09 16:03:51','2021-09-09 16:03:51'),(286,1,21,8,'Evening','2021-09-09','03:30:00','04:50:00','01:20:00','2021-09-09 05:54:28','2021-09-09 05:54:28'),(287,1,23,8,'Evening','2021-09-09','03:30:00','04:50:00','01:20:00','2021-09-09 05:54:29','2021-09-09 05:54:29'),(288,1,25,8,'Evening','2021-09-09','03:30:00','04:50:00','01:20:00','2021-09-09 05:54:29','2021-09-09 05:54:29'),(289,1,80,17,'Evening','2021-09-09','03:30:00','04:30:00','01:00:00','2021-09-09 05:55:16','2021-09-09 05:55:16'),(290,1,43,13,'Morning','2021-10-09','09:30:37','11:30:42','02:00:05','2021-09-11 12:00:49','2021-09-11 12:00:49'),(291,1,36,13,'Morning','2021-10-09','09:30:21','11:30:18','01:59:57','2021-09-11 12:01:28','2021-09-11 12:01:28'),(292,1,40,4,'Morning','2021-11-09','09:30:32','11:31:40','02:01:08','2021-09-11 12:02:32','2021-09-11 12:02:32'),(293,1,110,13,'Afternoon','2021-10-09','02:30:07','04:30:23','02:00:16','2021-09-11 12:03:15','2021-09-11 12:03:15'),(294,1,111,13,'Afternoon','2021-10-09','02:30:51','04:29:51','01:59:00','2021-09-11 12:04:02','2021-09-11 12:04:02'),(295,1,38,16,'Evening','2021-08-11','04:00:00','05:00:00','01:00:00','2021-09-12 11:47:53','2021-09-12 11:47:53'),(296,1,39,1,'Evening','2021-09-11','04:00:00','05:00:00','01:00:00','2021-09-12 11:48:41','2021-09-12 11:48:41'),(297,1,50,17,'Evening','2021-09-11','04:00:00','05:30:00','01:30:00','2021-09-12 11:50:12','2021-09-12 11:50:12'),(298,1,113,18,'Evening','2021-09-11','03:30:00','04:45:00','01:15:00','2021-09-12 22:44:02','2021-09-12 22:44:02'),(299,1,115,18,'Evening','2021-09-11','03:30:00','04:45:00','01:15:00','2021-09-12 22:44:02','2021-09-12 22:44:02'),(300,1,116,18,'Evening','2021-09-11','03:30:00','04:45:00','01:15:00','2021-09-12 22:44:02','2021-09-12 22:44:02'),(301,1,117,18,'Evening','2021-09-11','03:30:00','04:45:00','01:15:00','2021-09-12 22:44:02','2021-09-12 22:44:02'),(302,1,118,18,'Evening','2021-09-11','03:30:00','04:45:00','01:15:00','2021-09-12 22:44:02','2021-09-12 22:44:02'),(303,1,119,18,'Evening','2021-09-11','03:30:00','04:45:00','01:15:00','2021-09-12 22:44:02','2021-09-12 22:44:02'),(304,1,120,18,'Evening','2021-09-11','03:30:00','04:45:00','01:15:00','2021-09-12 22:44:02','2021-09-12 22:44:02'),(305,1,122,18,'Evening','2021-09-11','03:30:00','04:45:00','01:15:00','2021-09-12 22:58:13','2021-09-12 22:58:13'),(306,1,83,17,'Afternoon','2021-09-13','02:00:00','03:00:00','01:00:00','2021-09-13 22:42:48','2021-09-13 22:42:48'),(307,1,68,17,'Afternoon','2021-09-13','02:00:00','03:00:00','01:00:00','2021-09-13 22:43:48','2021-09-13 22:43:48'),(308,1,9,4,'Morning','2021-09-13','11:30:00','01:30:00','10:00:00','2021-09-13 22:44:45','2021-09-13 22:44:45'),(309,1,64,7,'Morning','2021-09-13','11:30:00','01:30:00','10:00:00','2021-09-13 22:45:27','2021-09-13 22:45:27'),(310,1,112,10,'Afternoon','2021-09-06','02:00:00','05:00:00','03:00:00','2021-09-13 22:51:22','2021-09-13 22:51:22'),(311,1,112,10,'Afternoon','2021-09-07','02:00:00','05:00:00','03:00:00','2021-09-13 22:51:48','2021-09-13 22:51:48'),(312,1,112,10,'Afternoon','2021-09-08','02:00:00','05:00:00','03:00:00','2021-09-13 22:52:09','2021-09-13 22:52:09'),(313,1,112,10,'Afternoon','2021-09-09','02:00:00','05:00:00','03:00:00','2021-09-13 22:52:34','2021-09-13 22:52:34'),(314,1,112,10,'Afternoon','2021-09-10','02:30:00','05:00:00','02:30:00','2021-09-13 22:53:00','2021-09-13 22:53:00'),(315,1,112,10,'Afternoon','2021-09-11','02:00:00','04:00:00','02:00:00','2021-09-13 22:53:32','2021-09-13 22:53:32'),(316,1,112,10,'Afternoon','2021-09-13','02:00:00','05:00:00','03:00:00','2021-09-13 22:53:59','2021-09-13 22:53:59'),(317,1,123,10,'Morning','2021-09-13','09:45:00','11:30:00','01:45:00','2021-09-13 22:55:40','2021-09-13 22:55:40'),(318,1,103,1,'Afternoon','2021-09-13','02:00:00','03:00:00','01:00:00','2021-09-13 22:56:37','2021-09-13 22:56:37'),(319,1,59,17,'Afternoon','2021-09-13','02:00:00','03:00:00','01:00:00','2021-09-13 22:57:16','2021-09-13 22:57:16'),(320,1,10,1,'Afternoon','2021-09-13','03:00:00','03:30:00','00:30:00','2021-09-13 23:00:31','2021-09-13 23:00:31'),(321,1,11,1,'Afternoon','2021-09-13','03:00:00','03:30:00','00:30:00','2021-09-13 23:00:31','2021-09-13 23:00:31'),(322,1,74,1,'Afternoon','2021-09-13','03:00:00','03:30:00','00:30:00','2021-09-13 23:00:31','2021-09-13 23:00:31'),(323,1,105,1,'Afternoon','2021-09-13','03:00:00','03:30:00','00:30:00','2021-09-13 23:00:31','2021-09-13 23:00:31'),(324,1,106,1,'Afternoon','2021-09-13','03:00:00','03:30:00','00:30:00','2021-09-13 23:00:31','2021-09-13 23:00:31'),(325,1,108,1,'Afternoon','2021-09-13','03:00:00','03:30:00','00:30:00','2021-09-13 23:00:31','2021-09-13 23:00:31'),(326,1,79,17,'Evening','2021-09-13','03:30:00','05:00:00','01:30:00','2021-09-13 23:02:57','2021-09-13 23:02:57'),(327,1,104,1,'Evening','2021-09-13','03:30:00','04:00:00','00:30:00','2021-09-13 23:03:40','2021-09-13 23:03:40'),(328,1,47,2,'Evening','2021-09-13','03:30:00','04:00:00','00:30:00','2021-09-13 23:04:06','2021-09-13 23:04:06'),(329,1,77,17,'Evening','2021-09-13','03:30:00','05:00:00','01:30:00','2021-09-13 23:04:27','2021-09-13 23:04:27'),(330,1,28,2,'Evening','2021-09-13','03:30:00','04:00:00','00:30:00','2021-09-13 23:04:51','2021-09-13 23:04:51'),(331,1,64,7,'Afternoon','2021-09-14','12:00:00','01:40:00','10:20:00','2021-09-14 22:43:04','2021-09-14 22:43:04'),(332,1,90,1,'Evening','2021-09-14','03:30:00','05:00:00','01:30:00','2021-09-14 22:45:17','2021-09-14 22:45:17'),(333,1,95,1,'Evening','2021-09-14','03:30:00','05:00:00','01:30:00','2021-09-14 22:45:17','2021-09-14 22:45:17'),(334,1,52,17,'Evening','2021-09-14','03:30:00','05:00:00','01:30:00','2021-09-14 22:46:11','2021-09-14 22:46:11'),(335,1,53,17,'Evening','2021-09-14','03:30:00','05:00:00','01:30:00','2021-09-14 22:46:11','2021-09-14 22:46:11'),(336,1,4,2,'Evening','2021-09-14','03:30:00','05:00:00','01:30:00','2021-09-14 22:46:56','2021-09-14 22:46:56'),(337,1,99,1,'Evening','2021-09-14','03:30:00','05:00:00','01:30:00','2021-09-14 22:47:54','2021-09-14 22:47:54'),(338,1,98,1,'Evening','2021-09-04','03:00:00','03:30:00','00:30:00','2021-09-14 22:48:26','2021-09-14 22:48:26'),(339,1,28,2,'Evening','0201-09-14','03:00:00','03:30:00','00:30:00','2021-09-14 22:49:12','2021-09-14 22:49:12'),(340,1,47,2,'Evening','0201-09-14','03:00:00','03:30:00','00:30:00','2021-09-14 22:49:12','2021-09-14 22:49:12'),(341,1,104,1,'Evening','2021-09-14','03:00:00','03:30:00','00:30:00','2021-09-14 22:49:35','2021-09-14 22:49:35'),(342,1,46,2,'Afternoon','2021-09-14','02:00:00','03:00:00','01:00:00','2021-09-14 22:50:29','2021-09-14 22:50:29'),(343,1,76,17,'Afternoon','2021-09-14','02:00:00','03:00:00','01:00:00','2021-09-14 22:50:48','2021-09-14 22:50:48'),(344,1,123,10,'Morning','2021-09-14','09:50:48','11:30:45','01:39:57','2021-09-15 09:52:21','2021-09-15 09:52:21'),(345,1,60,9,'Afternoon','2021-09-08','02:00:00','04:00:00','02:00:00','2021-09-15 10:39:39','2021-09-15 10:39:39'),(346,1,60,9,'Afternoon','2021-09-08','02:00:00','04:00:00','02:00:00','2021-09-15 10:39:39','2021-09-15 10:39:39'),(347,1,60,9,'Morning','2021-09-13','09:30:00','11:30:00','02:00:00','2021-09-15 10:40:36','2021-09-15 10:40:36'),(348,1,60,9,'Afternoon','2021-09-14','02:00:00','04:00:00','02:00:00','2021-09-15 11:01:18','2021-09-15 11:01:18'),(349,1,60,9,'Afternoon','2021-09-14','02:00:00','04:00:00','02:00:00','2021-09-15 11:01:18','2021-09-15 11:01:18'),(350,1,33,9,'Morning','2021-09-08','09:45:00','11:45:00','02:00:00','2021-09-15 11:02:31','2021-09-15 11:02:31'),(351,1,33,9,'Morning','2021-09-09','09:30:00','11:30:00','02:00:00','2021-09-15 11:03:35','2021-09-15 11:03:35'),(352,1,33,9,'Morning','2021-09-10','09:30:00','11:30:00','02:00:00','2021-09-15 11:04:38','2021-09-15 11:04:38'),(353,1,33,9,'Morning','2021-09-13','09:30:00','11:30:00','02:00:00','2021-09-15 11:05:37','2021-09-15 11:05:37'),(354,1,33,9,'Morning','2021-09-14','09:30:00','11:30:00','02:00:00','2021-09-15 11:06:30','2021-09-15 11:06:30'),(355,1,87,9,'Morning','2021-09-08','11:30:00','01:31:00','09:58:59','2021-09-15 11:07:33','2021-09-15 11:07:33'),(356,1,87,9,'Morning','2021-09-09','11:30:00','01:30:00','09:59:59','2021-09-15 11:43:08','2021-09-15 11:43:08'),(357,1,87,9,'Morning','2021-09-09','11:30:00','01:30:00','09:59:59','2021-09-15 11:43:08','2021-09-15 11:43:08'),(358,1,11,1,'Afternoon','2021-09-15','03:30:00','04:15:00','00:45:00','2021-09-15 16:40:22','2021-09-15 16:40:22'),(359,1,8,2,'Afternoon','2021-09-15','03:30:01','04:15:00','00:44:59','2021-09-15 16:41:54','2021-09-15 16:41:54'),(360,1,33,9,'Morning','2021-09-15','09:30:00','11:30:00','02:00:00','2021-09-16 09:57:09','2021-09-16 09:57:09'),(361,1,87,9,'Morning','2021-09-15','11:30:00','01:30:00','09:59:59','2021-09-16 09:58:18','2021-09-16 09:58:18'),(362,1,124,10,'Morning','2021-09-15','11:15:00','01:15:00','10:00:00','2021-09-15 23:21:33','2021-09-15 23:21:33'),(363,1,112,10,'Afternoon','2021-09-15','02:00:00','04:00:00','02:00:00','2021-09-15 23:22:24','2021-09-15 23:22:24'),(364,1,123,10,'Morning','2021-09-15','09:45:00','11:30:00','01:45:00','2021-09-16 00:55:18','2021-09-16 00:55:18'),(365,1,22,8,'Afternoon','2021-09-15','02:00:00','03:00:00','01:00:00','2021-09-16 00:55:59','2021-09-16 00:55:59'),(366,1,101,1,'Afternoon','2021-09-15','02:00:00','03:00:00','01:00:00','2021-09-16 00:56:30','2021-09-16 00:56:30'),(367,1,84,17,'Afternoon','2021-09-15','02:00:00','03:00:00','01:00:00','2021-09-16 00:57:05','2021-09-16 00:57:05'),(368,1,92,1,'Afternoon','2021-09-15','03:00:00','03:30:00','00:30:00','2021-09-16 00:59:15','2021-09-16 00:59:15'),(369,1,1,2,'Afternoon','2021-09-15','03:00:00','03:30:00','00:30:00','2021-09-16 01:00:05','2021-09-16 01:00:05'),(370,1,2,2,'Afternoon','2021-09-15','03:00:00','03:30:00','00:30:00','2021-09-16 01:00:24','2021-09-16 01:00:24'),(371,1,123,10,'Morning','2021-09-16','09:45:00','11:40:00','01:55:00','2021-09-16 01:04:26','2021-09-16 01:04:26'),(372,1,80,17,'Afternoon','2021-09-16','02:00:00','03:00:00','01:00:00','2021-09-16 22:28:39','2021-09-16 22:28:39'),(373,1,14,1,'Afternoon','2021-09-16','02:00:00','03:00:00','01:00:00','2021-09-16 22:29:11','2021-09-16 22:29:11'),(374,1,73,17,'Afternoon','2021-09-16','02:00:00','03:00:00','01:00:00','2021-09-16 22:29:33','2021-09-16 22:29:33'),(375,1,17,1,'Afternoon','2021-09-16','02:00:00','03:00:00','01:00:00','2021-09-16 22:29:53','2021-09-16 22:29:53'),(376,1,108,1,'Afternoon','2021-09-16','02:00:00','03:00:00','01:00:00','2021-09-16 22:30:26','2021-09-16 22:30:26'),(377,1,77,17,'Afternoon','2021-09-16','03:00:00','03:30:00','00:30:00','2021-09-16 22:30:50','2021-09-16 22:30:50'),(378,1,46,2,'Afternoon','2021-09-16','03:00:00','03:30:00','00:30:00','2021-09-16 22:31:08','2021-09-16 22:31:08'),(379,1,114,18,'Afternoon','2021-09-16','03:30:00','05:00:00','01:30:00','2021-09-16 22:34:04','2021-09-16 22:34:04'),(380,1,121,18,'Afternoon','2021-09-16','03:30:00','05:00:00','01:30:00','2021-09-16 22:34:39','2021-09-16 22:34:39'),(381,1,124,10,'Morning','2021-09-16','11:30:00','02:00:00','09:30:00','2021-09-17 00:41:00','2021-09-17 00:41:00'),(382,1,9,4,'Afternoon','2021-09-16','12:00:00','01:30:00','10:30:00','2021-09-17 00:41:36','2021-09-17 00:41:36'),(383,1,61,7,'Afternoon','2021-09-16','01:30:00','03:30:00','02:00:00','2021-09-17 00:42:00','2021-09-17 00:42:00'),(384,1,112,10,'Afternoon','2021-09-16','02:00:00','04:00:00','02:00:00','2021-09-17 00:42:37','2021-09-17 00:42:37'),(385,1,45,17,'Afternoon','2021-09-17','02:00:00','03:30:00','01:30:00','2021-09-17 22:38:02','2021-09-17 22:38:02'),(386,1,57,17,'Afternoon','2021-09-17','02:00:00','03:30:00','01:30:00','2021-09-17 22:38:02','2021-09-17 22:38:02'),(387,1,59,17,'Afternoon','2021-09-17','02:00:00','03:30:00','01:30:00','2021-09-17 22:38:02','2021-09-17 22:38:02'),(388,1,65,17,'Afternoon','2021-09-17','02:00:00','03:30:00','01:30:00','2021-09-17 22:38:02','2021-09-17 22:38:02'),(389,1,69,17,'Afternoon','2021-09-17','02:00:00','03:30:00','01:30:00','2021-09-17 22:38:02','2021-09-17 22:38:02'),(390,1,22,8,'Afternoon','2021-09-17','02:00:00','03:30:00','01:30:00','2021-09-17 22:38:26','2021-09-17 22:38:26'),(391,1,95,1,'Afternoon','2021-09-17','02:00:00','03:30:00','01:30:00','2021-09-17 22:38:50','2021-09-17 22:38:50'),(392,1,52,17,'Afternoon','2021-09-17','02:00:00','03:30:00','01:30:00','2021-09-17 22:39:16','2021-09-17 22:39:16'),(393,1,61,7,'Afternoon','2021-09-17','01:30:00','03:30:00','02:00:00','2021-09-17 22:39:41','2021-09-17 22:39:41'),(394,1,123,10,'Morning','2021-09-17','09:30:00','11:30:00','02:00:00','2021-09-17 22:40:15','2021-09-17 22:40:15'),(395,1,33,9,'Morning','2021-09-16','09:30:00','11:35:00','02:05:00','2021-09-20 09:40:48','2021-09-20 09:40:48'),(396,1,87,9,'Morning','2021-09-16','11:30:00','01:30:00','09:59:59','2021-09-20 09:41:41','2021-09-20 09:41:41'),(397,1,113,18,'Evening','2021-09-20','03:30:00','05:00:00','01:30:00','2021-09-21 01:07:04','2021-09-21 01:07:04'),(398,1,114,18,'Evening','2021-09-20','03:30:00','05:00:00','01:30:00','2021-09-21 01:07:04','2021-09-21 01:07:04'),(399,1,115,18,'Evening','2021-09-20','03:30:00','05:00:00','01:30:00','2021-09-21 01:07:04','2021-09-21 01:07:04'),(400,1,116,18,'Evening','2021-09-20','03:30:00','05:00:00','01:30:00','2021-09-21 01:07:04','2021-09-21 01:07:04'),(401,1,117,18,'Evening','2021-09-20','03:30:00','05:00:00','01:30:00','2021-09-21 01:07:04','2021-09-21 01:07:04'),(402,1,120,18,'Evening','2021-09-20','03:30:00','05:00:00','01:30:00','2021-09-21 01:07:04','2021-09-21 01:07:04'),(403,1,121,18,'Evening','2021-09-20','03:30:00','05:00:00','01:30:00','2021-09-21 01:07:04','2021-09-21 01:07:04'),(404,1,122,18,'Evening','2021-09-20','03:30:00','05:00:00','01:30:00','2021-09-21 01:07:04','2021-09-21 01:07:04'),(405,1,125,18,'Evening','2021-09-20','03:30:00','05:00:00','01:30:00','2021-09-21 01:07:04','2021-09-21 01:07:04'),(406,1,62,7,'Afternoon','2021-09-20','01:30:00','03:30:00','02:00:00','2021-09-21 01:17:45','2021-09-21 01:17:45'),(407,1,67,7,'Afternoon','2021-09-20','01:30:00','03:30:00','02:00:00','2021-09-21 01:20:16','2021-09-21 01:20:16'),(408,1,33,9,'Morning','2021-09-20','09:30:00','11:30:00','02:00:00','2021-09-21 12:40:07','2021-09-21 12:40:07'),(409,1,33,9,'Morning','2021-09-21','09:30:00','11:30:00','02:00:00','2021-09-21 12:40:49','2021-09-21 12:40:49'),(410,1,87,9,'Morning','2021-09-20','11:30:00','01:30:00','09:59:59','2021-09-21 12:41:21','2021-09-21 12:41:21'),(411,1,87,9,'Morning','2021-09-21','11:30:00','01:30:00','09:59:59','2021-09-21 12:41:54','2021-09-21 12:41:54'),(412,1,126,10,'Morning','2021-09-20','11:30:00','01:15:00','10:14:59','2021-09-21 12:42:41','2021-09-21 12:42:41'),(413,1,126,10,'Morning','2021-09-21','11:30:00','01:30:00','09:59:59','2021-09-21 12:44:04','2021-09-21 12:44:04'),(414,1,127,10,'Morning','2021-09-20','11:30:00','01:30:00','09:59:59','2021-09-21 12:44:44','2021-09-21 12:44:44'),(415,1,112,10,'Afternoon','2021-09-20','02:00:00','04:45:00','02:45:00','2021-09-21 12:53:02','2021-09-21 12:53:02'),(416,1,124,10,'Morning','2021-09-20','11:30:00','01:30:00','09:59:59','2021-09-21 12:54:47','2021-09-21 12:54:47'),(417,1,36,13,'Morning','2021-09-21','09:30:00','11:30:00','02:00:00','2021-09-21 01:58:24','2021-09-21 01:58:24'),(418,1,43,13,'Morning','2021-09-21','09:30:00','11:30:00','02:00:00','2021-09-21 01:58:24','2021-09-21 01:58:24'),(419,1,110,13,'Afternoon','2021-09-21','11:30:00','13:30:00','02:00:00','2021-09-21 02:22:08','2021-09-21 02:22:08'),(420,1,109,13,'Afternoon','2021-09-21','02:30:00','04:00:00','01:30:00','2021-09-21 05:46:27','2021-09-21 05:46:27'),(421,1,111,13,'Afternoon','2021-09-21','02:30:00','04:00:00','01:30:00','2021-09-21 05:46:27','2021-09-21 05:46:27'),(422,1,128,13,'Morning','2021-09-22','09:00:00','11:30:00','02:30:00','2021-09-23 02:14:00','2021-09-23 02:14:00'),(423,1,21,8,'Evening','2021-09-22','03:30:00','05:00:00','01:30:00','2021-09-23 02:21:30','2021-09-23 02:21:30'),(424,1,23,8,'Evening','2021-09-22','03:30:00','05:00:00','01:30:00','2021-09-23 02:21:30','2021-09-23 02:21:30'),(425,1,25,8,'Evening','2021-09-22','03:30:00','05:00:00','01:30:00','2021-09-23 02:21:30','2021-09-23 02:21:30'),(426,1,26,8,'Evening','2021-09-22','03:30:00','05:00:00','01:30:00','2021-09-23 02:21:30','2021-09-23 02:21:30'),(427,1,27,8,'Evening','2021-09-22','03:30:00','05:00:00','01:30:00','2021-09-23 02:21:30','2021-09-23 02:21:30'),(428,1,100,1,'Evening','2021-09-22','03:30:00','05:00:00','01:30:00','2021-09-23 02:22:07','2021-09-23 02:22:07'),(429,1,33,9,'Morning','2021-09-22','09:30:00','11:30:00','02:00:00','2021-09-23 13:47:49','2021-09-23 13:47:49'),(430,1,33,9,'Morning','2021-09-23','09:30:00','11:30:00','01:59:59','2021-09-23 13:48:23','2021-09-23 13:48:23'),(431,1,87,9,'Morning','2021-09-23','11:30:00','01:30:00','09:59:59','2021-09-23 13:50:19','2021-09-23 13:50:19'),(432,1,126,10,'Morning','2021-09-22','09:30:00','11:30:00','02:00:00','2021-09-23 13:51:04','2021-09-23 13:51:04'),(433,1,126,10,'Morning','2021-09-23','09:30:00','11:30:00','02:00:00','2021-09-23 13:51:38','2021-09-23 13:51:38'),(434,1,124,10,'Morning','2021-09-23','11:30:00','01:30:00','09:59:59','2021-09-23 13:54:35','2021-09-23 13:54:35'),(435,1,127,10,'Morning','2021-09-22','11:30:00','01:30:00','09:59:59','2021-09-23 13:56:00','2021-09-23 13:56:00'),(436,1,123,10,'Morning','2021-09-23','09:30:00','11:30:00','02:00:00','2021-09-23 13:57:16','2021-09-23 13:57:16'),(437,1,78,17,'Evening','2021-09-23','03:30:00','05:00:00','01:30:00','2021-09-24 02:36:44','2021-09-24 02:36:44'),(438,1,80,17,'Evening','2021-09-23','03:30:00','05:00:00','01:30:00','2021-09-24 02:37:05','2021-09-24 02:37:05'),(439,1,14,1,'Evening','2021-09-23','03:30:00','05:00:00','01:30:00','2021-09-24 02:37:37','2021-09-24 02:37:37'),(440,1,33,9,'Morning','2021-09-24','09:30:00','11:30:00','02:00:00','2021-09-28 09:44:25','2021-09-28 09:44:25'),(441,1,87,9,'Morning','2021-09-25','09:30:30','11:30:00','01:59:30','2021-09-28 09:45:11','2021-09-28 09:45:11'),(442,1,126,10,'Morning','2021-09-24','09:40:00','11:30:00','01:50:00','2021-09-28 09:46:22','2021-09-28 09:46:22'),(443,1,124,10,'Morning','2021-09-24','11:30:00','01:40:00','09:49:59','2021-09-28 09:47:08','2021-09-28 09:47:08'),(444,1,127,10,'Morning','2021-09-24','11:40:00','01:40:00','09:59:59','2021-09-28 09:47:48','2021-09-28 09:47:48'),(445,1,112,10,'Afternoon','2021-09-24','02:40:00','04:45:00','02:05:00','2021-09-28 09:48:20','2021-09-28 09:48:20'),(446,1,123,10,'Morning','2021-09-23','09:32:42','11:40:23','02:07:41','2021-09-28 09:49:06','2021-09-28 09:49:06'),(447,1,33,9,'Morning','2021-09-28','09:30:07','11:30:07','02:00:00','2021-09-28 23:31:31','2021-09-28 23:31:31'),(448,1,87,9,'Morning','2021-09-28','11:30:56','01:30:51','10:00:04','2021-09-28 23:33:51','2021-09-28 23:33:51'),(449,1,126,10,'Morning','2021-09-28','09:30:15','11:33:51','02:03:35','2021-09-28 23:34:50','2021-09-28 23:34:50'),(450,1,124,10,'Morning','2021-09-28','11:34:21','01:35:21','09:58:59','2021-09-28 23:35:40','2021-09-28 23:35:40'),(451,1,127,10,'Morning','2021-09-28','11:35:05','01:35:05','09:59:59','2021-09-28 23:37:21','2021-09-28 23:37:21'),(452,1,112,10,'Afternoon','2021-09-28','02:35:46','04:30:46','01:55:00','2021-09-28 23:38:18','2021-09-28 23:38:18'),(453,1,129,9,'Morning','2021-09-29','11:30:00','01:00:00','10:29:59','2021-09-29 11:34:39','2021-09-29 11:34:39'),(454,1,33,9,'Morning','2021-09-29','09:30:30','11:30:00','01:59:30','2021-09-29 11:35:37','2021-09-29 11:35:37'),(455,1,87,9,'Morning','2021-09-29','09:30:19','11:30:58','02:00:39','2021-09-29 11:36:28','2021-09-29 11:36:28'),(456,1,126,10,'Morning','2021-09-29','09:30:00','11:36:36','02:06:36','2021-09-29 12:17:53','2021-09-29 12:17:53'),(457,1,113,18,'Afternoon','2021-09-28','02:00:00','03:30:00','01:30:00','2021-09-29 02:39:45','2021-09-29 02:39:45'),(458,1,114,18,'Afternoon','2021-09-28','02:00:00','03:30:00','01:30:00','2021-09-29 02:39:45','2021-09-29 02:39:45'),(459,1,115,18,'Afternoon','2021-09-28','02:00:00','03:30:00','01:30:00','2021-09-29 02:39:45','2021-09-29 02:39:45'),(460,1,116,18,'Afternoon','2021-09-28','02:00:00','03:30:00','01:30:00','2021-09-29 02:39:45','2021-09-29 02:39:45'),(461,1,120,18,'Afternoon','2021-09-28','02:00:00','03:30:00','01:30:00','2021-09-29 02:39:45','2021-09-29 02:39:45'),(462,1,122,18,'Afternoon','2021-09-28','02:00:00','03:30:00','01:30:00','2021-09-29 02:39:45','2021-09-29 02:39:45'),(463,1,125,18,'Afternoon','2021-09-28','02:00:00','03:30:00','01:30:00','2021-09-29 02:39:45','2021-09-29 02:39:45'),(464,1,57,17,'Afternoon','2021-09-28','02:00:00','03:30:00','01:30:00','2021-09-29 02:41:01','2021-09-29 02:41:01'),(465,1,45,17,'Afternoon','2021-09-28','03:30:00','05:00:00','01:30:00','2021-09-29 02:42:24','2021-09-29 02:42:24'),(466,1,58,17,'Afternoon','2021-09-28','03:30:00','05:00:00','01:30:00','2021-09-29 02:42:24','2021-09-29 02:42:24'),(467,1,59,17,'Afternoon','2021-09-28','03:30:00','05:00:00','01:30:00','2021-09-29 02:42:24','2021-09-29 02:42:24'),(468,1,65,17,'Afternoon','2021-09-28','03:30:00','05:00:00','01:30:00','2021-09-29 02:42:24','2021-09-29 02:42:24'),(469,1,64,7,'Morning','2021-09-28','11:30:00','01:30:00','10:00:00','2021-09-29 02:42:59','2021-09-29 02:42:59'),(470,1,61,7,'Afternoon','2021-09-28','01:30:00','04:00:00','02:30:00','2021-09-29 02:43:21','2021-09-29 02:43:21'),(471,1,124,10,'Morning','2021-09-29','11:30:00','01:30:10','09:59:49','2021-09-30 09:33:15','2021-09-30 09:33:15'),(472,1,129,9,'Morning','2021-09-29','11:30:38','01:15:38','10:14:59','2021-09-30 09:33:44','2021-09-30 09:33:44'),(473,1,112,10,'Afternoon','2021-09-29','02:30:15','04:15:00','01:44:44','2021-09-30 09:34:27','2021-09-30 09:34:27'),(474,1,33,9,'Morning','2021-09-30','09:30:48','11:30:48','02:00:00','2021-09-30 11:32:49','2021-09-30 11:32:49'),(475,1,87,9,'Morning','2021-09-30','09:30:10','11:30:10','02:00:00','2021-09-30 11:33:06','2021-09-30 11:33:06'),(476,1,126,10,'Morning','2021-09-30','09:30:27','11:32:27','02:02:00','2021-09-30 11:33:24','2021-09-30 11:33:24'),(477,1,129,9,'Morning','2021-09-30','09:35:40','11:30:00','01:54:20','2021-09-30 11:33:58','2021-09-30 11:33:58'),(478,1,100,1,'Evening','2021-09-29','03:30:00','05:00:00','01:30:00','2021-09-30 00:53:14','2021-09-30 00:53:14'),(479,1,21,8,'Evening','2021-09-29','03:30:00','05:00:00','01:30:00','2021-09-30 00:54:16','2021-09-30 00:54:16'),(480,1,117,18,'Afternoon','2021-09-29','02:30:00','03:30:00','01:00:00','2021-09-30 00:57:13','2021-09-30 00:57:13'),(481,1,127,10,'Morning','2021-09-30','11:30:34','01:30:34','09:59:59','2021-10-01 09:17:16','2021-10-01 09:17:16'),(482,1,112,10,'Afternoon','2021-09-30','02:30:43','04:45:43','02:15:00','2021-10-01 09:18:00','2021-10-01 09:18:00'),(483,1,36,13,'Morning','2021-01-10','11:30:49','09:30:49','01:59:59','2021-10-01 11:30:04','2021-10-01 11:30:04'),(484,1,128,13,'Morning','2021-01-10','09:15:39','11:15:39','02:00:00','2021-10-01 11:30:40','2021-10-01 11:30:40'),(485,1,33,9,'Morning','2021-10-01','09:40:06','11:30:18','01:50:12','2021-10-01 16:02:18','2021-10-01 16:02:18'),(486,1,126,10,'Morning','2021-10-01','09:30:15','11:35:29','02:05:14','2021-10-01 16:03:09','2021-10-01 16:03:09'),(487,1,129,9,'Afternoon','2021-10-01','02:35:11','04:30:33','01:55:22','2021-10-01 16:04:00','2021-10-01 16:04:00'),(488,1,129,9,'Morning','2021-10-01','11:30:28','01:35:45','09:54:42','2021-10-01 16:04:46','2021-10-01 16:04:46'),(489,1,112,10,'Afternoon','2021-10-01','02:35:06','04:15:08','01:40:02','2021-10-01 16:05:48','2021-10-01 16:05:48'),(490,1,126,10,'Morning','2021-10-04','09:30:20','11:30:11','01:59:51','2021-10-05 09:06:36','2021-10-05 09:06:36'),(491,1,129,9,'Morning','2021-10-04','11:30:39','01:30:39','09:59:59','2021-10-05 09:07:11','2021-10-05 09:07:11'),(492,1,124,10,'Morning','2021-10-04','11:30:16','01:30:23','09:59:52','2021-10-05 09:07:48','2021-10-05 09:07:48'),(493,1,9,4,'Morning','2021-10-05','10:44:04','11:44:04','01:00:00','2021-10-06 09:45:11','2021-10-06 09:45:11'),(494,1,61,7,'Morning','2021-10-05','11:31:32','01:42:32','09:48:59','2021-10-06 09:45:42','2021-10-06 09:45:42'),(495,1,64,7,'Morning','2021-10-05','11:45:03','01:45:03','09:59:59','2021-10-06 09:46:00','2021-10-06 09:46:00'),(496,1,64,7,'Morning','2021-10-05','11:45:03','01:45:03','09:59:59','2021-10-06 09:46:01','2021-10-06 09:46:01'),(497,1,113,18,'Evening','2021-10-05','03:30:00','05:00:00','01:30:00','2021-10-05 22:47:46','2021-10-05 22:47:46'),(498,1,115,18,'Evening','2021-10-05','03:30:00','05:00:00','01:30:00','2021-10-05 22:47:46','2021-10-05 22:47:46'),(499,1,116,18,'Evening','2021-10-05','03:30:00','05:00:00','01:30:00','2021-10-05 22:47:46','2021-10-05 22:47:46'),(500,1,120,18,'Evening','2021-10-05','03:30:00','05:00:00','01:30:00','2021-10-05 22:47:46','2021-10-05 22:47:46'),(501,1,122,18,'Evening','2021-10-05','03:30:00','05:00:00','01:30:00','2021-10-05 22:47:46','2021-10-05 22:47:46'),(502,1,125,18,'Evening','2021-10-05','03:30:00','05:00:00','01:30:00','2021-10-05 22:47:46','2021-10-05 22:47:46'),(503,1,33,9,'Morning','2021-10-06','09:31:22','11:30:58','01:59:36','2021-10-06 15:09:07','2021-10-06 15:09:07'),(504,1,87,9,'Morning','2021-10-05','09:35:36','11:35:43','02:00:07','2021-10-06 15:09:45','2021-10-06 15:09:45'),(505,1,126,10,'Morning','2021-10-05','09:32:00','11:31:13','01:59:13','2021-10-06 15:10:17','2021-10-06 15:10:17'),(506,1,124,10,'Morning','2021-10-05','11:30:48','01:30:50','09:59:57','2021-10-06 15:12:02','2021-10-06 15:12:02'),(507,1,127,10,'Morning','2021-10-05','11:30:24','01:30:24','09:59:59','2021-10-06 15:12:31','2021-10-06 15:12:31'),(508,1,112,10,'Afternoon','2021-10-05','02:35:53','04:30:53','01:55:00','2021-10-06 15:13:11','2021-10-06 15:13:11'),(509,1,129,9,'Morning','2021-10-05','11:47:48','01:36:47','10:11:00','2021-10-06 15:34:10','2021-10-06 15:34:10'),(510,1,133,9,'Morning','2021-10-05','11:33:33','01:35:33','09:57:59','2021-10-06 15:35:01','2021-10-06 15:35:01'),(511,1,131,4,'Morning','2021-10-04','09:30:00','11:35:23','02:05:23','2021-10-06 15:35:41','2021-10-06 15:35:41'),(512,1,131,4,'Morning','2021-10-05','09:35:02','11:35:02','02:00:00','2021-10-06 15:36:12','2021-10-06 15:36:12'),(513,1,130,10,'Morning','2021-10-04','09:30:00','11:35:41','02:05:41','2021-10-06 15:36:52','2021-10-06 15:36:52'),(514,1,130,10,'Morning','2021-10-05','09:30:00','11:36:13','02:06:12','2021-10-06 15:37:34','2021-10-06 15:37:34'),(515,1,132,9,'Morning','2021-10-05','11:30:57','01:30:16','10:00:40','2021-10-06 15:38:17','2021-10-06 15:38:17'),(516,1,33,9,'Morning','2021-10-06','09:46:55','11:40:55','01:54:00','2021-10-06 15:47:58','2021-10-06 15:47:58'),(517,1,87,9,'Morning','2021-10-06','09:40:18','11:30:18','01:50:00','2021-10-06 15:48:31','2021-10-06 15:48:31'),(518,1,126,10,'Morning','2021-10-06','09:35:52','11:31:52','01:56:00','2021-10-06 15:48:59','2021-10-06 15:48:59'),(519,1,124,10,'Morning','2021-10-06','11:30:20','01:30:20','09:59:59','2021-10-06 15:49:35','2021-10-06 15:49:35'),(520,1,129,9,'Morning','2021-10-06','11:55:59','01:35:59','10:19:59','2021-10-06 15:50:08','2021-10-06 15:50:08'),(521,1,131,4,'Morning','2021-10-06','09:30:00','11:30:00','02:00:00','2021-10-06 15:50:47','2021-10-06 15:50:47'),(522,1,130,10,'Morning','2021-10-06','09:30:00','11:30:00','02:00:00','2021-10-06 15:51:23','2021-10-06 15:51:23'),(523,1,132,9,'Afternoon','2021-10-06','01:30:00','03:40:00','02:10:00','2021-10-06 15:52:24','2021-10-06 15:52:24'),(524,1,112,10,'Afternoon','2021-10-06','02:35:11','04:35:34','02:00:22','2021-10-07 09:36:06','2021-10-07 09:36:06'),(525,1,33,9,'Morning','2021-10-07','09:45:32','11:40:32','01:55:00','2021-10-07 11:34:39','2021-10-07 11:34:39'),(526,1,126,10,'Morning','2021-10-07','09:35:03','11:30:03','01:55:00','2021-10-07 11:35:01','2021-10-07 11:35:01'),(527,1,130,10,'Morning','2021-10-07','09:30:00','11:30:00','02:00:00','2021-10-07 11:35:56','2021-10-07 11:35:56'),(528,1,124,10,'Morning','2021-10-07','11:32:36','01:30:39','10:01:56','2021-10-07 15:19:49','2021-10-07 15:19:49'),(529,1,127,10,'Morning','2021-10-07','11:31:09','01:30:09','10:00:59','2021-10-07 15:20:21','2021-10-07 15:20:21'),(530,1,129,9,'Morning','2021-10-07','11:50:46','01:30:00','10:20:45','2021-10-07 15:21:01','2021-10-07 15:21:01'),(531,1,132,9,'Morning','2021-10-07','11:10:05','01:30:00','09:40:04','2021-10-07 15:21:39','2021-10-07 15:21:39'),(532,1,126,10,'Morning','2021-10-08','09:30:00','11:35:27','02:05:27','2021-10-08 11:44:33','2021-10-08 11:44:33'),(533,1,112,10,'Afternoon','2021-10-07','02:30:20','04:45:19','02:14:59','2021-10-08 14:58:01','2021-10-08 14:58:01'),(534,1,132,9,'Morning','2021-10-08','11:00:00','01:30:00','09:29:59','2021-10-08 14:59:35','2021-10-08 14:59:35'),(535,1,129,9,'Morning','2021-10-08','11:55:01','01:30:00','10:25:00','2021-10-08 15:00:09','2021-10-08 15:00:09'),(536,1,126,10,'Morning','2021-10-08','09:30:00','11:30:00','02:00:00','2021-10-08 15:00:58','2021-10-08 15:00:58'),(537,1,124,10,'Morning','2021-10-09','11:30:05','01:15:36','10:14:28','2021-10-09 15:49:07','2021-10-09 15:49:07'),(538,1,127,10,'Morning','2021-10-09','11:30:00','01:15:00','10:14:59','2021-10-09 15:50:00','2021-10-09 15:50:00'),(539,1,33,9,'Morning','2021-10-11','09:30:16','11:36:27','02:06:11','2021-10-12 12:21:22','2021-10-12 12:21:22'),(540,1,126,10,'Morning','2021-10-11','09:30:48','11:30:48','02:00:00','2021-10-12 12:21:50','2021-10-12 12:21:50'),(541,1,129,9,'Morning','2021-10-11','09:30:14','11:35:14','02:05:00','2021-10-12 12:22:18','2021-10-12 12:22:18'),(542,1,130,10,'Morning','2021-10-11','09:30:25','11:30:32','02:00:07','2021-10-12 12:23:07','2021-10-12 12:23:07'),(543,1,132,9,'Morning','2021-10-11','09:21:30','11:40:26','02:18:56','2021-10-12 12:23:54','2021-10-12 12:23:54'),(544,1,33,9,'Morning','2021-10-12','09:31:17','11:30:17','01:59:00','2021-10-12 12:24:16','2021-10-12 12:24:16'),(545,1,126,10,'Morning','2021-10-12','09:30:18','11:30:37','02:00:19','2021-10-12 12:24:47','2021-10-12 12:24:47'),(546,1,129,9,'Morning','2021-10-12','09:31:12','11:30:12','01:59:00','2021-10-12 12:25:19','2021-10-12 12:25:19'),(547,1,130,10,'Morning','2021-10-12','09:30:00','11:30:41','02:00:41','2021-10-12 12:25:54','2021-10-12 12:25:54'),(548,1,132,9,'Morning','2021-10-12','09:25:15','11:41:15','02:16:00','2021-10-12 12:26:25','2021-10-12 12:26:25'),(549,1,33,9,'Morning','2021-10-13','09:31:00','11:30:00','01:59:00','2021-10-13 13:21:30','2021-10-13 13:21:30'),(550,1,132,9,'Morning','2021-10-13','09:30:01','11:45:00','02:14:59','2021-10-13 13:22:14','2021-10-13 13:22:14'),(551,1,129,9,'Morning','2021-10-13','11:45:00','01:30:00','10:14:59','2021-10-13 13:22:51','2021-10-13 13:22:51'),(552,1,124,10,'Morning','2021-10-12','11:30:19','01:30:05','10:00:13','2021-10-13 13:24:51','2021-10-13 13:24:51'),(553,1,127,10,'Morning','2021-10-12','11:30:00','01:30:00','09:59:59','2021-10-13 13:25:28','2021-10-13 13:25:28'),(554,1,130,10,'Morning','2021-10-13','09:30:02','11:30:00','01:59:58','2021-10-13 13:28:00','2021-10-13 13:28:00'),(555,1,43,13,'Morning','2021-02-11','09:17:46','11:20:44','02:02:58','2021-11-09 09:52:56','2021-11-09 09:52:56'),(556,1,110,13,'Morning','2021-02-11','09:30:56','11:30:56','02:00:00','2021-11-09 09:54:11','2021-11-09 09:54:11'),(557,1,110,13,'Morning','2021-02-11','09:30:56','11:30:56','02:00:00','2021-11-09 09:54:11','2021-11-09 09:54:11'),(558,1,110,13,'Morning','2021-02-11','09:30:56','11:30:56','02:00:00','2021-11-09 09:54:11','2021-11-09 09:54:11'),(559,1,110,13,'Morning','2021-02-11','09:30:56','11:30:56','02:00:00','2021-11-09 09:54:11','2021-11-09 09:54:11'),(560,1,110,13,'Morning','2021-02-11','09:30:56','11:30:56','02:00:00','2021-11-09 09:54:11','2021-11-09 09:54:11'),(561,1,110,13,'Morning','2021-02-11','09:30:56','11:30:56','02:00:00','2021-11-09 09:54:11','2021-11-09 09:54:11'),(562,1,110,13,'Morning','2021-02-11','09:30:56','11:30:56','02:00:00','2021-11-09 09:54:11','2021-11-09 09:54:11'),(563,1,110,13,'Morning','2021-02-11','09:30:56','11:30:56','02:00:00','2021-11-09 09:54:11','2021-11-09 09:54:11'),(564,1,110,13,'Morning','2021-02-11','09:30:56','11:30:56','02:00:00','2021-11-09 09:54:11','2021-11-09 09:54:11'),(565,1,36,13,'Morning','2021-02-11','09:30:41','11:30:41','02:00:00','2021-11-09 09:54:42','2021-11-09 09:54:42'),(566,1,128,13,'Morning','2021-02-11','09:30:19','11:30:19','02:00:00','2021-11-09 09:55:27','2021-11-09 09:55:27'),(567,1,43,13,'Morning','2021-03-11','09:30:57','11:30:57','02:00:00','2021-11-09 09:55:56','2021-11-09 09:55:56'),(568,1,111,13,'Afternoon','2021-03-11','01:30:22','03:30:24','02:00:02','2021-11-09 09:56:37','2021-11-09 09:56:37'),(569,1,43,13,'Morning','2021-04-11','09:31:14','11:31:14','02:00:00','2021-11-09 09:57:23','2021-11-09 09:57:23'),(570,1,111,13,'Afternoon','2021-04-11','02:00:19','04:00:05','01:59:45','2021-11-09 09:58:14','2021-11-09 09:58:14'),(571,1,128,13,'Morning','2021-05-11','09:30:54','11:30:41','01:59:47','2021-11-09 09:58:52','2021-11-09 09:58:52'),(572,1,128,13,'Morning','2021-08-11','09:31:22','11:31:22','02:00:00','2021-11-09 09:59:37','2021-11-09 09:59:37'),(573,1,36,13,'Morning','2021-08-11','09:30:08','11:30:07','01:59:59','2021-11-09 10:00:07','2021-11-09 10:00:07'),(574,1,111,13,'Afternoon','2021-08-11','02:00:34','04:00:34','02:00:00','2021-11-09 10:00:39','2021-11-09 10:00:39'),(575,1,128,13,'Morning','2021-09-11','09:31:06','11:31:06','02:00:00','2021-11-09 10:01:11','2021-11-09 10:01:11'),(576,1,36,13,'Morning','2021-09-11','09:32:38','11:30:58','01:58:20','2021-11-09 10:01:38','2021-11-09 10:01:38'),(577,1,128,13,'Morning','2021-10-11','09:21:32','11:27:32','02:06:00','2021-11-10 11:28:26','2021-11-10 11:28:26'),(578,1,36,13,'Morning','2021-10-11','09:30:53','11:30:53','02:00:00','2021-11-10 11:28:47','2021-11-10 11:28:47'),(579,1,128,13,'Morning','2021-11-11','09:30:47','11:30:47','02:00:00','2021-11-11 11:26:41','2021-11-11 11:26:41'),(580,1,111,13,'Afternoon','2021-11-11','01:30:41','03:30:41','02:00:00','2021-11-12 14:58:51','2021-11-12 14:58:51'),(581,1,128,13,'Morning','2021-12-11','09:31:26','11:30:26','01:59:00','2021-11-12 14:59:25','2021-11-12 14:59:25'),(582,1,36,13,'Afternoon','2021-12-11','01:31:55','03:31:15','01:59:20','2021-11-12 15:00:06','2021-11-12 15:00:06'),(583,1,111,13,'Afternoon','2021-12-11','01:31:14','03:31:45','02:00:31','2021-11-12 15:00:32','2021-11-12 15:00:32'),(584,1,64,7,'Morning','2021-11-30','11:30:00','01:30:00','10:00:00','2021-11-30 05:48:12','2021-11-30 05:48:12'),(585,1,110,13,'Morning','2021-11-12','00:50:29','00:50:29','05:00:00','2021-12-11 00:50:42','2021-12-11 00:50:42'),(586,1,128,13,'Morning','2021-11-12','00:51:00','00:51:00','05:00:00','2021-12-11 00:51:11','2021-12-11 00:51:11'),(587,1,36,13,'Morning','2021-11-12','00:51:46','00:51:46','05:00:00','2021-12-11 00:51:56','2021-12-11 00:51:56'),(588,1,43,13,'Morning','2021-11-12','00:51:46','00:51:46','05:00:00','2021-12-11 00:51:56','2021-12-11 00:51:56'),(589,1,109,13,'Morning','2021-11-12','00:51:46','00:51:46','05:00:00','2021-12-11 00:51:56','2021-12-11 00:51:56'),(590,1,110,13,'Morning','2021-11-12','00:51:46','00:51:46','05:00:00','2021-12-11 00:51:56','2021-12-11 00:51:56'),(591,1,111,13,'Morning','2021-11-12','00:51:46','00:51:46','05:00:00','2021-12-11 00:51:56','2021-12-11 00:51:56'),(592,1,128,13,'Morning','2021-11-12','00:51:46','00:51:46','05:00:00','2021-12-11 00:51:56','2021-12-11 00:51:56'),(593,1,146,13,'Morning','2021-11-12','00:51:46','00:51:46','05:00:00','2021-12-11 00:51:56','2021-12-11 00:51:56'),(594,1,155,13,'Morning','2021-11-12','00:51:46','00:51:46','05:00:00','2021-12-11 00:51:56','2021-12-11 00:51:56'),(595,1,36,13,'Morning','2021-11-12','00:52:53','00:52:53','05:00:00','2021-12-11 00:53:04','2021-12-11 00:53:04'),(596,1,43,13,'Morning','2021-11-12','00:52:53','00:52:53','05:00:00','2021-12-11 00:53:04','2021-12-11 00:53:04'),(597,1,109,13,'Morning','2021-11-12','00:52:53','00:52:53','05:00:00','2021-12-11 00:53:04','2021-12-11 00:53:04'),(598,1,110,13,'Morning','2021-11-12','00:52:53','00:52:53','05:00:00','2021-12-11 00:53:04','2021-12-11 00:53:04'),(599,1,111,13,'Morning','2021-11-12','00:52:53','00:52:53','05:00:00','2021-12-11 00:53:04','2021-12-11 00:53:04'),(600,1,128,13,'Morning','2021-11-12','00:52:53','00:52:53','05:00:00','2021-12-11 00:53:04','2021-12-11 00:53:04'),(601,1,146,13,'Morning','2021-11-12','00:52:53','00:52:53','05:00:00','2021-12-11 00:53:04','2021-12-11 00:53:04'),(602,1,155,13,'Morning','2021-11-12','00:52:53','00:52:53','05:00:00','2021-12-11 00:53:04','2021-12-11 00:53:04'),(603,1,110,13,'Morning','2021-11-12','00:53:15','00:53:15','08:00:00','2021-12-11 00:53:24','2021-12-11 00:53:24'),(604,1,144,9,'Morning','2021-12-27','09:30:00','11:30:00','02:00:00','2021-12-27 05:46:08','2021-12-27 05:46:08');
+/*!40000 ALTER TABLE `attandances` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `batches`
 --
 
 DROP TABLE IF EXISTS `batches`;
-CREATE TABLE IF NOT EXISTS `batches` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `batches` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned NOT NULL,
   `title` varchar(150) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `batches`
 --
 
-INSERT INTO `batches` (`id`, `user_id`, `title`, `description`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Abacus May First 2021', 'Anadham 2021 online Batch', '2021-04-29 02:35:39', '2021-04-29 02:35:39'),
-(2, 1, 'Abacus April First 2021', 'summer vacation course', '2021-04-29 03:13:45', '2021-04-29 03:13:45'),
-(4, 1, 'regular batch 21-22', 'archikites education hub 2021-2022 regular batch', '2021-05-18 12:00:48', '2021-05-18 12:00:48');
-
--- --------------------------------------------------------
+LOCK TABLES `batches` WRITE;
+/*!40000 ALTER TABLE `batches` DISABLE KEYS */;
+INSERT INTO `batches` VALUES (1,1,'Abacus May First 2021','Anadham 2021 online Batch','2021-04-29 02:35:39','2021-04-29 02:35:39'),(2,1,'Abacus April First 2021','summer vacation course','2021-04-29 03:13:45','2021-04-29 03:13:45'),(4,1,'regular batch 21-22','archikites education hub 2021-2022 regular batch','2021-05-18 12:00:48','2021-05-18 12:00:48'),(5,1,'Regular Batch 21 - KLC','English, Hindi, Arabic courses','2021-06-02 06:16:34','2021-06-02 06:16:34'),(6,1,'KnoWell Home Tuition','Tuition for school students','2021-06-02 06:18:06','2021-06-02 06:18:06'),(7,1,'Regular Batch 21 -  Interior Design','Archikites Interior design course . Faculty Bindhu Suresh','2021-06-02 06:29:26','2021-06-02 06:29:26'),(8,1,'Abacus Training June  2021','New Academic Regular Abacus Online Batch June 2021. Faculty Bindhu Suresh','2021-06-02 06:30:54','2021-06-03 14:39:27'),(9,1,'Regular Batch 21 - Accounting','Faculty Soorya, Nikhil','2021-06-02 06:32:15','2021-06-02 06:32:15'),(10,1,'Regular Batch 21 - Basic Computer Courses','courses like MSO, Data entry , DCA etc','2021-06-02 06:36:20','2021-06-02 06:36:20'),(11,1,'Regular Batch 21 - Programming Courses','C, C++ , Java etc','2021-06-02 06:37:16','2021-06-02 06:37:16'),(12,1,'Regular Batch 21 - Web & App development','Faculty Team: Pranav, Jishnu, Akash .','2021-06-02 06:38:12','2021-06-02 06:38:12'),(13,1,'Graphic Designing 21-22',NULL,'2021-06-23 10:15:06','2021-06-23 10:15:06'),(14,1,'Office Management 21','MSoffice suite','2021-06-25 06:26:10','2021-06-25 06:26:10'),(15,1,'Arabic Graphic Designing',NULL,'2021-06-29 11:35:58','2021-06-29 11:35:58'),(16,1,'Abacus July online batch','Anadham 2021 online Batch','2021-07-01 10:25:16','2021-07-01 10:25:16'),(17,1,'Abacus August 21 Batch','Archikites Educare abacus batch','2021-08-06 05:16:07','2021-08-06 05:16:07'),(18,1,'Abacus September 2021- 22 Batch','Archikites Educare abacus batch','2021-09-04 01:41:31','2021-09-04 01:42:55'),(19,1,'Abacus October Batch','Abacus Online Class','2021-10-09 03:47:30','2021-10-09 03:47:30');
+/*!40000 ALTER TABLE `batches` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `categories`
 --
 
 DROP TABLE IF EXISTS `categories`;
-CREATE TABLE IF NOT EXISTS `categories` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `categories` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned NOT NULL,
   `icon` varchar(40) DEFAULT NULL,
   `title` varchar(50) DEFAULT NULL,
   `color` varchar(20) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `categories`
 --
 
-INSERT INTO `categories` (`id`, `user_id`, `icon`, `title`, `color`, `created_at`, `updated_at`) VALUES
-(1, 1, '1_1619683851.png', 'Graphic Design', 'success-gr', '2021-04-29 02:40:51', '2021-04-29 02:40:51'),
-(2, 1, '1_1619683917.png', 'Accounting', 'danger-gr', '2021-04-29 02:41:57', '2021-04-29 02:41:57'),
-(3, 1, '1_1619684103.png', 'Web Development', 'primary-gr', '2021-04-29 02:45:03', '2021-04-29 02:45:03'),
-(4, 1, '1_1619684124.png', 'Digital Marketing', 'secondary-gr', '2021-04-29 02:45:24', '2021-04-29 02:45:24'),
-(5, 1, '1_1619686873.png', 'Abacus Training', 'success-gr', '2021-04-29 03:31:13', '2021-04-29 03:31:13'),
-(6, 1, '1_1621925125.png', 'Language Training', 'green-gr', '2021-05-25 06:45:25', '2021-05-25 06:47:18'),
-(7, 1, '1_1621926392.png', 'Computerbasics Programme', 'danger-gr', '2021-05-25 07:06:32', '2021-05-25 07:08:04'),
-(8, 1, '1_1622286762.png', 'Engineering Courses', 'purple-gr', '2021-05-29 11:12:42', '2021-05-29 11:12:42');
-
--- --------------------------------------------------------
+LOCK TABLES `categories` WRITE;
+/*!40000 ALTER TABLE `categories` DISABLE KEYS */;
+INSERT INTO `categories` VALUES (1,1,'1_1623877399.png','Graphic Design','success-gr','2021-04-29 02:40:51','2021-06-16 21:03:19'),(2,1,'1_1623877834.png','Accounting','danger-gr','2021-04-29 02:41:57','2021-06-16 21:10:34'),(3,1,'1_1623877970.png','Web Development','primary-gr','2021-04-29 02:45:03','2021-06-16 21:12:50'),(4,1,'1_1623878039.png','Digital Marketing','secondary-gr','2021-04-29 02:45:24','2021-06-16 21:13:59'),(5,1,'1_1623878285.png','Abacus Training','success-gr','2021-04-29 03:31:13','2021-06-16 21:18:05'),(6,1,'1_1621925125.png','Language Training','green-gr','2021-05-25 06:45:25','2021-05-25 06:47:18'),(7,1,'1_1621926392.png','Computer Basics','danger-gr','2021-05-25 07:06:32','2021-06-25 07:07:42'),(8,1,'1_1622286762.png','Engineering Courses','purple-gr','2021-05-29 11:12:42','2021-05-29 11:12:42'),(10,1,'1_1623844519.png','Skillablers','primary-gr','2021-06-16 11:55:19','2021-06-16 11:55:19'),(11,1,'1_1624519133.png','JAIN Courses','success-gr','2021-06-24 07:09:16','2021-06-24 07:19:30'),(13,1,'1_1624878897.png','Typing Courses','secondary-gr','2021-06-28 11:08:54','2021-06-29 07:45:09');
+/*!40000 ALTER TABLE `categories` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `centreprofiles`
 --
 
 DROP TABLE IF EXISTS `centreprofiles`;
-CREATE TABLE IF NOT EXISTS `centreprofiles` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `centreprofiles` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned NOT NULL,
   `centre_name` varchar(100) NOT NULL,
   `caption` varchar(100) DEFAULT NULL,
   `addressline1` varchar(100) DEFAULT NULL,
@@ -189,7 +307,7 @@ CREATE TABLE IF NOT EXISTS `centreprofiles` (
   `district` varchar(100) DEFAULT NULL,
   `state` varchar(100) DEFAULT NULL,
   `country` varchar(100) DEFAULT NULL,
-  `pincode` int(11) DEFAULT NULL,
+  `pincode` int DEFAULT NULL,
   `website` varchar(150) DEFAULT NULL,
   `phone1` varchar(20) DEFAULT NULL,
   `phone2` varchar(20) DEFAULT NULL,
@@ -199,9 +317,9 @@ CREATE TABLE IF NOT EXISTS `centreprofiles` (
   `longitude` varchar(100) DEFAULT NULL,
   `services` varchar(200) DEFAULT NULL,
   `reg_no_prefix` varchar(10) NOT NULL DEFAULT 'AK',
-  `addmission_fee` int(11) DEFAULT '100',
+  `addmission_fee` int DEFAULT '100',
   `about` longtext,
-  `status` int(11) DEFAULT '1',
+  `status` int DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `whatsapp` varchar(200) DEFAULT NULL,
@@ -210,26 +328,30 @@ CREATE TABLE IF NOT EXISTS `centreprofiles` (
   `linkedin` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `centreprofiles`
 --
 
-INSERT INTO `centreprofiles` (`id`, `user_id`, `centre_name`, `caption`, `addressline1`, `addressline2`, `district`, `state`, `country`, `pincode`, `website`, `phone1`, `phone2`, `logo`, `office`, `latitude`, `longitude`, `services`, `reg_no_prefix`, `addmission_fee`, `about`, `status`, `created_at`, `updated_at`, `whatsapp`, `facebook`, `insta`, `linkedin`) VALUES
-(1, 1, 'Archikites', 'Education Hub', 'Grace Plaza Complex,  MM Road', 'Opp. Service Bank, Pilathara', 'Kannur', 'Kerala', 'India', 670504, 'www.archikites.com', '+91 828 101 6662', '04972802790', NULL, 'Archi Kites, Graze plaza complex, MM Road Pilathara, Kerala, India', '12.081542', '75.263687', NULL, 'AK', 100, 'Education is not only an activity of learning but a process which leads to a prosperous living.   Archi Kites aims at making you skillful and efficient in your occupation and to lead a successful career life.  We support our students by providing expert knowledge and on-the-job training by our skilled faculties and the state-of- art software development and software training facilities.  You can be an asset of any organization where you work, through the systematic and effective training Archi Kites.   Students of Archi Kites who are now working in and abroad India substantiate our promise given.  Hearty welcome to the new learning experience at Archi  kites.', 1, '2021-03-23 05:01:12', '2021-05-29 11:55:49', NULL, NULL, NULL, NULL);
-
--- --------------------------------------------------------
+LOCK TABLES `centreprofiles` WRITE;
+/*!40000 ALTER TABLE `centreprofiles` DISABLE KEYS */;
+INSERT INTO `centreprofiles` VALUES (1,1,'Archikites','Education Hub','Grace Plaza Complex,  MM Road','Opp. Service Bank, Pilathara','Kannur','Kerala','India',670504,'www.archikites.com','+91 828 101 6662','04972802790','logo.png','Archi Kites, Graze plaza complex, MM Road Pilathara, Kerala, India','12.081542','75.263687',NULL,'AK',100,'Education is not only an activity of learning but a process which leads to a prosperous living.   Archi Kites aims at making you skillful and efficient in your occupation and to lead a successful career life.  We support our students by providing expert knowledge and on-the-job training by our skilled faculties and the state-of- art software development and software training facilities.  You can be an asset of any organization where you work, through the systematic and effective training Archi Kites.   Students of Archi Kites who are now working in and abroad India substantiate our promise given.  Hearty welcome to the new learning experience at Archi  kites.',1,'2021-03-23 05:01:12','2021-07-26 06:34:22','8281016662','https://www.facebook.com/archikiteseducation','https://instagram.com/archikiteseducation',NULL);
+/*!40000 ALTER TABLE `centreprofiles` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `certificates`
 --
 
 DROP TABLE IF EXISTS `certificates`;
-CREATE TABLE IF NOT EXISTS `certificates` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `student_id` bigint(20) UNSIGNED NOT NULL,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `certificates` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned NOT NULL,
+  `student_id` bigint unsigned NOT NULL,
   `register_num` varchar(100) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
   `description` text,
@@ -239,52 +361,58 @@ CREATE TABLE IF NOT EXISTS `certificates` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `certificates`
 --
 
-INSERT INTO `certificates` (`id`, `user_id`, `student_id`, `register_num`, `title`, `description`, `uploaded`, `certificate`, `type`, `created_at`, `updated_at`) VALUES
-(2, 1, 1, 'AK04212', 'sample certificate', 'certificate description', '2021-05-15', '1_1621084192.pdf', NULL, '2021-05-15 07:39:52', '2021-05-15 07:39:52');
-
--- --------------------------------------------------------
+LOCK TABLES `certificates` WRITE;
+/*!40000 ALTER TABLE `certificates` DISABLE KEYS */;
+INSERT INTO `certificates` VALUES (2,1,1,'AK04212','sample certificate','certificate description','2021-05-15','1_1621084192.pdf',NULL,'2021-05-15 07:39:52','2021-05-15 07:39:52'),(3,1,42,'AK072143','rahila certificate','STED certificate','2021-11-03','1_1635925436.pdf',NULL,'2021-11-03 02:13:56','2021-11-03 02:13:56'),(4,1,42,'AK072143','Rahila M, Certificate','STED Certificate in Data-Entry','2021-11-03','1_1635926435.pdf',NULL,'2021-11-03 02:30:35','2021-11-03 02:30:35');
+/*!40000 ALTER TABLE `certificates` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `certifications`
 --
 
 DROP TABLE IF EXISTS `certifications`;
-CREATE TABLE IF NOT EXISTS `certifications` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `title` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `certifications` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned NOT NULL,
+  `title` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `description` text CHARACTER SET utf8 COLLATE utf8_general_ci,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `certifications`
 --
 
-INSERT INTO `certifications` (`id`, `user_id`, `title`, `description`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Archikites Certification', NULL, '2021-04-29 02:36:02', '2021-04-29 02:36:02'),
-(2, 1, 'STED Council Certification', NULL, '2021-04-29 02:36:16', '2021-04-29 02:36:16'),
-(3, 1, 'JAIN Certification', NULL, '2021-04-29 02:36:24', '2021-04-29 02:36:24'),
-(4, 1, 'AKTIWA CERTIFICATION', NULL, '2021-05-18 12:01:47', '2021-05-18 12:01:47');
-
--- --------------------------------------------------------
+LOCK TABLES `certifications` WRITE;
+/*!40000 ALTER TABLE `certifications` DISABLE KEYS */;
+INSERT INTO `certifications` VALUES (1,1,'Archikites Certification',NULL,'2021-04-29 02:36:02','2021-04-29 02:36:02'),(2,1,'STED Council Certification',NULL,'2021-04-29 02:36:16','2021-04-29 02:36:16'),(3,1,'JAIN Certification',NULL,'2021-04-29 02:36:24','2021-04-29 02:36:24'),(4,1,'AKTIWA CERTIFICATION',NULL,'2021-05-18 12:01:47','2021-05-18 12:01:47');
+/*!40000 ALTER TABLE `certifications` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `classes`
 --
 
 DROP TABLE IF EXISTS `classes`;
-CREATE TABLE IF NOT EXISTS `classes` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `classes` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned NOT NULL,
+  `faculty_id` bigint unsigned DEFAULT NULL,
   `title` varchar(255) NOT NULL,
   `description` text,
   `link` varchar(255) DEFAULT NULL,
@@ -296,121 +424,144 @@ CREATE TABLE IF NOT EXISTS `classes` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `classes`
 --
 
-INSERT INTO `classes` (`id`, `user_id`, `title`, `description`, `link`, `platform`, `type`, `starttime`, `endtime`, `date`, `created_at`, `updated_at`) VALUES
-(2, 1, 'abacus 1st level training', 'Archikites Abacus Training saturday 10:30AM\r\nMay 1, 2021, 10:30am – December 31, 2021, 5:00pm · \r\nGoogle Meet joining info', 'https://meet.google.com/wyf-dbnw-aqo', 'googlemeet', 'online', '10:30:00', '05:00:00', '2021-05-22', '2021-05-18 14:01:47', '2021-05-18 14:01:47');
-
--- --------------------------------------------------------
+LOCK TABLES `classes` WRITE;
+/*!40000 ALTER TABLE `classes` DISABLE KEYS */;
+INSERT INTO `classes` VALUES (2,1,1,'abacus 1st level training Online','Archikites Abacus Training saturday 03:30 PM\r\nSeptember 11, 2021,\r\nGoogle Meet joining info','https://meet.google.com/nsj-pzew-rdm','google_meet','online','03:30:00','05:00:00','2021-09-11','2021-05-18 14:01:47','2021-09-11 04:09:40'),(3,1,NULL,'Basics of Abacus - Live Online ABACUS Class 8th Batch','Basics of Abacus - Live Online ABACUS Class🧮\r\n\r\nThe Online abacus Class will be held on 5th of June 2021 (Sat) at 05 pm and will be conducted by Mis. BINDHU Suresh.\r\n\r\nKindly attend using Google meet:\r\n             \r\n⚡ Today Sessions:\r\n\r\n•Learn basic abacus knowledge \r\n\r\n• Finger Theory: finger positions of abacus tool”\r\n\r\n•General Q&A\r\n\r\n⚡ Learning Outcome:\r\n\r\n• Understanding abacus Tools\r\n• Take Leadership\r\n• Abacus Level 1Course practice &  Valuation \r\n\r\nMore Detail Contact : 📲 8281016662','https://meet.google.com/jaz-aqzo-bcu','google_meet','online','05:00:00','07:00:00','2021-06-05','2021-06-05 09:20:20','2021-06-05 09:54:17'),(4,1,1,'Abacus August Batch Online Live Class','The Online abacus Class will be held on 8th of August 2021 at 4PM IST  and will be conducted by Mis. BINDHU Suresh. \r\n\r\nKindly attend using Google meet:              \r\nAbacus New Batch August 8th\r\nSunday,  4PM\r\n \r\n⚡ Today Sessions:\r\n\r\n•Learn basic abacus knowledge \r\n\r\n• Finger Theory: finger positions of abacus tool”\r\n\r\n•General Q&A\r\n\r\n⚡ Learning Outcome:\r\n\r\n• Understanding abacus Tools\r\n• Take Leadership\r\n• Abacus Level 1 Course practice &  Valuation . \r\n\r\nMore info: 📲 8281016662\r\nhttp://edu.archikites.com/#abacus \r\n\r\nഎല്ലാ ഞായറാഴ്ചകളിലും  ഓൺലൈൻ ലൈവ് ക്ലാസ്സ് ഉണ്ടായിരിക്കും.','https://meet.google.com/txd-fmhr-ixy','google_meet','offline','16:00:00','17:30:00','2021-08-08','2021-08-06 05:40:25','2021-08-07 12:07:24');
+/*!40000 ALTER TABLE `classes` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `classstudents`
 --
 
 DROP TABLE IF EXISTS `classstudents`;
-CREATE TABLE IF NOT EXISTS `classstudents` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `class_id` bigint(20) UNSIGNED NOT NULL,
-  `student_id` bigint(20) UNSIGNED NOT NULL,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `classstudents` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned NOT NULL,
+  `class_id` bigint unsigned NOT NULL,
+  `student_id` bigint unsigned NOT NULL,
+  `batch_id` bigint unsigned DEFAULT NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `class on student` (`class_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
+  KEY `class on student` (`class_id`),
+  CONSTRAINT `class on student` FOREIGN KEY (`class_id`) REFERENCES `classes` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `classstudents`
 --
 
-INSERT INTO `classstudents` (`id`, `user_id`, `class_id`, `student_id`, `created_at`, `updated_at`) VALUES
-(3, 1, 2, 1, '2021-05-18 14:02:09', '2021-05-18 14:02:09'),
-(4, 1, 2, 2, '2021-05-18 14:02:09', '2021-05-18 14:02:09'),
-(5, 1, 2, 3, '2021-05-18 14:02:09', '2021-05-18 14:02:09'),
-(6, 1, 2, 2, '2021-05-18 14:02:36', '2021-05-18 14:02:36');
-
--- --------------------------------------------------------
+LOCK TABLES `classstudents` WRITE;
+/*!40000 ALTER TABLE `classstudents` DISABLE KEYS */;
+INSERT INTO `classstudents` VALUES (3,1,2,1,NULL,'2021-05-18 14:02:09','2021-05-18 14:02:09'),(4,1,2,2,NULL,'2021-05-18 14:02:09','2021-05-18 14:02:09'),(5,1,2,3,NULL,'2021-05-18 14:02:09','2021-05-18 14:02:09'),(6,1,2,2,NULL,'2021-05-18 14:02:36','2021-05-18 14:02:36'),(8,1,3,21,NULL,'2021-06-05 09:55:39','2021-06-05 09:55:39'),(9,1,3,22,NULL,'2021-06-05 09:55:39','2021-06-05 09:55:39'),(10,1,3,23,NULL,'2021-06-05 09:55:39','2021-06-05 09:55:39'),(11,1,3,24,NULL,'2021-06-05 09:55:39','2021-06-05 09:55:39'),(16,1,3,25,NULL,'2021-06-05 11:00:08','2021-06-05 11:00:08'),(17,1,3,26,NULL,'2021-06-05 11:00:08','2021-06-05 11:00:08'),(18,1,3,27,NULL,'2021-06-05 11:00:08','2021-06-05 11:00:08'),(19,1,4,45,17,'2021-08-06 05:40:58','2021-08-06 05:40:58');
+/*!40000 ALTER TABLE `classstudents` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `coursetags`
 --
 
 DROP TABLE IF EXISTS `coursetags`;
-CREATE TABLE IF NOT EXISTS `coursetags` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `course_id` bigint(20) UNSIGNED NOT NULL,
-  `tag_id` bigint(20) UNSIGNED NOT NULL,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `coursetags` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned NOT NULL,
+  `course_id` bigint unsigned NOT NULL,
+  `tag_id` bigint unsigned NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `tag_id` (`tag_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  KEY `tag_id` (`tag_id`),
+  CONSTRAINT `tag_fk` FOREIGN KEY (`tag_id`) REFERENCES `tags` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- --------------------------------------------------------
+--
+-- Dumping data for table `coursetags`
+--
+
+LOCK TABLES `coursetags` WRITE;
+/*!40000 ALTER TABLE `coursetags` DISABLE KEYS */;
+/*!40000 ALTER TABLE `coursetags` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `enquiries`
 --
 
 DROP TABLE IF EXISTS `enquiries`;
-CREATE TABLE IF NOT EXISTS `enquiries` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `fullname` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `qualification` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `dob` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `gender` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `place` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `house` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `pincode` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `state` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `district` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `phone` varchar(25) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `whatsap` varchar(25) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `photo` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `g_name` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `g_relation` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `g_specify` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `g_occupation` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `g_phone` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `g_email` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `courseid` int(11) DEFAULT NULL,
-  `course_title` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `course_method` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `duration_type` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `how_here_about` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `some_more` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `enquiries` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned DEFAULT NULL,
+  `course_id` bigint unsigned DEFAULT NULL,
+  `fullname` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `qualification` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `dob` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `gender` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `place` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `house` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `pincode` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `state` varchar(60) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `district` varchar(60) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `phone` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `whatsap` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `email` varchar(120) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `photo` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `g_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `g_relation` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `g_specify` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `g_occupation` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `g_phone` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `g_email` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `courseid` int DEFAULT NULL,
+  `course_title` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `course_method` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `duration_type` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `how_here_about` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `some_more` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `status` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `marketing_member_id` bigint unsigned DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enquiries`
 --
 
-INSERT INTO `enquiries` (`id`, `user_id`, `fullname`, `qualification`, `dob`, `gender`, `place`, `house`, `pincode`, `state`, `district`, `phone`, `whatsap`, `email`, `photo`, `g_name`, `g_relation`, `g_specify`, `g_occupation`, `g_phone`, `g_email`, `courseid`, `course_title`, `course_method`, `duration_type`, `how_here_about`, `some_more`, `status`, `created_at`, `updated_at`) VALUES
-(2, 1, 'shanil kp', 'SSLC', '2021-05-18', NULL, NULL, NULL, NULL, NULL, NULL, '09946041479', NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'NEW', '2021-05-18 11:09:19', '2021-05-18 11:09:19'),
-(9, 1, 'shanil kp', 'sslc', '1986-06-01T15:22:22.207+05:30', 'male', 'cheruthazham ', NULL, NULL, NULL, NULL, '9946041479', NULL, 'shanilkp@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 3, 'DIPLOMA IN FINANCIAL ACCOUNTING', NULL, NULL, NULL, 'send details of accounting ', NULL, NULL, NULL),
-(10, 1, 'shanil', NULL, '1988-06-01', NULL, NULL, NULL, NULL, NULL, NULL, '9946041479', NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'NEW', '2021-05-21 12:33:10', '2021-05-21 12:33:10');
-
--- --------------------------------------------------------
+LOCK TABLES `enquiries` WRITE;
+/*!40000 ALTER TABLE `enquiries` DISABLE KEYS */;
+INSERT INTO `enquiries` VALUES (9,1,NULL,'shanil kp','sslc','1986-06-01T15:22:22.207+05:30','male','cheruthazham ',NULL,NULL,NULL,NULL,'9946041479',NULL,'shanilkp@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,3,'DIPLOMA IN FINANCIAL ACCOUNTING',NULL,NULL,NULL,'send details of accounting ',NULL,NULL,NULL,NULL),(10,1,NULL,'shanil',NULL,'1988-06-01',NULL,NULL,NULL,NULL,NULL,NULL,'9946041479',NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'NEW',NULL,'2021-05-21 12:33:10','2021-05-21 12:33:10'),(11,1,NULL,'shanil kp','graduation ','1986-06-01T15:47:34.197+05:30','Male','pilathara ',NULL,NULL,NULL,NULL,'9946041479',NULL,'shanilkp@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,12,'Diploma in Interior Designing',NULL,NULL,NULL,'test interior course enquiry',NULL,NULL,NULL,NULL),(12,NULL,NULL,'test pranav',NULL,'2021-06-21',NULL,'dgsg',NULL,NULL,NULL,NULL,'324',NULL,'pranav@exampl.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2021-06-21 11:44:04','2021-06-21 11:44:04'),(13,NULL,NULL,'Shanil kp',NULL,'1976-06-21',NULL,'Pilathara test',NULL,NULL,NULL,NULL,'09946041479',NULL,'shanilkp@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2021-06-21 11:44:43','2021-06-21 11:44:43'),(14,1,NULL,'shuhail chattiol','plus two','1990-05-15T10:29:57.526+05:30','','chattiol',NULL,NULL,NULL,NULL,'9961534231',NULL,'shuhailchattiol@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,15,'Spoken English Coaching 21 Days Programme',NULL,NULL,NULL,'',NULL,NULL,NULL,NULL),(15,NULL,NULL,'Shanil kp abacus course',NULL,'2003-06-23',NULL,'Cheruthazham',NULL,NULL,NULL,NULL,'9946041479',NULL,'shanilkp@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2021-06-23 07:22:50','2021-06-23 07:22:50'),(16,NULL,NULL,'Shanil',NULL,'1991-06-01',NULL,'Kunjimangalam',NULL,NULL,NULL,NULL,'09946041479',NULL,'shanilkp@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2021-06-23 08:34:10','2021-06-23 08:34:10'),(17,NULL,NULL,'Shine test',NULL,'1976-06-23',NULL,'Cheruthazham',NULL,NULL,NULL,NULL,'9946041479',NULL,'shanilkp@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2021-06-23 10:46:03','2021-06-23 10:46:03'),(18,NULL,NULL,'pranav',NULL,'2021-06-23',NULL,'gd',NULL,NULL,NULL,NULL,'36',NULL,'vvpranav04@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2021-06-23 10:51:02','2021-06-23 10:51:02'),(19,NULL,NULL,'Suhail test',NULL,'2021-06-19',NULL,'Chattiyol',NULL,NULL,NULL,NULL,'99615 34231',NULL,'suhailchattiyol@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2021-06-23 11:24:15','2021-06-23 11:24:15'),(20,NULL,1,'pranav',NULL,'2021-06-23',NULL,'dgsg',NULL,NULL,NULL,NULL,'325',NULL,'vvpranav04@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2021-06-23 12:11:01','2021-06-23 12:11:01'),(21,1,NULL,'akash','btech','2021-06-23T18:02:09.273+05:30','Male','kadanapallo',NULL,NULL,NULL,NULL,'123456',NULL,'akashov@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,15,'Spoken English Coaching 21 Days Programme',NULL,NULL,NULL,'test',NULL,NULL,NULL,NULL),(22,NULL,3,'shanil',NULL,'1988-06-01',NULL,'cheruthazham',NULL,NULL,NULL,NULL,'9946041479',NULL,'shanilkp@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2021-06-23 12:50:07','2021-06-23 12:50:07'),(23,1,NULL,'rajesh','8','2001-06-04T18:20:51.794+05:30','Male','kunjimangalam',NULL,NULL,NULL,NULL,'123456',NULL,'raj@klm.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,15,'Spoken English Coaching 21 Days Programme',NULL,NULL,NULL,'hi test',NULL,NULL,NULL,NULL),(24,1,NULL,'rahul','+2','','','panapuzha',NULL,NULL,NULL,NULL,'9895117188',NULL,'rahulgireesh33@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,17,'Microsoft Word',NULL,NULL,NULL,'hii\n',NULL,NULL,NULL,NULL),(25,NULL,1,'NUMAIR MUNDOPADATH SUNAISE',NULL,'2009-10-01',NULL,'Sohar, Oman',NULL,NULL,NULL,NULL,'0096894351429',NULL,'sunaise@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2021-07-31 13:11:34','2021-07-31 13:11:34'),(26,1,NULL,'Maneesha k v','btech','1999-05-27T10:33:08.726+05:30','Female','pilathara ',NULL,NULL,NULL,NULL,'7560800471',NULL,'maneeshaperiyat@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,9,'DIPLOMA IN AUTOCAD AND 3ds MAX',NULL,NULL,NULL,'course charge',NULL,NULL,'2021-08-03 10:34:32','2021-08-03 10:34:32'),(27,NULL,1,'Nandagopan S Kumar',NULL,'2013-05-07',NULL,'Kochi',NULL,NULL,NULL,NULL,'9895906498',NULL,'tv9sreejith@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2021-08-06 03:27:30','2021-08-06 03:27:30'),(28,NULL,1,'Aaronvilesh',NULL,'2013-04-06',NULL,'Mattannur',NULL,NULL,NULL,NULL,'9447538827',NULL,'shimnavilesh15477@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2021-08-06 09:17:52','2021-08-06 09:17:52'),(29,1,NULL,'ANVITHA HARIDAS','ll nd std','2014-10-10T16:02:52.231+05:30','Female','Kunhimangalam',NULL,NULL,NULL,NULL,'9746609104',NULL,'haridasklm@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,'Abacus Training',NULL,NULL,NULL,'',NULL,NULL,'2021-08-08 16:04:37','2021-08-08 16:04:37'),(30,1,NULL,'ANVITHA HARIDAS','ll nd std','2014-10-10T16:08:40.102+05:30','Female','Kunhimangalam',NULL,NULL,NULL,NULL,'9746609104',NULL,'haridasklm@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,'Abacus Training',NULL,NULL,NULL,'',NULL,NULL,'2021-08-08 16:10:10','2021-08-08 16:10:10'),(31,1,NULL,'Kalyani R Hareesh','3td','2013-06-17T17:45:52.494+05:30','Female','Kanjirangad',NULL,NULL,NULL,NULL,'8547682411',NULL,'roshni.chamblon@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,34,'Abacus 2 Level',NULL,NULL,NULL,'',NULL,NULL,'2021-09-05 17:50:55','2021-09-05 17:50:55'),(32,NULL,1,'Aryakrishna A U',NULL,'2005-07-16',NULL,'Labour junction',NULL,NULL,NULL,NULL,'9656450020',NULL,'auaryakrishna@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2021-09-10 10:38:04','2021-09-10 10:38:04'),(33,NULL,1,'Aryakrishna A U',NULL,'2005-07-16',NULL,'Labour junction',NULL,NULL,NULL,NULL,'9656450020',NULL,'auaryakrishna@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2021-09-10 10:39:41','2021-09-10 10:39:41'),(34,NULL,1,'Diya Sunil',NULL,'2010-06-28',NULL,'Delhi',NULL,NULL,NULL,NULL,'9891110800',NULL,'skannada@rediffmail.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2021-10-14 12:00:51','2021-10-14 12:00:51'),(35,NULL,1,'Aarav krishna p v',NULL,'2016-07-16',NULL,'Kannur',NULL,NULL,NULL,NULL,'8129476558',NULL,'soumyamarar2@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2021-10-14 20:28:26','2021-10-14 20:28:26'),(36,NULL,6,'Al Ameen ke',NULL,'1997-04-14',NULL,'Panapzuah',NULL,NULL,NULL,NULL,'9995097021',NULL,'ameenal771@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2021-11-27 07:59:17','2021-11-27 07:59:17');
+/*!40000 ALTER TABLE `enquiries` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `exams`
 --
 
 DROP TABLE IF EXISTS `exams`;
-CREATE TABLE IF NOT EXISTS `exams` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `exams` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned NOT NULL,
+  `faculty_id` bigint unsigned DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
   `description` text,
   `date` date DEFAULT NULL,
@@ -419,53 +570,61 @@ CREATE TABLE IF NOT EXISTS `exams` (
   `created_at` timestamp NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `exams`
 --
 
-INSERT INTO `exams` (`id`, `user_id`, `title`, `description`, `date`, `start_time`, `end_time`, `created_at`, `updated_at`) VALUES
-(3, 1, 'Test exam', 'abacus 1st level exam', '2021-05-30', '10:00:00', '11:00:00', '2021-05-17 00:11:59', '2021-05-25 08:12:52'),
-(4, 1, 'spoken english', 'spoken english Conduct Viva test', '2021-06-05', '10:00:00', '12:00:00', '2021-05-25 08:15:03', '2021-05-25 08:15:03');
-
--- --------------------------------------------------------
+LOCK TABLES `exams` WRITE;
+/*!40000 ALTER TABLE `exams` DISABLE KEYS */;
+INSERT INTO `exams` VALUES (3,1,NULL,'Test exam','abacus 1st level exam','2021-05-30','10:00:00','11:00:00','2021-05-17 00:11:59','2021-05-25 08:12:52'),(4,1,NULL,'spoken english','spoken english Conduct Viva test','2021-06-05','10:00:00','12:00:00','2021-05-25 08:15:03','2021-05-25 08:15:03'),(5,1,NULL,'class test','abacus april batch 1st level test','2021-03-06','10:00:00','11:00:00','2021-05-31 19:14:59','2021-05-31 19:14:59');
+/*!40000 ALTER TABLE `exams` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `examstudents`
 --
 
 DROP TABLE IF EXISTS `examstudents`;
-CREATE TABLE IF NOT EXISTS `examstudents` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `student_id` bigint(20) UNSIGNED NOT NULL,
-  `exam_id` bigint(20) UNSIGNED NOT NULL,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `examstudents` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned NOT NULL,
+  `student_id` bigint unsigned NOT NULL,
+  `exam_id` bigint unsigned NOT NULL,
+  `batch_id` bigint unsigned DEFAULT NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `exam on students` (`exam_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+  KEY `exam on students` (`exam_id`),
+  CONSTRAINT `exam on students` FOREIGN KEY (`exam_id`) REFERENCES `exams` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `examstudents`
 --
 
-INSERT INTO `examstudents` (`id`, `user_id`, `student_id`, `exam_id`, `created_at`, `updated_at`) VALUES
-(2, 1, 1, 3, '2021-05-17 00:12:05', '2021-05-17 00:12:05'),
-(3, 1, 2, 3, '2021-05-17 00:12:05', '2021-05-17 00:12:05');
-
--- --------------------------------------------------------
+LOCK TABLES `examstudents` WRITE;
+/*!40000 ALTER TABLE `examstudents` DISABLE KEYS */;
+INSERT INTO `examstudents` VALUES (2,1,1,3,NULL,'2021-05-17 00:12:05','2021-05-17 00:12:05'),(3,1,2,3,NULL,'2021-05-17 00:12:05','2021-05-17 00:12:05'),(4,1,1,5,NULL,'2021-05-31 19:14:59','2021-05-31 19:14:59'),(5,1,2,5,NULL,'2021-05-31 19:14:59','2021-05-31 19:14:59'),(6,1,3,5,NULL,'2021-05-31 19:14:59','2021-05-31 19:14:59'),(7,1,4,5,NULL,'2021-05-31 19:14:59','2021-05-31 19:14:59'),(8,1,5,5,NULL,'2021-05-31 19:14:59','2021-05-31 19:14:59'),(9,1,6,5,NULL,'2021-05-31 19:14:59','2021-05-31 19:14:59'),(10,1,7,5,NULL,'2021-05-31 19:14:59','2021-05-31 19:14:59'),(11,1,8,5,NULL,'2021-05-31 19:14:59','2021-05-31 19:14:59');
+/*!40000 ALTER TABLE `examstudents` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `faculiteis`
 --
 
 DROP TABLE IF EXISTS `faculiteis`;
-CREATE TABLE IF NOT EXISTS `faculiteis` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `faculty_id` bigint(20) UNSIGNED DEFAULT NULL,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `faculiteis` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned NOT NULL,
+  `faculty_id` bigint unsigned DEFAULT NULL,
   `name` varchar(200) DEFAULT NULL,
   `phone` varchar(20) DEFAULT NULL,
   `whatsapp` varchar(20) DEFAULT NULL,
@@ -474,335 +633,565 @@ CREATE TABLE IF NOT EXISTS `faculiteis` (
   `address` varchar(255) DEFAULT NULL,
   `profile` text,
   `resume` varchar(200) DEFAULT NULL,
+  `photo` varchar(200) DEFAULT NULL,
   `status` varchar(20) DEFAULT 'active',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `faculty_id` (`faculty_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `faculiteis`
 --
 
-INSERT INTO `faculiteis` (`id`, `user_id`, `faculty_id`, `name`, `phone`, `whatsapp`, `profession`, `sex`, `address`, `profile`, `resume`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 15, 'Bindhu P K', '9562917368', '8281016662', 'Teacher', 'female', 'Gokulam\r\nvengara, madayi\r\nkannur, kerala', NULL, NULL, 'active', '2021-04-29 04:00:15', '2021-04-29 04:00:15'),
-(2, 1, 16, 'shanil kp', '+919946041479', '9946041479', 'Employed', 'male', 'ushas\r\ncheruthazham\r\nmandoor\r\nkannur\r\nkerala', NULL, NULL, 'active', '2021-05-18 15:40:36', '2021-05-18 15:40:36'),
-(3, 1, 17, 'SWETHA P K', '9946041479', NULL, 'Employed', 'male', 'ushas\r\ncheruthazham\r\nmandoor\r\nkannur\r\nkerala', NULL, NULL, 'active', '2021-05-18 15:46:03', '2021-05-18 15:46:03'),
-(4, 1, 18, 'rajanpilla', '+919946041479', NULL, 'RetiredTeacher', 'male', 'ushas\r\ncheruthazham\r\nmandoor\r\nkannur\r\nkerala', NULL, NULL, 'active', '2021-05-18 15:46:50', '2021-05-18 15:46:50'),
-(5, 1, 19, 'rajesh', '45544555', NULL, 'Teacher', 'male', 'kunjimangalam', 'new', NULL, 'active', '2021-05-18 15:48:42', '2021-05-18 15:48:42');
-
--- --------------------------------------------------------
+LOCK TABLES `faculiteis` WRITE;
+/*!40000 ALTER TABLE `faculiteis` DISABLE KEYS */;
+INSERT INTO `faculiteis` VALUES (1,1,15,'Bindhu P K','9562917368','8281016662','Teacher','female','Gokulam\r\nvengara, madayi\r\nkannur, kerala',NULL,NULL,'1_1624106336.jpg','active','2021-04-29 04:00:15','2021-06-19 12:38:56'),(5,1,19,'rajesh','9061670777','9061670777','Teacher','male','kunjimangalam','new',NULL,NULL,'active','2021-05-18 15:48:42','2021-05-31 06:35:45'),(6,1,20,'swethasuresh','9847321088','9847321088','Faculty','female','Gokulam, vengara, Payangadi',NULL,NULL,'1_1629111443.jpg','active','2021-05-31 07:52:14','2021-08-31 00:28:36'),(7,1,21,'Akash Arvind','9495645915','9495645915','SoftwareProfessional','male','Padinjarekkara, Kadannappalli, Kannur',NULL,NULL,NULL,'active','2021-06-01 06:13:59','2021-06-05 14:42:32'),(8,1,22,'Rahul Gireesh','9895117188','9895117188','Teacher','male','CHIRAKKAL HOUSE, Panapuzha P.O., Mathamangalam',NULL,NULL,'1_1624452226.jpg','active','2021-06-23 10:05:50','2021-06-23 12:43:46'),(9,1,23,'Soorya','9809105189','9809105189','Teacher','female','Ezhilode, Pilathara',NULL,NULL,NULL,'active','2021-08-09 00:28:34','2021-08-09 00:28:34'),(10,1,25,'Swetha Suresh','8281016662','8281016662','Faculty','female','archikites education, mm road pilathara, kannur','Provide a Virtual Assistant (a virtual teacher to help the students solve a sum if they were to get stuck) while doing their Homework or solving a sum.',NULL,'1_1630394223.jpg','active','2021-08-31 01:07:52','2021-08-31 01:47:03'),(11,1,26,'AKHILESH M','9562860710','9562860710','Faculty','male','MELEL(H) PERINGOME(PO)MADAKKAMPOIL',NULL,NULL,NULL,'active','2021-12-02 04:57:00','2021-12-02 04:57:59');
+/*!40000 ALTER TABLE `faculiteis` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `facultybatches`
 --
 
 DROP TABLE IF EXISTS `facultybatches`;
-CREATE TABLE IF NOT EXISTS `facultybatches` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `faculty_id` bigint(20) UNSIGNED NOT NULL,
-  `batch_id` bigint(20) UNSIGNED NOT NULL,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `facultybatches` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned NOT NULL,
+  `faculty_id` bigint unsigned NOT NULL,
+  `batch_id` bigint unsigned NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `faculty on batch` (`faculty_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4;
+  KEY `faculty on batch` (`faculty_id`),
+  CONSTRAINT `faculty on batch` FOREIGN KEY (`faculty_id`) REFERENCES `faculiteis` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `facultybatches`
 --
 
-INSERT INTO `facultybatches` (`id`, `user_id`, `faculty_id`, `batch_id`, `created_at`, `updated_at`) VALUES
-(17, 1, 1, 2, '2021-05-19 11:22:19', '2021-05-19 11:22:19');
-
--- --------------------------------------------------------
+LOCK TABLES `facultybatches` WRITE;
+/*!40000 ALTER TABLE `facultybatches` DISABLE KEYS */;
+INSERT INTO `facultybatches` VALUES (17,1,1,2,'2021-05-19 11:22:19','2021-05-19 11:22:19'),(18,1,1,1,'2021-05-31 07:14:01','2021-05-31 07:14:01'),(19,1,5,4,'2021-05-31 09:25:06','2021-05-31 09:25:06'),(20,1,1,8,'2021-06-03 14:30:59','2021-06-03 14:30:59'),(24,1,8,13,'2021-06-23 10:15:33','2021-06-23 10:15:33');
+/*!40000 ALTER TABLE `facultybatches` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `facultycourses`
 --
 
 DROP TABLE IF EXISTS `facultycourses`;
-CREATE TABLE IF NOT EXISTS `facultycourses` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `faculty_id` bigint(20) UNSIGNED NOT NULL,
-  `course_id` bigint(20) UNSIGNED NOT NULL,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `facultycourses` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned NOT NULL,
+  `faculty_id` bigint unsigned NOT NULL,
+  `course_id` bigint unsigned NOT NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `course of faculty` (`faculty_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+  KEY `course of faculty` (`faculty_id`),
+  CONSTRAINT `course of faculty` FOREIGN KEY (`faculty_id`) REFERENCES `faculiteis` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `facultycourses`
 --
 
-INSERT INTO `facultycourses` (`id`, `user_id`, `faculty_id`, `course_id`, `created_at`, `updated_at`) VALUES
-(3, 1, 1, 1, '2021-05-05 01:31:24', '2021-05-05 01:31:24');
-
--- --------------------------------------------------------
+LOCK TABLES `facultycourses` WRITE;
+/*!40000 ALTER TABLE `facultycourses` DISABLE KEYS */;
+INSERT INTO `facultycourses` VALUES (3,1,1,1,'2021-05-05 01:31:24','2021-05-05 01:31:24'),(9,1,5,4,'2021-06-23 10:33:37','2021-06-23 10:33:37'),(10,1,5,1,'2021-06-23 10:34:04','2021-06-23 10:34:04'),(16,1,8,4,'2021-06-23 12:35:52','2021-06-23 12:35:52'),(17,1,8,10,'2021-06-23 12:35:59','2021-06-23 12:35:59'),(18,1,8,11,'2021-06-23 12:36:05','2021-06-23 12:36:05'),(19,1,1,6,'2021-06-28 08:18:40','2021-06-28 08:18:40'),(20,1,1,12,'2021-08-31 02:24:20','2021-08-31 02:24:20'),(21,1,11,3,'2021-12-27 05:47:27','2021-12-27 05:47:27'),(22,1,11,5,'2021-12-27 05:47:34','2021-12-27 05:47:34'),(23,1,11,18,'2021-12-27 05:47:51','2021-12-27 05:47:51'),(24,1,11,6,'2021-12-27 05:48:09','2021-12-27 05:48:09');
+/*!40000 ALTER TABLE `facultycourses` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `facultystudents`
 --
 
 DROP TABLE IF EXISTS `facultystudents`;
-CREATE TABLE IF NOT EXISTS `facultystudents` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `faculty_id` bigint(20) UNSIGNED NOT NULL,
-  `student_id` bigint(20) UNSIGNED NOT NULL,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `facultystudents` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned NOT NULL,
+  `faculty_id` bigint unsigned NOT NULL,
+  `student_id` bigint unsigned NOT NULL,
+  `batch_id` bigint unsigned DEFAULT NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `faculty on students` (`faculty_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+  KEY `faculty on students` (`faculty_id`),
+  CONSTRAINT `faculty on students` FOREIGN KEY (`faculty_id`) REFERENCES `faculiteis` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=226 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `facultystudents`
 --
 
-INSERT INTO `facultystudents` (`id`, `user_id`, `faculty_id`, `student_id`, `created_at`, `updated_at`) VALUES
-(5, 1, 1, 1, '2021-04-30 05:07:54', '2021-04-30 05:07:54');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `lessons`
---
-
-DROP TABLE IF EXISTS `lessons`;
-CREATE TABLE IF NOT EXISTS `lessons` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) UNSIGNED NOT NULL DEFAULT '1',
-  `course_id` bigint(20) UNSIGNED NOT NULL,
-  `module_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `order_id` int(11) DEFAULT NULL,
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
-  `content` longtext COLLATE utf8mb4_unicode_ci,
-  `type` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `duration` time DEFAULT NULL,
-  `url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `image1` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `image2` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `file` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `videolink` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `videosource` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT 'active',
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `course_id` (`course_id`),
-  KEY `module on lesson` (`module_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `lessons`
---
-
-INSERT INTO `lessons` (`id`, `user_id`, `course_id`, `module_id`, `order_id`, `title`, `description`, `content`, `type`, `duration`, `url`, `image1`, `image2`, `file`, `videolink`, `videosource`, `status`, `created_at`, `updated_at`) VALUES
-(3, 1, 1, 1, NULL, 'Basis of Abacus', 'general details of abacus course', 'Abacus exercises the brain to its unbelievable potential, using activities that require memory, concentration, analysis, visualization and control. These activities encourage the brain to remember arithmetic skills. As well as complete mental calculations faster than traditional Math with higher levels of accuracy.', 'Theory', '00:15:00', NULL, '', NULL, '', NULL, 'youtube', 'active', '2021-05-18 13:28:09', '2021-05-18 13:28:09'),
-(4, 1, 1, 1, NULL, 'Abacus Finger Theory', 'Finger theory is the first step in learning abacus.', 'Finger theory is the first step in learning abacus. Finger theory gives a great introduction to the mindset of abacus, use of the abacus tool is introduced alongside finger theory, and they complement each others learning.', 'Video', '00:10:00', NULL, '', NULL, '', NULL, 'youtube', 'active', '2021-05-18 13:48:00', '2021-05-18 13:48:00'),
-(5, 1, 1, NULL, NULL, 'MENTAL THEORY', 'allowing students to carry out massive calculations quickly and correctly with no tool, other than their mind.', 'The Final, Hardest, but most impressive stage of the Abacus Technique is when our students learn to use Mental Theory. We teach them to visualize an Abacus in their mind. This is where the real strengths and usefulness of Abacus comes in, allowing students to carry out massive calculations quickly and correctly with no tool, other than their mind.', 'Theory', '00:30:00', NULL, '', NULL, '', NULL, 'youtube', 'active', '2021-05-18 16:48:04', '2021-05-18 16:48:04');
-
--- --------------------------------------------------------
+LOCK TABLES `facultystudents` WRITE;
+/*!40000 ALTER TABLE `facultystudents` DISABLE KEYS */;
+INSERT INTO `facultystudents` VALUES (7,1,6,10,NULL,'2021-05-31 08:07:17','2021-05-31 08:07:17'),(8,1,6,5,NULL,'2021-05-31 08:08:37','2021-05-31 08:08:37'),(10,1,5,19,NULL,'2021-05-31 09:26:13','2021-05-31 09:26:13'),(12,1,1,9,NULL,'2021-05-31 09:27:44','2021-05-31 09:27:44'),(15,1,1,31,10,'2021-06-28 08:20:49','2021-06-28 08:20:49'),(17,1,8,30,15,'2021-06-29 11:37:46','2021-06-29 11:37:46'),(21,1,8,36,13,'2021-07-27 04:04:10','2021-07-27 04:04:10'),(25,1,8,43,13,'2021-07-28 08:13:59','2021-07-28 08:13:59'),(27,1,9,33,9,'2021-08-09 04:05:14','2021-08-09 04:05:14'),(30,1,1,61,7,'2021-08-09 23:08:57','2021-08-09 23:08:57'),(31,1,1,64,7,'2021-08-16 04:04:05','2021-08-16 04:04:05'),(32,1,9,87,9,'2021-08-26 04:05:25','2021-08-26 04:05:25'),(35,1,8,109,13,'2021-08-30 23:33:05','2021-08-30 23:33:05'),(36,1,1,51,1,'2021-08-30 23:42:33','2021-08-30 23:42:33'),(37,1,1,46,2,'2021-08-30 23:43:13','2021-08-30 23:43:13'),(38,1,1,89,16,'2021-08-30 23:43:29','2021-08-30 23:43:29'),(39,1,1,11,1,'2021-08-30 23:44:19','2021-08-30 23:44:19'),(40,1,1,21,8,'2021-08-30 23:44:59','2021-08-30 23:44:59'),(41,1,1,1,2,'2021-08-30 23:45:10','2021-08-30 23:45:10'),(42,1,1,50,17,'2021-08-30 23:46:20','2021-08-30 23:46:20'),(43,1,1,72,17,'2021-08-30 23:48:05','2021-08-30 23:48:05'),(44,1,1,22,8,'2021-08-30 23:48:22','2021-08-30 23:48:22'),(45,1,1,73,17,'2021-08-30 23:48:36','2021-08-30 23:48:36'),(46,1,1,74,1,'2021-08-30 23:48:57','2021-08-30 23:48:57'),(47,1,1,95,1,'2021-08-30 23:49:15','2021-08-30 23:49:15'),(48,1,1,58,17,'2021-08-30 23:49:25','2021-08-30 23:49:25'),(49,1,1,76,17,'2021-08-30 23:50:13','2021-08-30 23:50:13'),(50,1,1,77,17,'2021-08-30 23:50:28','2021-08-30 23:50:28'),(51,1,1,1,2,'2021-08-30 23:51:09','2021-08-30 23:51:09'),(52,1,1,78,17,'2021-08-30 23:51:24','2021-08-30 23:51:24'),(53,1,1,8,2,'2021-08-30 23:51:39','2021-08-30 23:51:39'),(54,1,1,79,17,'2021-08-30 23:51:55','2021-08-30 23:51:55'),(55,1,1,80,17,'2021-08-30 23:52:07','2021-08-30 23:52:07'),(56,1,1,96,1,'2021-08-30 23:52:23','2021-08-30 23:52:23'),(57,1,1,81,17,'2021-08-30 23:52:40','2021-08-30 23:52:40'),(58,1,1,54,17,'2021-08-30 23:56:58','2021-08-30 23:56:58'),(59,1,1,20,1,'2021-08-30 23:57:11','2021-08-30 23:57:11'),(60,1,1,90,1,'2021-08-30 23:57:24','2021-08-30 23:57:24'),(61,1,1,10,1,'2021-08-30 23:57:37','2021-08-30 23:57:37'),(62,1,1,47,2,'2021-08-30 23:57:48','2021-08-30 23:57:48'),(63,1,1,85,17,'2021-08-30 23:58:11','2021-08-30 23:58:11'),(64,1,1,84,17,'2021-08-30 23:58:23','2021-08-30 23:58:23'),(65,1,1,106,1,'2021-08-30 23:58:37','2021-08-30 23:58:37'),(66,1,1,102,1,'2021-08-30 23:59:04','2021-08-30 23:59:04'),(67,1,1,32,16,'2021-08-30 23:59:16','2021-08-30 23:59:16'),(68,1,1,45,17,'2021-08-30 23:59:26','2021-08-30 23:59:26'),(69,1,1,49,17,'2021-08-30 23:59:36','2021-08-30 23:59:36'),(70,1,1,38,16,'2021-08-30 23:59:52','2021-08-30 23:59:52'),(71,1,1,13,1,'2021-08-31 00:00:05','2021-08-31 00:00:05'),(72,1,1,98,1,'2021-08-31 00:00:15','2021-08-31 00:00:15'),(73,1,1,48,17,'2021-08-31 00:00:28','2021-08-31 00:00:28'),(74,1,1,24,8,'2021-08-31 00:00:40','2021-08-31 00:00:40'),(75,1,1,103,1,'2021-08-31 00:00:50','2021-08-31 00:00:50'),(76,1,1,92,1,'2021-08-31 00:01:00','2021-08-31 00:01:00'),(77,1,1,57,17,'2021-08-31 00:01:47','2021-08-31 00:01:47'),(78,1,1,99,1,'2021-08-31 00:02:48','2021-08-31 00:02:48'),(79,1,1,14,1,'2021-08-31 00:03:55','2021-08-31 00:03:55'),(80,1,1,65,17,'2021-08-31 00:04:18','2021-08-31 00:04:18'),(81,1,1,17,1,'2021-08-31 00:04:44','2021-08-31 00:04:44'),(82,1,1,12,1,'2021-08-31 00:04:57','2021-08-31 00:04:57'),(83,1,1,18,1,'2021-08-31 00:05:08','2021-08-31 00:05:08'),(84,1,1,108,1,'2021-08-31 00:05:52','2021-08-31 00:05:52'),(85,1,1,100,1,'2021-08-31 00:06:05','2021-08-31 00:06:05'),(86,1,1,4,2,'2021-08-31 00:06:22','2021-08-31 00:06:22'),(87,1,1,39,1,'2021-08-31 00:08:53','2021-08-31 00:08:53'),(88,1,1,19,1,'2021-08-31 00:09:17','2021-08-31 00:09:17'),(89,1,1,59,17,'2021-08-31 00:09:48','2021-08-31 00:09:48'),(90,1,1,59,17,'2021-08-31 00:12:15','2021-08-31 00:12:15'),(91,1,1,104,1,'2021-08-31 00:12:29','2021-08-31 00:12:29'),(92,1,1,27,8,'2021-08-31 00:12:42','2021-08-31 00:12:42'),(93,1,1,27,8,'2021-08-31 00:13:20','2021-08-31 00:13:20'),(94,1,1,2,2,'2021-08-31 00:14:00','2021-08-31 00:14:00'),(95,1,1,101,1,'2021-08-31 00:14:42','2021-08-31 00:14:42'),(96,1,1,16,1,'2021-08-31 00:14:54','2021-08-31 00:14:54'),(97,1,1,105,1,'2021-08-31 00:15:47','2021-08-31 00:15:47'),(98,1,1,26,8,'2021-08-31 00:16:11','2021-08-31 00:16:11'),(99,1,1,91,1,'2021-08-31 00:16:29','2021-08-31 00:16:29'),(100,1,1,88,16,'2021-08-31 00:16:43','2021-08-31 00:16:43'),(101,1,10,1,2,'2021-08-31 01:49:42','2021-08-31 01:49:42'),(102,1,10,2,2,'2021-08-31 01:49:43','2021-08-31 01:49:43'),(103,1,10,4,2,'2021-08-31 01:49:59','2021-08-31 01:49:59'),(104,1,10,8,2,'2021-08-31 01:50:11','2021-08-31 01:50:11'),(105,1,10,10,1,'2021-08-31 01:50:20','2021-08-31 01:50:20'),(106,1,10,11,1,'2021-08-31 01:50:34','2021-08-31 01:50:34'),(107,1,10,14,1,'2021-08-31 01:50:47','2021-08-31 01:50:47'),(108,1,10,13,1,'2021-08-31 01:51:02','2021-08-31 01:51:02'),(110,1,10,15,1,'2021-08-31 01:51:28','2021-08-31 01:51:28'),(111,1,10,16,1,'2021-08-31 01:51:37','2021-08-31 01:51:37'),(112,1,10,17,1,'2021-08-31 01:51:51','2021-08-31 01:51:51'),(113,1,10,18,1,'2021-08-31 01:51:57','2021-08-31 01:51:57'),(115,1,10,20,1,'2021-08-31 01:52:10','2021-08-31 01:52:10'),(116,1,10,21,8,'2021-08-31 01:52:22','2021-08-31 01:52:22'),(117,1,10,22,8,'2021-08-31 01:52:30','2021-08-31 01:52:30'),(118,1,10,23,8,'2021-08-31 01:52:38','2021-08-31 01:52:38'),(119,1,10,24,8,'2021-08-31 01:52:47','2021-08-31 01:52:47'),(120,1,10,25,8,'2021-08-31 01:52:58','2021-08-31 01:52:58'),(121,1,10,26,8,'2021-08-31 01:53:05','2021-08-31 01:53:05'),(122,1,10,27,8,'2021-08-31 01:53:12','2021-08-31 01:53:12'),(123,1,10,28,2,'2021-08-31 01:53:21','2021-08-31 01:53:21'),(124,1,10,32,16,'2021-08-31 01:53:34','2021-08-31 01:53:34'),(125,1,10,38,16,'2021-08-31 01:54:21','2021-08-31 01:54:21'),(126,1,10,39,1,'2021-08-31 01:54:30','2021-08-31 01:54:30'),(127,1,10,45,17,'2021-08-31 01:54:47','2021-08-31 01:54:47'),(128,1,10,45,17,'2021-08-31 01:54:59','2021-08-31 01:54:59'),(129,1,10,46,2,'2021-08-31 01:55:08','2021-08-31 01:55:08'),(130,1,10,47,2,'2021-08-31 01:55:19','2021-08-31 01:55:19'),(131,1,10,48,17,'2021-08-31 01:55:27','2021-08-31 01:55:27'),(132,1,10,49,17,'2021-08-31 01:55:34','2021-08-31 01:55:34'),(133,1,10,50,17,'2021-08-31 01:55:45','2021-08-31 01:55:45'),(134,1,10,59,17,'2021-08-31 01:56:02','2021-08-31 01:56:02'),(135,1,10,58,17,'2021-08-31 01:56:21','2021-08-31 01:56:21'),(136,1,10,57,17,'2021-08-31 01:56:40','2021-08-31 01:56:40'),(137,1,10,55,17,'2021-08-31 01:56:55','2021-08-31 01:56:55'),(139,1,10,53,17,'2021-08-31 01:57:20','2021-08-31 01:57:20'),(140,1,10,52,17,'2021-08-31 01:57:34','2021-08-31 01:57:34'),(141,1,10,51,1,'2021-08-31 01:57:49','2021-08-31 01:57:49'),(143,1,10,69,17,'2021-08-31 01:58:25','2021-08-31 01:58:25'),(144,1,10,68,17,'2021-08-31 01:58:38','2021-08-31 01:58:38'),(145,1,10,65,17,'2021-08-31 01:59:37','2021-08-31 01:59:37'),(146,1,10,80,17,'2021-08-31 02:00:01','2021-08-31 02:00:01'),(147,1,10,79,17,'2021-08-31 02:00:23','2021-08-31 02:00:23'),(148,1,10,78,17,'2021-08-31 02:00:39','2021-08-31 02:00:39'),(149,1,10,77,17,'2021-08-31 02:00:50','2021-08-31 02:00:50'),(150,1,10,76,17,'2021-08-31 02:01:23','2021-08-31 02:01:23'),(151,1,10,75,17,'2021-08-31 02:01:35','2021-08-31 02:01:35'),(152,1,10,74,1,'2021-08-31 02:02:07','2021-08-31 02:02:07'),(153,1,10,73,17,'2021-08-31 02:02:26','2021-08-31 02:02:26'),(154,1,10,72,17,'2021-08-31 02:02:42','2021-08-31 02:02:42'),(155,1,10,81,17,'2021-08-31 02:03:00','2021-08-31 02:03:00'),(156,1,10,82,17,'2021-08-31 02:03:08','2021-08-31 02:03:08'),(157,1,10,83,17,'2021-08-31 02:03:16','2021-08-31 02:03:16'),(158,1,10,84,17,'2021-08-31 02:03:27','2021-08-31 02:03:27'),(159,1,10,85,17,'2021-08-31 02:03:35','2021-08-31 02:03:35'),(160,1,10,86,17,'2021-08-31 02:03:44','2021-08-31 02:03:44'),(161,1,10,88,16,'2021-08-31 02:03:54','2021-08-31 02:03:54'),(162,1,10,89,16,'2021-08-31 02:04:04','2021-08-31 02:04:04'),(163,1,10,91,1,'2021-08-31 02:04:25','2021-08-31 02:04:25'),(164,1,10,92,1,'2021-08-31 02:04:39','2021-08-31 02:04:39'),(165,1,10,93,17,'2021-08-31 02:04:48','2021-08-31 02:04:48'),(166,1,10,94,1,'2021-08-31 02:05:01','2021-08-31 02:05:01'),(167,1,10,95,1,'2021-08-31 02:05:17','2021-08-31 02:05:17'),(168,1,10,96,1,'2021-08-31 02:05:26','2021-08-31 02:05:26'),(169,1,10,97,1,'2021-08-31 02:05:35','2021-08-31 02:05:35'),(171,1,10,98,1,'2021-08-31 02:05:57','2021-08-31 02:05:57'),(172,1,10,99,1,'2021-08-31 02:06:05','2021-08-31 02:06:05'),(173,1,10,100,1,'2021-08-31 02:06:15','2021-08-31 02:06:15'),(174,1,10,101,1,'2021-08-31 02:06:31','2021-08-31 02:06:31'),(175,1,10,102,1,'2021-08-31 02:06:40','2021-08-31 02:06:40'),(176,1,10,103,1,'2021-08-31 02:06:47','2021-08-31 02:06:47'),(177,1,10,104,1,'2021-08-31 02:06:59','2021-08-31 02:06:59'),(178,1,10,105,1,'2021-08-31 02:07:16','2021-08-31 02:07:16'),(179,1,10,106,1,'2021-08-31 02:07:23','2021-08-31 02:07:23'),(181,1,10,107,1,'2021-08-31 02:07:40','2021-08-31 02:07:40'),(182,1,10,108,1,'2021-08-31 02:07:50','2021-08-31 02:07:50'),(184,1,1,93,17,'2021-08-31 23:59:29','2021-08-31 23:59:29'),(185,1,1,53,17,'2021-09-01 00:00:24','2021-09-01 00:00:24'),(186,1,1,52,17,'2021-09-01 00:00:45','2021-09-01 00:00:45'),(187,1,1,75,17,'2021-09-01 00:01:31','2021-09-01 00:01:31'),(188,1,1,28,2,'2021-09-01 00:01:58','2021-09-01 00:01:58'),(189,1,1,97,1,'2021-09-01 00:02:55','2021-09-01 00:02:55'),(190,1,1,107,1,'2021-09-01 00:03:38','2021-09-01 00:03:38'),(191,1,6,12,1,'2021-09-01 23:47:00','2021-09-01 23:47:00'),(192,1,10,12,1,'2021-09-01 23:48:03','2021-09-01 23:48:03'),(193,1,8,111,13,'2021-09-08 03:19:13','2021-09-08 03:19:13'),(194,1,8,110,13,'2021-09-08 03:19:26','2021-09-08 03:19:26'),(198,1,9,126,10,'2021-09-21 01:12:25','2021-09-21 01:12:25'),(199,1,9,124,10,'2021-09-21 01:13:18','2021-09-21 01:13:18'),(200,1,9,127,10,'2021-09-21 01:15:40','2021-09-21 01:15:40'),(201,1,9,112,10,'2021-09-21 01:16:00','2021-09-21 01:16:00'),(202,1,9,123,10,'2021-09-21 01:17:11','2021-09-21 01:17:11'),(203,1,8,128,13,'2021-09-21 22:58:03','2021-09-21 22:58:03'),(204,1,9,129,9,'2021-09-28 00:05:12','2021-09-28 00:05:12'),(207,1,9,133,9,'2021-10-05 01:12:11','2021-10-05 01:12:11'),(208,1,9,131,4,'2021-10-05 22:39:34','2021-10-05 22:39:34'),(209,1,9,130,10,'2021-10-05 22:39:46','2021-10-05 22:39:46'),(210,1,9,132,9,'2021-10-05 22:39:56','2021-10-05 22:39:56'),(211,1,8,155,13,'2021-12-27 05:29:41','2021-12-27 05:29:41'),(212,1,8,151,4,'2021-12-27 05:29:55','2021-12-27 05:29:55'),(213,1,8,128,13,'2021-12-27 05:30:12','2021-12-27 05:30:12'),(214,1,8,160,10,'2021-12-27 05:30:41','2021-12-27 05:30:41'),(215,1,8,157,5,'2021-12-27 05:30:54','2021-12-27 05:30:54'),(216,1,8,146,13,'2021-12-27 05:31:06','2021-12-27 05:31:06'),(217,1,8,158,13,'2021-12-27 05:31:20','2021-12-27 05:31:20'),(218,1,11,33,9,'2021-12-27 05:40:02','2021-12-27 05:40:02'),(219,1,11,129,9,'2021-12-27 05:40:18','2021-12-27 05:40:18'),(220,1,11,132,9,'2021-12-27 05:40:28','2021-12-27 05:40:28'),(221,1,11,147,9,'2021-12-27 05:40:41','2021-12-27 05:40:41'),(222,1,11,87,9,'2021-12-27 05:40:53','2021-12-27 05:40:53'),(223,1,11,144,9,'2021-12-27 05:41:02','2021-12-27 05:41:02'),(224,1,11,126,10,'2021-12-27 05:41:13','2021-12-27 05:41:13'),(225,1,11,153,9,'2021-12-27 05:41:24','2021-12-27 05:41:24');
+/*!40000 ALTER TABLE `facultystudents` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `lesson_statuses`
 --
 
 DROP TABLE IF EXISTS `lesson_statuses`;
-CREATE TABLE IF NOT EXISTS `lesson_statuses` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `student_id` bigint(20) UNSIGNED NOT NULL,
-  `lesson_id` bigint(20) UNSIGNED NOT NULL,
-  `course_id` bigint(20) UNSIGNED NOT NULL,
-  `module_id` bigint(20) UNSIGNED NOT NULL,
-  `batch_id` bigint(20) UNSIGNED NOT NULL,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `lesson_statuses` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned NOT NULL,
+  `student_id` bigint unsigned NOT NULL,
+  `lesson_id` bigint unsigned NOT NULL,
+  `course_id` bigint unsigned NOT NULL,
+  `module_id` bigint unsigned NOT NULL,
+  `batch_id` bigint unsigned NOT NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- --------------------------------------------------------
+--
+-- Dumping data for table `lesson_statuses`
+--
+
+LOCK TABLES `lesson_statuses` WRITE;
+/*!40000 ALTER TABLE `lesson_statuses` DISABLE KEYS */;
+INSERT INTO `lesson_statuses` VALUES (1,1,10,3,1,2,1,'2021-06-23 12:47:55','2021-06-23 12:47:55');
+/*!40000 ALTER TABLE `lesson_statuses` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `lessons`
+--
+
+DROP TABLE IF EXISTS `lessons`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `lessons` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned NOT NULL DEFAULT '1',
+  `course_id` bigint unsigned NOT NULL,
+  `module_id` bigint unsigned DEFAULT NULL,
+  `order_id` int DEFAULT NULL,
+  `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `description` text CHARACTER SET utf8 COLLATE utf8_general_ci,
+  `content` longtext CHARACTER SET utf8 COLLATE utf8_general_ci,
+  `type` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `duration` time DEFAULT NULL,
+  `url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `image1` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `image2` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `file` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `videolink` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `videosource` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `status` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT 'active',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `course_id` (`course_id`),
+  KEY `module on lesson` (`module_id`),
+  CONSTRAINT `course_lesson_fk` FOREIGN KEY (`course_id`) REFERENCES `all_courses` (`id`),
+  CONSTRAINT `module on lesson` FOREIGN KEY (`module_id`) REFERENCES `modules` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `lessons`
+--
+
+LOCK TABLES `lessons` WRITE;
+/*!40000 ALTER TABLE `lessons` DISABLE KEYS */;
+INSERT INTO `lessons` VALUES (3,1,1,2,1,'Basic of abacus','The ONLINE ABACUS CLASSES offer a friendly and educational platform for students to use the ABACUS tool and apply the concepts online provided by Archi Educare Online Classes.','Abacus exercises the brain to its unbelievable potential, using activities that require memory, concentration, analysis, visualization and control. These activities encourage the brain to remember arithmetic skills. As well as complete mental calculations faster than traditional Math with higher levels of accuracy.','Video','00:04:00',NULL,'',NULL,'','https://vimeo.com/579794187','vimeo','active','2021-05-18 13:28:09','2021-07-27 11:23:48'),(4,1,1,2,1,'Abacus Finger Theory','Finger theory is the first step in learning abacus. Finger theory gives a great introduction to the mindset of abacus, use of the abacus tool is introduced alongside finger theory, and they complement each others learning.','Finger theory is the first step in learning abacus. Finger theory gives a great introduction to the mindset of abacus, use of the abacus tool is introduced alongside finger theory, and they complement each others learning.','Video','00:05:00',NULL,'',NULL,'','https://vimeo.com/579805242','vimeo','active','2021-05-18 13:48:00','2021-07-27 11:29:10'),(5,1,1,2,1,'Mental theory','allowing students to carry out massive calculations quickly and correctly with no tool, other than their mind. We teach them to visualize an Abacus in their mind.','The Final, Hardest, but most impressive stage of the Abacus Technique is when our students learn to use Mental Theory. We teach them to visualize an Abacus in their mind. This is where the real strengths and usefulness of Abacus comes in, allowing students to carry out massive calculations quickly and correctly with no tool, other than their mind.','Video','00:00:00',NULL,'',NULL,'','https://vimeo.com/579808486','vimeo','active','2021-05-18 16:48:04','2021-07-27 19:55:04'),(6,1,1,1,1,'Abacus mind pactice','tools using',NULL,'Video','00:00:00',NULL,'',NULL,'','https://vimeo.com/579809546','vimeo','active','2021-07-27 11:14:53','2021-07-27 20:23:51'),(8,1,1,7,NULL,'ABACUS ORAL QUESTIONS- LEVEL 1','ABACUS ORAL QUESTIONS AND ANSWER KEY- LEVEL 1',NULL,'Attachment','01:00:00',NULL,'',NULL,'1_1631181399.pdf',NULL,'youtube','active','2021-09-09 04:26:39','2021-09-09 04:26:39'),(9,1,3,10,1,'unit 1','mannual accounting','basic','theory','01:00:00','',NULL,NULL,NULL,NULL,'','active','2021-12-27 16:50:31','2021-12-27 16:50:31');
+/*!40000 ALTER TABLE `lessons` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `marketing_members`
+--
+
+DROP TABLE IF EXISTS `marketing_members`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `marketing_members` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `photo` varchar(255) DEFAULT NULL,
+  `phone` varchar(50) DEFAULT NULL,
+  `role` varchar(30) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `ref_id` varchar(50) DEFAULT NULL,
+  `share_id` varchar(50) DEFAULT NULL,
+  `created_at` timestamp NOT NULL,
+  `updated_at` timestamp NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ref_id` (`ref_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `marketing_members`
+--
+
+LOCK TABLES `marketing_members` WRITE;
+/*!40000 ALTER TABLE `marketing_members` DISABLE KEYS */;
+INSERT INTO `marketing_members` VALUES (1,1,'Mahesh Cherukunnu','','9188079338','Supervisor','Odayammadam','ECMAH111','6pmkcZQYfWZUCFHWRmVOdmVeRZgCPl','2021-06-08 12:28:03','2021-06-23 10:00:57'),(2,1,'Suhail Chattiol','','9961534231','BDO archikites','Olayambadi, Mathamangalam, kannur','ECMAH112','7GjfMlR05bO19ftWmLq8VpfnkuXphK','2021-06-08 12:30:31','2021-06-23 10:00:20'),(3,1,'shanil kp','','+919946041479','CMD','ushas',NULL,'Wvxufrf2dyNNNey9WoUM0GKqyuUcAJ','2021-08-29 23:36:16','2021-08-29 23:36:16'),(4,1,'Bindhu Suresh','','8281016662','Director',NULL,NULL,'3PoSVoVD0vh8VVJMWPdWxD0uFDcM2F','2021-08-29 23:36:32','2021-08-29 23:36:32'),(5,1,'Archikites direct admission','','8281016662','help desk',NULL,NULL,'mv1m9rwscONLAXqY698bOXBp9LzW5d','2021-08-29 23:37:52','2021-08-29 23:37:52'),(6,1,'Rajesh KV','','9061670777','KLC','kunjimangalam, kuthirummal','klc777','Nk8IIAEYimpKwjLRuupUGa1GN0bUYV','2021-09-14 06:58:30','2021-09-14 06:58:30'),(7,1,'Nikhil PV','','9946814680','Ex Staff','Thekkekara, kadanapalli, Kannur',NULL,'UJHoWLMqEMxBCAwtyjGc8d8U6RSkSF','2021-09-21 22:34:27','2021-09-21 22:34:27'),(8,1,'Grace Plaza Family','','9895189618','complex owners','Miraj Mijan & Team',NULL,'Ns2kXdV8WLKuobIeIkxSvWjihbnqoU','2021-09-21 22:36:16','2021-09-21 22:36:16'),(9,1,'Pilathara dot com','','9946041479','public','Shanil Team',NULL,'zEPZKf5LJhdsxhr99rbuqmEqZ5qcr5','2021-09-21 22:37:14','2021-09-21 22:37:14'),(10,1,'JCI Pilathara','','9946041479','reference','team jci pilathara',NULL,'kinsiCg4fb4V9jBKh2j31Gofpsv5Dp','2021-09-21 22:38:09','2021-09-21 22:38:09'),(11,1,'Haridas Palangat','','9746609104','Marketing','Viliku Single Dial Solution, Pilathara','005','GQQI0vBxlmGjp0wgYVeJRLe5dnSkXg','2021-10-20 23:29:40','2021-10-20 23:29:40');
+/*!40000 ALTER TABLE `marketing_members` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `migrations`
 --
 
 DROP TABLE IF EXISTS `migrations`;
-CREATE TABLE IF NOT EXISTS `migrations` (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `batch` int(11) NOT NULL,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `migrations` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `migration` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `batch` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `migrations`
 --
 
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(2, '2021_02_22_000108_create_schemes_table', 1),
-(3, '2021_02_23_060707_create_certifications_table', 2),
-(4, '2021_02_26_094403_create_enquiries_table', 3),
-(5, '2021_04_12_120315_create_lessons_table', 4);
-
--- --------------------------------------------------------
+LOCK TABLES `migrations` WRITE;
+/*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
+INSERT INTO `migrations` VALUES (2,'2021_02_22_000108_create_schemes_table',1),(3,'2021_02_23_060707_create_certifications_table',2),(4,'2021_02_26_094403_create_enquiries_table',3),(5,'2021_04_12_120315_create_lessons_table',4);
+/*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `modules`
 --
 
 DROP TABLE IF EXISTS `modules`;
-CREATE TABLE IF NOT EXISTS `modules` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `course_id` bigint(20) UNSIGNED NOT NULL,
-  `order_id` bigint(20) UNSIGNED DEFAULT NULL,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `modules` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned NOT NULL,
+  `course_id` bigint unsigned NOT NULL,
+  `order_id` bigint unsigned DEFAULT NULL,
   `title` varchar(255) NOT NULL,
   `description` text,
   `status` varchar(30) NOT NULL DEFAULT 'active',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `modules`
 --
 
-INSERT INTO `modules` (`id`, `user_id`, `course_id`, `order_id`, `title`, `description`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 1, 'Abacus level 0', 'abacus course', 'active', '2021-05-11 05:17:29', '2021-05-18 13:01:39'),
-(2, 1, 1, NULL, 'Abacus level 1', 'abacus course', 'active', '2021-05-18 13:01:12', '2021-05-18 13:01:12'),
-(3, 1, 1, NULL, 'Abacus level 2', 'abacus course', 'active', '2021-05-18 13:01:26', '2021-05-18 13:01:26'),
-(4, 1, 1, NULL, 'Abacus level 3', 'abacus course', 'active', '2021-05-18 13:01:56', '2021-05-18 13:01:56');
-
--- --------------------------------------------------------
+LOCK TABLES `modules` WRITE;
+/*!40000 ALTER TABLE `modules` DISABLE KEYS */;
+INSERT INTO `modules` VALUES (1,1,1,1,'Abacus level 0','abacus course','active','2021-05-11 05:17:29','2021-05-18 13:01:39'),(2,1,1,NULL,'Abacus level 1','abacus course','active','2021-05-18 13:01:12','2021-05-18 13:01:12'),(3,1,1,NULL,'Abacus level 2','abacus course','active','2021-05-18 13:01:26','2021-05-18 13:01:26'),(4,1,1,NULL,'Abacus level 3','abacus course','active','2021-05-18 13:01:56','2021-05-18 13:01:56'),(6,1,6,NULL,'computer basic ','windows ','active','2021-07-29 05:45:35','2021-07-29 05:45:35'),(7,1,1,NULL,'ABACUS ORAL QUESTIONS','ABACUS ORAL QUESTIONS AND ANSWER KEY- LEVEL 1','active','2021-09-09 04:19:22','2021-09-09 04:19:22'),(8,1,4,NULL,'Introduction','Courses introduction','active','2021-09-10 14:24:03','2021-09-10 14:24:03'),(9,1,4,NULL,'Graphic design softwares','An introduction to most popular graphic design softwares','active','2021-11-26 13:26:44','2021-11-26 13:26:44'),(10,1,3,NULL,'manual accounting','unit 1','active','2021-12-27 16:48:52','2021-12-27 16:48:52');
+/*!40000 ALTER TABLE `modules` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `notifications`
 --
 
 DROP TABLE IF EXISTS `notifications`;
-CREATE TABLE IF NOT EXISTS `notifications` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `titile` int(11) DEFAULT NULL,
-  `description` int(11) DEFAULT NULL,
-  `image` int(11) DEFAULT NULL,
-  `priority` int(11) NOT NULL,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `notifications` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned NOT NULL,
+  `titile` int DEFAULT NULL,
+  `description` int DEFAULT NULL,
+  `image` int DEFAULT NULL,
+  `priority` int NOT NULL,
   `link` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- --------------------------------------------------------
+--
+-- Dumping data for table `notifications`
+--
+
+LOCK TABLES `notifications` WRITE;
+/*!40000 ALTER TABLE `notifications` DISABLE KEYS */;
+/*!40000 ALTER TABLE `notifications` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `package_courses`
 --
 
 DROP TABLE IF EXISTS `package_courses`;
-CREATE TABLE IF NOT EXISTS `package_courses` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `package_id` bigint(20) UNSIGNED NOT NULL,
-  `course_id` bigint(20) UNSIGNED DEFAULT NULL,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `package_courses` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned DEFAULT NULL,
+  `package_id` bigint unsigned NOT NULL,
+  `course_id` bigint unsigned DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- --------------------------------------------------------
+--
+-- Dumping data for table `package_courses`
+--
+
+LOCK TABLES `package_courses` WRITE;
+/*!40000 ALTER TABLE `package_courses` DISABLE KEYS */;
+/*!40000 ALTER TABLE `package_courses` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `schemes`
 --
 
 DROP TABLE IF EXISTS `schemes`;
-CREATE TABLE IF NOT EXISTS `schemes` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `scheme_title` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `schemes` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned NOT NULL,
+  `scheme_title` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `description` text CHARACTER SET utf8 COLLATE utf8_general_ci,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `schemes`
 --
 
-INSERT INTO `schemes` (`id`, `user_id`, `scheme_title`, `description`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Anadham 2021 - online', 'Summer Vacation Course for school students (online only)', '2021-04-29 02:32:40', '2021-05-05 23:59:51'),
-(2, 1, 'Anadham 2021 - offline', 'Summer vacation course for school students offline', '2021-04-29 02:34:44', '2021-04-29 02:34:44'),
-(3, 1, 'Regular Course', 'Archikites conducts regular computer courses', '2021-05-18 11:27:05', '2021-05-18 11:27:05'),
-(4, 1, 'Fast track Courses', NULL, '2021-05-18 11:27:24', '2021-05-18 11:27:24');
-
--- --------------------------------------------------------
+LOCK TABLES `schemes` WRITE;
+/*!40000 ALTER TABLE `schemes` DISABLE KEYS */;
+INSERT INTO `schemes` VALUES (1,1,'Anadham 2021 - online','Summer Vacation Course for school students (online only)','2021-04-29 02:32:40','2021-05-05 23:59:51'),(2,1,'Anadham 2021 - offline','Summer vacation course for school students offline','2021-04-29 02:34:44','2021-04-29 02:34:44'),(3,1,'Regular Course','Archikites conducts regular computer courses','2021-05-18 11:27:05','2021-05-18 11:27:05'),(4,1,'Fast track Courses',NULL,'2021-05-18 11:27:24','2021-05-18 11:27:24'),(5,1,'Multimedia 21','Archikites Courses','2021-06-12 15:27:14','2021-06-12 15:27:14'),(6,1,'arabic 21','arabic graphic design','2021-06-15 06:23:09','2021-06-15 06:23:09'),(7,1,'Interior Designing 21','All applied aspects of interior designing and software packages are taught in this course.','2021-06-15 09:58:39','2021-06-15 09:58:39'),(8,1,'Webdesign 21','Technology has changed our life enormously.','2021-06-15 17:03:04','2021-06-15 17:03:04'),(9,1,'KLC 21','language courses','2021-06-16 07:16:18','2021-06-16 07:16:18'),(10,1,'skillablers','job','2021-06-16 12:01:29','2021-06-16 12:01:29'),(11,1,'JAIN 2021','JAIN University Courses','2021-06-24 07:35:04','2021-06-24 07:35:04');
+/*!40000 ALTER TABLE `schemes` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `services`
 --
 
 DROP TABLE IF EXISTS `services`;
-CREATE TABLE IF NOT EXISTS `services` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `services` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned NOT NULL,
   `title` varchar(30) DEFAULT NULL,
   `color` varchar(30) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- --------------------------------------------------------
+--
+-- Dumping data for table `services`
+--
+
+LOCK TABLES `services` WRITE;
+/*!40000 ALTER TABLE `services` DISABLE KEYS */;
+/*!40000 ALTER TABLE `services` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `student_bills`
+--
+
+DROP TABLE IF EXISTS `student_bills`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `student_bills` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned DEFAULT NULL,
+  `student_id` bigint unsigned NOT NULL,
+  `course_id` bigint unsigned NOT NULL,
+  `student_course_id` bigint unsigned DEFAULT NULL,
+  `total` int NOT NULL,
+  `day` int NOT NULL,
+  `month` int NOT NULL,
+  `year` int NOT NULL,
+  `financial_year` varchar(25) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `course_bill_fk` (`course_id`),
+  KEY `student_bill_fk` (`student_id`),
+  KEY `student course id on student bills` (`student_course_id`),
+  CONSTRAINT `course_bill_fk` FOREIGN KEY (`course_id`) REFERENCES `all_courses` (`id`),
+  CONSTRAINT `student course id on student bills` FOREIGN KEY (`student_course_id`) REFERENCES `student_courses` (`id`),
+  CONSTRAINT `student_bill_fk` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=183 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `student_bills`
+--
+
+LOCK TABLES `student_bills` WRITE;
+/*!40000 ALTER TABLE `student_bills` DISABLE KEYS */;
+INSERT INTO `student_bills` VALUES (9,1,2,1,6,2500,6,5,2021,'2020-2021','2021-05-06 01:35:48','2021-05-06 01:35:48'),(10,1,1,1,3,2500,17,5,2021,'2020-2021','2021-05-17 03:29:17','2021-05-17 03:29:17'),(11,1,1,1,3,2500,17,5,2021,'2020-2021','2021-05-17 03:30:23','2021-05-17 03:30:23'),(12,1,1,1,3,2500,17,5,2021,'2020-2021','2021-05-17 04:31:23','2021-05-17 04:31:23'),(13,1,1,1,3,2500,17,5,2021,'2020-2021','2021-05-17 04:32:35','2021-05-17 04:32:35'),(14,1,1,1,3,2500,17,5,2021,'2020-2021','2021-05-17 04:39:06','2021-05-17 04:39:06'),(15,1,2,1,6,2500,17,5,2021,'2020-2021','2021-05-17 05:14:55','2021-05-17 05:14:55'),(16,1,2,1,6,2500,17,5,2021,'2020-2021','2021-05-17 05:16:09','2021-05-17 05:16:09'),(17,1,1,1,3,2500,19,5,2021,'2020-2021','2021-05-19 10:55:52','2021-05-19 10:55:52'),(18,1,1,1,3,2500,19,5,2021,'2020-2021','2021-05-19 11:31:09','2021-05-19 11:31:09'),(19,1,1,1,3,2500,19,5,2021,'2020-2021','2021-05-19 11:31:30','2021-05-19 11:31:30'),(20,1,4,1,8,2500,25,5,2021,'2020-2021','2021-05-25 12:04:35','2021-05-25 12:04:35'),(21,1,5,1,9,2500,25,5,2021,'2020-2021','2021-05-25 12:22:02','2021-05-25 12:22:02'),(22,1,8,1,12,2500,25,5,2021,'2020-2021','2021-05-25 12:32:30','2021-05-25 12:32:30'),(23,1,10,1,14,2500,29,5,2021,'2020-2021','2021-05-29 12:36:40','2021-05-29 12:36:40'),(24,1,11,1,15,2500,29,5,2021,'2020-2021','2021-05-29 12:41:24','2021-05-29 12:41:24'),(25,1,12,1,16,2500,29,5,2021,'2020-2021','2021-05-29 12:45:53','2021-05-29 12:45:53'),(26,1,13,1,17,2500,29,5,2021,'2020-2021','2021-05-29 12:50:50','2021-05-29 12:50:50'),(27,1,14,1,18,2500,29,5,2021,'2020-2021','2021-05-29 12:56:01','2021-05-29 12:56:01'),(28,1,15,1,19,2500,29,5,2021,'2020-2021','2021-05-29 13:25:08','2021-05-29 13:25:08'),(29,1,16,1,20,2500,29,5,2021,'2020-2021','2021-05-29 13:27:56','2021-05-29 13:27:56'),(30,1,18,1,22,2500,29,5,2021,'2020-2021','2021-05-29 13:36:00','2021-05-29 13:36:00'),(31,1,19,1,23,2500,29,5,2021,'2020-2021','2021-05-29 13:38:25','2021-05-29 13:38:25'),(32,1,20,1,24,2500,29,5,2021,'2020-2021','2021-05-29 13:49:45','2021-05-29 13:49:45'),(33,1,1,1,3,2500,4,6,2021,'2020-2021','2021-06-04 07:12:59','2021-06-04 07:12:59'),(34,1,22,1,26,2500,5,6,2021,'2020-2021','2021-06-05 09:29:47','2021-06-05 09:29:47'),(35,1,23,1,27,2500,5,6,2021,'2020-2021','2021-06-05 09:35:27','2021-06-05 09:35:27'),(36,1,26,1,30,2500,5,6,2021,'2020-2021','2021-06-05 10:18:39','2021-06-05 10:18:39'),(37,1,27,1,31,2500,5,6,2021,'2020-2021','2021-06-05 10:30:57','2021-06-05 10:30:57'),(38,1,28,1,32,2500,7,6,2021,'2020-2021','2021-06-07 17:14:35','2021-06-07 17:14:35'),(39,1,29,6,33,4500,28,6,2021,'2020-2021','2021-06-28 06:58:34','2021-06-28 06:58:34'),(40,1,29,6,33,4500,28,6,2021,'2020-2021','2021-06-28 07:03:45','2021-06-28 07:03:45'),(41,1,32,1,36,2500,1,7,2021,'2021-2022','2021-07-01 10:32:03','2021-07-01 10:32:03'),(42,1,30,11,34,16000,2,7,2021,'2021-2022','2021-07-02 05:51:52','2021-07-02 05:51:52'),(43,1,31,6,35,4000,6,7,2021,'2021-2022','2021-07-06 05:04:23','2021-07-06 05:04:23'),(44,1,38,1,42,2500,26,7,2021,'2021-2022','2021-07-26 05:25:23','2021-07-26 05:25:23'),(45,1,42,7,47,5500,26,7,2021,'2021-2022','2021-07-26 06:26:04','2021-07-26 06:26:04'),(46,1,33,29,37,20000,26,7,2021,'2021-2022','2021-07-26 08:07:32','2021-07-26 08:07:32'),(47,1,36,4,40,16000,28,7,2021,'2021-2022','2021-07-28 08:25:00','2021-07-28 08:25:00'),(48,1,43,4,48,16000,29,7,2021,'2021-2022','2021-07-29 03:52:08','2021-07-29 03:52:08'),(49,1,40,7,44,5500,29,7,2021,'2021-2022','2021-07-29 05:33:45','2021-07-29 05:33:45'),(50,1,46,1,51,3000,6,8,2021,'2021-2022','2021-08-06 06:04:28','2021-08-06 06:04:28'),(51,1,47,1,52,3000,7,8,2021,'2021-2022','2021-08-07 10:10:32','2021-08-07 10:10:32'),(52,1,56,1,60,3000,7,8,2021,'2021-2022','2021-08-07 11:58:19','2021-08-07 11:58:19'),(53,1,45,1,50,3000,8,8,2021,'2021-2022','2021-08-08 00:21:14','2021-08-08 00:21:14'),(54,1,61,13,65,30000,9,8,2021,'2021-2022','2021-08-09 04:14:05','2021-08-09 04:14:05'),(55,1,62,12,66,22000,9,8,2021,'2021-2022','2021-08-09 05:44:48','2021-08-09 05:44:48'),(56,1,66,12,70,22000,10,8,2021,'2021-2022','2021-08-09 23:14:41','2021-08-09 23:14:41'),(57,1,67,12,71,22000,10,8,2021,'2021-2022','2021-08-09 23:18:43','2021-08-09 23:18:43'),(58,1,57,1,61,3000,10,8,2021,'2021-2022','2021-08-10 05:54:08','2021-08-10 05:54:08'),(59,1,59,1,63,3000,10,8,2021,'2021-2022','2021-08-10 05:56:31','2021-08-10 05:56:31'),(60,1,43,4,48,16000,13,8,2021,'2021-2022','2021-08-13 00:21:25','2021-08-13 00:21:25'),(61,1,48,1,53,3000,13,8,2021,'2021-2022','2021-08-13 01:38:59','2021-08-13 01:38:59'),(62,1,51,1,56,3000,16,8,2021,'2021-2022','2021-08-15 22:29:08','2021-08-15 22:29:08'),(63,1,52,1,57,3000,16,8,2021,'2021-2022','2021-08-15 22:30:56','2021-08-15 22:30:56'),(64,1,53,1,58,3000,16,8,2021,'2021-2022','2021-08-15 22:32:32','2021-08-15 22:32:32'),(65,1,49,1,54,3000,16,8,2021,'2021-2022','2021-08-15 22:34:04','2021-08-15 22:34:04'),(66,1,68,35,72,3000,16,8,2021,'2021-2022','2021-08-16 00:47:27','2021-08-16 00:47:27'),(67,1,69,1,73,3000,17,8,2021,'2021-2022','2021-08-16 23:01:07','2021-08-16 23:01:07'),(68,1,70,1,74,3000,17,8,2021,'2021-2022','2021-08-16 23:04:03','2021-08-16 23:04:03'),(69,1,73,1,75,3000,17,8,2021,'2021-2022','2021-08-16 23:22:32','2021-08-16 23:22:32'),(70,1,74,1,76,3000,17,8,2021,'2021-2022','2021-08-16 23:45:32','2021-08-16 23:45:32'),(71,1,75,1,77,3000,17,8,2021,'2021-2022','2021-08-16 23:50:51','2021-08-16 23:50:51'),(72,1,76,1,78,3000,17,8,2021,'2021-2022','2021-08-16 23:56:23','2021-08-16 23:56:23'),(73,1,77,1,79,3000,17,8,2021,'2021-2022','2021-08-17 00:01:38','2021-08-17 00:01:38'),(74,1,78,1,80,3000,17,8,2021,'2021-2022','2021-08-17 00:05:50','2021-08-17 00:05:50'),(75,1,79,1,81,3000,17,8,2021,'2021-2022','2021-08-17 00:09:47','2021-08-17 00:09:47'),(76,1,80,1,82,3000,17,8,2021,'2021-2022','2021-08-17 00:30:15','2021-08-17 00:30:15'),(77,1,82,1,84,3000,17,8,2021,'2021-2022','2021-08-17 00:44:35','2021-08-17 00:44:35'),(78,1,83,35,86,3000,17,8,2021,'2021-2022','2021-08-17 00:47:38','2021-08-17 00:47:38'),(79,1,84,1,87,3000,17,8,2021,'2021-2022','2021-08-17 00:56:59','2021-08-17 00:56:59'),(80,1,29,6,33,4500,17,8,2021,'2021-2022','2021-08-17 01:51:19','2021-08-17 01:51:19'),(81,1,85,35,88,3000,17,8,2021,'2021-2022','2021-08-17 02:09:44','2021-08-17 02:09:44'),(82,1,86,1,89,3000,17,8,2021,'2021-2022','2021-08-17 02:45:02','2021-08-17 02:45:02'),(83,1,87,29,90,20000,24,8,2021,'2021-2022','2021-08-23 22:45:16','2021-08-23 22:45:16'),(84,1,60,5,64,10500,27,8,2021,'2021-2022','2021-08-27 03:06:10','2021-08-27 03:06:10'),(85,1,88,1,91,3000,28,8,2021,'2021-2022','2021-08-28 00:06:15','2021-08-28 00:06:15'),(86,1,89,1,92,3000,28,8,2021,'2021-2022','2021-08-28 00:13:42','2021-08-28 00:13:42'),(87,1,90,1,93,3000,28,8,2021,'2021-2022','2021-08-28 00:19:13','2021-08-28 00:19:13'),(88,1,91,1,94,3000,28,8,2021,'2021-2022','2021-08-28 00:31:35','2021-08-28 00:31:35'),(89,1,92,1,95,3000,28,8,2021,'2021-2022','2021-08-28 00:37:50','2021-08-28 00:37:50'),(90,1,93,35,96,3000,28,8,2021,'2021-2022','2021-08-28 00:54:53','2021-08-28 00:54:53'),(91,1,94,1,97,3000,28,8,2021,'2021-2022','2021-08-28 01:01:20','2021-08-28 01:01:20'),(92,1,95,1,98,3000,28,8,2021,'2021-2022','2021-08-28 01:06:16','2021-08-28 01:06:16'),(93,1,97,35,99,3000,28,8,2021,'2021-2022','2021-08-28 01:12:38','2021-08-28 01:12:38'),(94,1,102,1,104,3000,28,8,2021,'2021-2022','2021-08-28 02:10:35','2021-08-28 02:10:35'),(95,1,103,1,105,3000,28,8,2021,'2021-2022','2021-08-28 02:15:05','2021-08-28 02:15:05'),(96,1,105,1,107,3000,28,8,2021,'2021-2022','2021-08-28 02:25:06','2021-08-28 02:25:06'),(97,1,106,1,108,3000,30,8,2021,'2021-2022','2021-08-30 01:27:11','2021-08-30 01:27:11'),(98,1,109,4,111,16000,31,8,2021,'2021-2022','2021-08-30 22:45:08','2021-08-30 22:45:08'),(99,1,65,1,69,3000,31,8,2021,'2021-2022','2021-08-30 23:09:00','2021-08-30 23:09:00'),(100,1,45,1,50,3000,31,8,2021,'2021-2022','2021-08-30 23:27:05','2021-08-30 23:27:05'),(101,1,2,1,6,2500,31,8,2021,'2021-2022','2021-08-30 23:28:35','2021-08-30 23:28:35'),(102,1,110,4,112,16000,1,9,2021,'2021-2022','2021-09-01 02:12:20','2021-09-01 02:12:20'),(103,1,109,4,111,16000,2,9,2021,'2021-2022','2021-09-02 00:33:01','2021-09-02 00:33:01'),(104,1,111,24,113,5000,4,9,2021,'2021-2022','2021-09-04 01:02:18','2021-09-04 01:02:18'),(105,1,112,6,114,4500,4,9,2021,'2021-2022','2021-09-04 01:08:31','2021-09-04 01:08:31'),(106,1,92,1,95,3000,9,9,2021,'2021-2022','2021-09-09 05:41:16','2021-09-09 05:41:16'),(107,1,116,1,118,3000,11,9,2021,'2021-2022','2021-09-10 22:18:40','2021-09-10 22:18:40'),(108,1,122,1,124,3000,13,9,2021,'2021-2022','2021-09-12 22:48:31','2021-09-12 22:48:31'),(109,1,9,9,13,15500,13,9,2021,'2021-2022','2021-09-13 02:59:03','2021-09-13 02:59:03'),(110,1,60,5,64,10500,13,9,2021,'2021-2022','2021-09-13 05:52:25','2021-09-13 05:52:25'),(111,1,58,1,62,3000,14,9,2021,'2021-2022','2021-09-14 04:56:10','2021-09-14 04:56:10'),(112,1,117,1,119,3000,14,9,2021,'2021-2022','2021-09-14 04:58:02','2021-09-14 04:58:02'),(113,1,114,1,116,3000,14,9,2021,'2021-2022','2021-09-14 04:58:35','2021-09-14 04:58:35'),(114,1,40,7,44,5500,15,9,2021,'2021-2022','2021-09-15 00:09:21','2021-09-15 00:09:21'),(115,1,124,6,126,4500,15,9,2021,'2021-2022','2021-09-15 00:44:38','2021-09-15 00:44:38'),(116,1,42,7,47,5500,15,9,2021,'2021-2022','2021-09-15 01:00:00','2021-09-15 01:00:00'),(117,1,8,1,12,2500,16,9,2021,'2021-2022','2021-09-16 01:21:33','2021-09-16 01:21:33'),(118,1,121,1,123,3000,17,9,2021,'2021-2022','2021-09-16 22:21:01','2021-09-16 22:21:01'),(119,1,126,29,128,20000,20,9,2021,'2021-2022','2021-09-20 01:55:55','2021-09-20 01:55:55'),(120,1,43,4,48,16000,20,9,2021,'2021-2022','2021-09-20 02:39:01','2021-09-20 02:39:01'),(121,1,87,29,90,20000,21,9,2021,'2021-2022','2021-09-21 00:33:11','2021-09-21 00:33:11'),(122,1,127,6,129,4500,21,9,2021,'2021-2022','2021-09-21 02:32:51','2021-09-21 02:32:51'),(123,1,128,11,130,20000,22,9,2021,'2021-2022','2021-09-21 22:47:43','2021-09-21 22:47:43'),(124,1,129,5,131,10500,28,9,2021,'2021-2022','2021-09-28 00:00:40','2021-09-28 00:00:40'),(125,1,66,12,70,22000,29,9,2021,'2021-2022','2021-09-29 01:06:58','2021-09-29 01:06:58'),(126,1,126,29,128,20000,30,9,2021,'2021-2022','2021-09-30 00:32:26','2021-09-30 00:32:26'),(127,1,33,29,37,20000,1,10,2021,'2021-2022','2021-10-01 00:30:02','2021-10-01 00:30:02'),(128,1,130,6,132,4500,5,10,2021,'2021-2022','2021-10-04 22:35:20','2021-10-04 22:35:20'),(129,1,131,6,133,4500,5,10,2021,'2021-2022','2021-10-04 22:36:32','2021-10-04 22:36:32'),(130,1,133,29,135,20000,5,10,2021,'2021-2022','2021-10-05 00:45:03','2021-10-05 00:45:03'),(131,1,134,35,136,3000,9,10,2021,'2021-2022','2021-10-09 03:50:24','2021-10-09 03:50:24'),(132,1,30,11,34,16000,12,10,2021,'2021-2022','2021-10-12 00:48:09','2021-10-12 00:48:09'),(133,1,135,1,137,3000,16,10,2021,'2021-2022','2021-10-15 23:06:31','2021-10-15 23:06:31'),(134,1,136,6,138,4500,16,10,2021,'2021-2022','2021-10-16 00:58:01','2021-10-16 00:58:01'),(135,1,137,21,139,2500,21,10,2021,'2021-2022','2021-10-21 01:34:03','2021-10-21 01:34:03'),(136,1,112,6,114,4500,21,10,2021,'2021-2022','2021-10-21 05:43:03','2021-10-21 05:43:03'),(137,1,104,36,142,3000,23,10,2021,'2021-2022','2021-10-22 22:34:18','2021-10-22 22:34:18'),(138,1,141,1,143,3000,23,10,2021,'2021-2022','2021-10-23 03:59:56','2021-10-23 03:59:56'),(139,1,127,6,129,4500,25,10,2021,'2021-2022','2021-10-25 01:20:27','2021-10-25 01:20:27'),(140,1,43,4,48,16000,27,10,2021,'2021-2022','2021-10-27 00:32:28','2021-10-27 00:32:28'),(141,1,61,13,65,30000,27,10,2021,'2021-2022','2021-10-27 01:08:50','2021-10-27 01:08:50'),(142,1,109,4,111,16000,28,10,2021,'2021-2022','2021-10-27 22:39:55','2021-10-27 22:39:55'),(143,1,143,6,145,4500,1,11,2021,'2021-2022','2021-11-01 00:28:27','2021-11-01 00:28:27'),(144,1,140,6,141,4500,1,11,2021,'2021-2022','2021-11-01 00:31:47','2021-11-01 00:31:47'),(145,1,126,29,128,20000,1,11,2021,'2021-2022','2021-11-01 00:34:26','2021-11-01 00:34:26'),(146,1,60,5,64,10500,2,11,2021,'2021-2022','2021-11-01 22:12:54','2021-11-01 22:12:54'),(147,1,144,29,146,20000,2,11,2021,'2021-2022','2021-11-02 02:07:38','2021-11-02 02:07:38'),(148,1,145,6,147,4500,3,11,2021,'2021-2022','2021-11-03 00:26:57','2021-11-03 00:26:57'),(149,1,132,29,134,20000,5,11,2021,'2021-2022','2021-11-05 00:25:58','2021-11-05 00:25:58'),(150,1,128,11,130,20000,10,11,2021,'2021-2022','2021-11-10 00:19:22','2021-11-10 00:19:22'),(151,1,58,1,62,3000,16,11,2021,'2021-2022','2021-11-15 22:24:39','2021-11-15 22:24:39'),(152,1,58,1,62,3000,16,11,2021,'2021-2022','2021-11-15 22:24:39','2021-11-15 22:24:39'),(153,1,147,29,149,25000,16,11,2021,'2021-2022','2021-11-16 02:36:15','2021-11-16 02:36:15'),(154,1,148,12,150,22000,17,11,2021,'2021-2022','2021-11-16 23:40:54','2021-11-16 23:40:54'),(155,1,150,18,151,1500,18,11,2021,'2021-2022','2021-11-18 06:34:30','2021-11-18 06:34:30'),(156,1,151,13,152,30000,19,11,2021,'2021-2022','2021-11-18 23:53:53','2021-11-18 23:53:53'),(157,1,129,5,131,10500,19,11,2021,'2021-2022','2021-11-19 02:40:58','2021-11-19 02:40:58'),(158,1,146,4,154,16000,19,11,2021,'2021-2022','2021-11-19 03:19:30','2021-11-19 03:19:30'),(159,1,36,4,40,16000,22,11,2021,'2021-2022','2021-11-22 00:43:39','2021-11-22 00:43:39'),(160,1,145,6,147,4500,25,11,2021,'2021-2022','2021-11-25 03:37:04','2021-11-25 03:37:04'),(161,1,136,6,138,4500,27,11,2021,'2021-2022','2021-11-27 02:23:50','2021-11-27 02:23:50'),(162,1,153,5,156,12000,30,11,2021,'2021-2022','2021-11-29 23:01:46','2021-11-29 23:01:46'),(163,1,140,6,141,4500,30,11,2021,'2021-2022','2021-11-30 00:30:32','2021-11-30 00:30:32'),(164,1,156,4,160,28000,3,12,2021,'2021-2022','2021-12-03 05:26:34','2021-12-03 05:26:34'),(165,1,132,29,134,20000,6,12,2021,'2021-2022','2021-12-05 22:33:47','2021-12-05 22:33:47'),(166,1,151,13,152,30000,6,12,2021,'2021-2022','2021-12-05 22:41:27','2021-12-05 22:41:27'),(167,1,155,4,159,28000,6,12,2021,'2021-2022','2021-12-05 22:43:36','2021-12-05 22:43:36'),(168,1,144,29,146,20000,6,12,2021,'2021-2022','2021-12-05 22:46:58','2021-12-05 22:46:58'),(169,1,61,13,65,30000,6,12,2021,'2021-2022','2021-12-05 23:01:04','2021-12-05 23:01:04'),(170,1,126,29,128,20000,6,12,2021,'2021-2022','2021-12-05 23:01:59','2021-12-05 23:01:59'),(171,1,143,6,145,4500,6,12,2021,'2021-2022','2021-12-06 02:26:53','2021-12-06 02:26:53'),(172,1,43,4,48,16000,9,12,2021,'2021-2022','2021-12-09 00:06:44','2021-12-09 00:06:44'),(173,1,157,7,161,6000,15,12,2021,'2021-2022','2021-12-15 00:32:23','2021-12-15 00:32:23'),(174,1,159,6,163,5000,20,12,2021,'2021-2022','2021-12-20 00:56:18','2021-12-20 00:56:18'),(175,1,158,4,162,28000,20,12,2021,'2021-2022','2021-12-20 00:59:34','2021-12-20 00:59:34'),(176,1,160,20,164,3500,21,12,2021,'2021-2022','2021-12-20 22:48:51','2021-12-20 22:48:51'),(177,1,162,6,165,5000,21,12,2021,'2021-2022','2021-12-21 02:41:49','2021-12-21 02:41:49'),(178,1,146,4,154,16000,21,12,2021,'2021-2022','2021-12-21 03:30:03','2021-12-21 03:30:03'),(179,1,128,11,130,20000,22,12,2021,'2021-2022','2021-12-22 00:26:54','2021-12-22 00:26:54'),(180,1,84,37,166,3500,23,12,2021,'2021-2022','2021-12-23 05:45:02','2021-12-23 05:45:02'),(181,1,168,1,171,3000,24,12,2021,'2021-2022','2021-12-24 00:44:48','2021-12-24 00:44:48'),(182,1,169,1,172,3000,24,12,2021,'2021-2022','2021-12-24 01:08:14','2021-12-24 01:08:14');
+/*!40000 ALTER TABLE `student_bills` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `student_courses`
+--
+
+DROP TABLE IF EXISTS `student_courses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `student_courses` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned DEFAULT NULL,
+  `course_id` bigint unsigned NOT NULL,
+  `student_id` bigint unsigned NOT NULL,
+  `certification` bigint unsigned DEFAULT NULL,
+  `scheme` bigint unsigned DEFAULT NULL,
+  `title` varchar(80) NOT NULL,
+  `fee` int NOT NULL,
+  `track` varchar(30) DEFAULT NULL,
+  `course_type` varchar(30) DEFAULT NULL,
+  `type` varchar(10) DEFAULT NULL,
+  `status` varchar(20) DEFAULT NULL,
+  `marketing_member_id` bigint unsigned DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `student_student_course` (`student_id`),
+  KEY `course_student_course_fk` (`course_id`),
+  KEY `certification on student course` (`certification`),
+  KEY `scheme on student course` (`scheme`),
+  CONSTRAINT `certification on student course` FOREIGN KEY (`certification`) REFERENCES `certifications` (`id`),
+  CONSTRAINT `course_student_course_fk` FOREIGN KEY (`course_id`) REFERENCES `all_courses` (`id`),
+  CONSTRAINT `scheme on student course` FOREIGN KEY (`scheme`) REFERENCES `schemes` (`id`),
+  CONSTRAINT `student_student_course` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=174 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `student_courses`
+--
+
+LOCK TABLES `student_courses` WRITE;
+/*!40000 ALTER TABLE `student_courses` DISABLE KEYS */;
+INSERT INTO `student_courses` VALUES (3,1,1,1,1,1,'Abacus Training',2500,NULL,'online','C','1',NULL,'2021-05-06 00:36:39','2021-05-06 00:36:39'),(6,1,1,2,1,1,'Abacus Training',2500,NULL,'online','C','1',NULL,'2021-05-06 01:35:42','2021-05-06 01:35:42'),(7,1,1,3,1,1,'Abacus Training',2500,NULL,'online','C','1',NULL,'2021-05-18 11:07:02','2021-05-18 11:07:02'),(8,1,1,4,1,1,'Abacus Training',2500,NULL,'online','C','1',NULL,'2021-05-25 12:04:06','2021-05-25 12:04:06'),(9,1,1,5,1,1,'Abacus Training',2500,NULL,'online','C','1',NULL,'2021-05-25 12:21:43','2021-05-25 12:21:43'),(10,1,1,6,1,1,'Abacus Training',2500,NULL,'online','C','1',NULL,'2021-05-25 12:25:38','2021-05-25 12:25:38'),(11,1,1,7,1,1,'Abacus Training',2500,NULL,'online','C','1',NULL,'2021-05-25 12:28:32','2021-05-25 12:28:32'),(12,1,1,8,1,1,'Abacus Training',2500,NULL,'online','C','1',NULL,'2021-05-25 12:32:12','2021-05-25 12:32:12'),(13,1,9,9,2,3,'DIPLOMA IN AUTOCAD AND 3ds MAX',15500,NULL,'online','P','1',NULL,'2021-05-29 12:06:28','2021-05-29 12:06:28'),(14,1,1,10,1,1,'Abacus Training',2500,NULL,'online','C','1',NULL,'2021-05-29 12:36:24','2021-05-29 12:36:24'),(15,1,1,11,1,1,'Abacus Training',2500,NULL,'online','C','1',NULL,'2021-05-29 12:41:03','2021-05-29 12:41:03'),(16,1,1,12,1,1,'Abacus Training',2500,NULL,'online','C','1',NULL,'2021-05-29 12:45:41','2021-05-29 12:45:41'),(17,1,1,13,1,1,'Abacus Training',2500,NULL,'online','C','1',NULL,'2021-05-29 12:50:40','2021-05-29 12:50:40'),(18,1,1,14,1,1,'Abacus Training',2500,NULL,'online','C','1',NULL,'2021-05-29 12:55:49','2021-05-29 12:55:49'),(19,1,1,15,1,1,'Abacus Training',2500,NULL,'online','C','1',NULL,'2021-05-29 13:24:59','2021-05-29 13:24:59'),(20,1,1,16,1,1,'Abacus Training',2500,NULL,'online','C','1',NULL,'2021-05-29 13:27:46','2021-05-29 13:27:46'),(21,1,1,17,1,1,'Abacus Training',2500,NULL,'online','C','1',NULL,'2021-05-29 13:32:42','2021-05-29 13:32:42'),(22,1,1,18,1,1,'Abacus Training',2500,NULL,'online','C','1',NULL,'2021-05-29 13:35:52','2021-05-29 13:35:52'),(23,1,1,19,1,1,'Abacus Training',2500,NULL,'online','C','1',NULL,'2021-05-29 13:38:17','2021-05-29 13:38:17'),(24,1,1,20,1,1,'Abacus Training',2500,NULL,'online','C','1',NULL,'2021-05-29 13:49:37','2021-05-29 13:49:37'),(25,1,1,21,1,1,'Abacus Training',2500,NULL,'online','C','1',NULL,'2021-06-03 14:06:13','2021-06-03 14:06:13'),(26,1,1,22,1,1,'Abacus Training',2500,NULL,'online','C','1',NULL,'2021-06-05 09:28:27','2021-06-05 09:28:27'),(27,1,1,23,1,1,'Abacus Training',2500,NULL,'online','C','1',NULL,'2021-06-05 09:34:45','2021-06-05 09:34:45'),(28,1,1,24,1,1,'Abacus Training',2500,NULL,'online','C','1',NULL,'2021-06-05 09:45:27','2021-06-05 09:45:27'),(29,1,1,25,1,1,'Abacus Training',2500,NULL,'online','C','1',NULL,'2021-06-05 10:10:26','2021-06-05 10:10:26'),(30,1,1,26,1,1,'Abacus Training',2500,NULL,'online','C','1',NULL,'2021-06-05 10:16:05','2021-06-05 10:16:05'),(31,1,1,27,1,1,'Abacus Training',2500,NULL,'online','C','1',NULL,'2021-06-05 10:30:45','2021-06-05 10:30:45'),(32,1,1,28,1,1,'Abacus Training',2500,NULL,'online','C','1',NULL,'2021-06-07 17:14:09','2021-06-07 17:14:09'),(33,1,6,29,2,3,'Office Automation',4500,NULL,'offline','P','1',NULL,'2021-06-25 06:29:42','2021-06-25 06:29:42'),(34,1,11,30,1,6,'Arabic Graphic Design Course',16000,NULL,'online','P','1',NULL,'2021-06-28 07:34:27','2021-06-28 07:34:27'),(35,1,6,31,2,3,'Office Automation',4000,NULL,'online','P','1',NULL,'2021-06-28 08:02:04','2021-06-28 08:02:04'),(36,1,1,32,1,1,'Abacus Training',2500,NULL,'online','C','1',NULL,'2021-07-01 10:31:37','2021-07-01 10:31:37'),(37,1,29,33,2,3,'Post Graduate Diploma In Computerized Financial Accounting - PGDCFA',20000,NULL,'offline','P','1',NULL,'2021-07-05 05:33:09','2021-07-05 05:33:09'),(38,1,11,34,1,6,'Arabic Graphic Design Course',20000,NULL,'offline','P','1',NULL,'2021-07-05 07:01:04','2021-07-05 07:01:04'),(39,1,11,35,1,6,'Arabic Graphic Design Course',20000,NULL,'offline','P','1',NULL,'2021-07-06 06:46:11','2021-07-06 06:46:11'),(40,1,4,36,1,3,'Diploma in Graphic Designing',16000,NULL,'offline','P','1',NULL,'2021-07-23 08:23:53','2021-07-23 08:23:53'),(41,1,6,37,2,3,'Office Automation',4500,NULL,'offline','P','1',NULL,'2021-07-23 10:56:43','2021-07-23 10:56:43'),(42,1,1,38,1,1,'Abacus Training',2500,NULL,'online','C','1',NULL,'2021-07-26 05:25:07','2021-07-26 05:25:07'),(43,1,1,39,1,1,'Abacus Training',2500,NULL,'online','C','1',NULL,'2021-07-26 05:29:44','2021-07-26 05:29:44'),(44,1,7,40,1,3,'Data Entry Operator',5500,NULL,'offline','P','1',NULL,'2021-07-26 05:55:23','2021-07-26 05:55:23'),(45,1,11,41,1,6,'Arabic Graphic Design Course',20000,NULL,'offline','P','1',NULL,'2021-07-26 06:16:49','2021-07-26 06:16:49'),(47,1,7,42,1,3,'Data Entry Operator',5500,NULL,'offline','P','1',NULL,'2021-07-26 06:23:52','2021-07-26 06:23:52'),(48,1,4,43,1,3,'Diploma in Graphic Designing',16000,NULL,'offline','P','1',NULL,'2021-07-28 03:55:11','2021-07-28 03:55:11'),(49,1,1,44,1,1,'Abacus Training',2500,NULL,'online','C','1',NULL,'2021-07-28 11:17:13','2021-07-28 11:17:13'),(50,1,1,45,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-06 04:01:16','2021-08-06 04:01:16'),(51,1,1,46,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-06 06:04:03','2021-08-06 06:04:03'),(52,1,1,47,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-07 10:09:52','2021-08-07 10:09:52'),(53,1,1,48,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-07 11:02:55','2021-08-07 11:02:55'),(54,1,1,49,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-07 11:11:00','2021-08-07 11:11:00'),(55,1,1,50,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-07 11:17:04','2021-08-07 11:17:04'),(56,1,1,51,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-07 11:21:42','2021-08-07 11:21:42'),(57,1,1,52,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-07 11:38:14','2021-08-07 11:38:14'),(58,1,1,53,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-07 11:46:32','2021-08-07 11:46:32'),(59,1,1,55,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-07 11:53:23','2021-08-07 11:53:23'),(60,1,1,56,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-07 11:58:02','2021-08-07 11:58:02'),(61,1,1,57,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-08 00:34:24','2021-08-08 00:34:24'),(62,1,1,58,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-08 04:51:47','2021-08-08 04:51:47'),(63,1,1,59,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-08 04:59:25','2021-08-08 04:59:25'),(64,1,5,60,2,3,'MANUAL ACCOUNTING AND TALLY',10500,NULL,'offline','C','1',NULL,'2021-08-08 22:41:35','2021-08-08 22:41:35'),(65,1,13,61,1,7,'Master Diploma in Interior and Architectural designing',30000,NULL,'offline','P','1',NULL,'2021-08-09 04:12:27','2021-08-09 04:12:27'),(66,1,12,62,2,7,'Diploma in Interior Designing',22000,NULL,'offline','P','1',NULL,'2021-08-09 05:43:46','2021-08-09 05:43:46'),(67,1,12,63,2,7,'Diploma in Interior Designing',22000,NULL,'offline','P','1',NULL,'2021-08-09 05:47:43','2021-08-09 05:47:43'),(68,1,12,64,2,7,'Diploma in Interior Designing',22000,NULL,'offline','P','1',NULL,'2021-08-09 05:50:37','2021-08-09 05:50:37'),(69,1,1,65,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-09 23:01:03','2021-08-09 23:01:03'),(70,1,12,66,2,7,'Diploma in Interior Designing',22000,NULL,'offline','P','1',NULL,'2021-08-09 23:14:15','2021-08-09 23:14:15'),(71,1,12,67,2,7,'Diploma in Interior Designing',22000,NULL,'offline','P','1',NULL,'2021-08-09 23:18:28','2021-08-09 23:18:28'),(72,1,35,68,1,1,'Abacus 3rd Level',3000,NULL,'online','C','1',NULL,'2021-08-16 00:47:11','2021-08-16 00:47:11'),(73,1,1,69,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-16 23:00:54','2021-08-16 23:00:54'),(74,1,1,70,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-16 23:03:46','2021-08-16 23:03:46'),(75,1,1,73,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-16 23:22:16','2021-08-16 23:22:16'),(76,1,1,74,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-16 23:45:18','2021-08-16 23:45:18'),(77,1,1,75,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-16 23:50:39','2021-08-16 23:50:39'),(78,1,1,76,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-16 23:56:11','2021-08-16 23:56:11'),(79,1,1,77,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-17 00:01:22','2021-08-17 00:01:22'),(80,1,1,78,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-17 00:05:18','2021-08-17 00:05:18'),(81,1,1,79,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-17 00:08:49','2021-08-17 00:08:49'),(82,1,1,80,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-17 00:29:59','2021-08-17 00:29:59'),(83,1,1,81,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-17 00:38:05','2021-08-17 00:38:05'),(84,1,1,82,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-17 00:44:20','2021-08-17 00:44:20'),(86,1,35,83,1,1,'Abacus 3rd Level',3000,NULL,'online','C','1',NULL,'2021-08-17 00:47:21','2021-08-17 00:47:21'),(87,1,1,84,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-17 00:56:47','2021-08-17 00:56:47'),(88,1,35,85,1,1,'Abacus 3rd Level',3000,NULL,'online','C','1',NULL,'2021-08-17 02:09:12','2021-08-17 02:09:12'),(89,1,1,86,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-17 02:44:45','2021-08-17 02:44:45'),(90,1,29,87,2,3,'Post Graduate Diploma In Computerized Financial Accounting - PGDCFA',20000,NULL,'offline','P','1',NULL,'2021-08-23 22:43:42','2021-08-23 22:43:42'),(91,1,1,88,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-28 00:05:59','2021-08-28 00:05:59'),(92,1,1,89,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-28 00:13:28','2021-08-28 00:13:28'),(93,1,1,90,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-28 00:19:00','2021-08-28 00:19:00'),(94,1,1,91,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-28 00:31:13','2021-08-28 00:31:13'),(95,1,1,92,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-28 00:37:20','2021-08-28 00:37:20'),(96,1,35,93,1,1,'Abacus 3rd Level',3000,NULL,'online','C','1',NULL,'2021-08-28 00:54:41','2021-08-28 00:54:41'),(97,1,1,94,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-28 01:00:56','2021-08-28 01:00:56'),(98,1,1,95,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-28 01:05:32','2021-08-28 01:05:32'),(99,1,35,97,1,1,'Abacus 3rd Level',3000,NULL,'online','C','1',NULL,'2021-08-28 01:11:52','2021-08-28 01:11:52'),(100,1,1,98,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-28 01:26:57','2021-08-28 01:26:57'),(101,1,1,99,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-28 01:31:25','2021-08-28 01:31:25'),(102,1,1,100,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-28 01:43:11','2021-08-28 01:43:11'),(103,1,1,101,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-28 01:46:30','2021-08-28 01:46:30'),(104,1,1,102,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-28 02:10:20','2021-08-28 02:10:20'),(105,1,1,103,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-28 02:14:14','2021-08-28 02:14:14'),(106,1,1,104,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-28 02:17:47','2021-08-28 02:17:47'),(107,1,1,105,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-28 02:24:27','2021-08-28 02:24:27'),(108,1,1,106,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-30 01:26:56','2021-08-30 01:26:56'),(109,1,35,107,1,1,'Abacus 3rd Level',3000,NULL,'online','C','1',NULL,'2021-08-30 01:30:48','2021-08-30 01:30:48'),(110,1,1,108,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-08-30 01:33:53','2021-08-30 01:33:53'),(111,1,4,109,1,3,'Diploma in Graphic Designing',16000,NULL,'offline','P','1',NULL,'2021-08-30 22:42:33','2021-08-30 22:42:33'),(112,1,4,110,1,3,'Diploma in Graphic Designing',16000,NULL,'offline','P','1',NULL,'2021-09-01 02:08:33','2021-09-01 02:08:33'),(113,1,24,111,1,3,'Adobe Photoshop',5000,NULL,'offline','C','1',NULL,'2021-09-04 00:58:41','2021-09-04 00:58:41'),(114,1,6,112,2,3,'Office Automation',4500,NULL,'offline','P','1',NULL,'2021-09-04 01:08:18','2021-09-04 01:08:18'),(115,1,1,113,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-09-04 01:45:46','2021-09-04 01:45:46'),(116,1,1,114,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-09-04 02:05:30','2021-09-04 02:05:30'),(117,1,1,115,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-09-04 02:12:22','2021-09-04 02:12:22'),(118,1,1,116,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-09-04 02:45:04','2021-09-04 02:45:04'),(119,1,1,117,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-09-04 02:55:14','2021-09-04 02:55:14'),(120,1,1,118,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-09-04 03:11:44','2021-09-04 03:11:44'),(121,1,1,119,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-09-04 03:15:12','2021-09-04 03:15:12'),(122,1,1,120,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-09-04 03:19:53','2021-09-04 03:19:53'),(123,1,1,121,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-09-05 22:53:02','2021-09-05 22:53:02'),(124,1,1,122,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-09-12 22:48:19','2021-09-12 22:48:19'),(125,1,6,123,2,3,'Office Automation',4500,NULL,'offline','P','1',NULL,'2021-09-12 23:03:20','2021-09-12 23:03:20'),(126,1,6,124,2,3,'Office Automation',4500,NULL,'offline','P','1',NULL,'2021-09-15 00:44:10','2021-09-15 00:44:10'),(127,1,1,125,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-09-16 23:00:05','2021-09-16 23:00:05'),(128,1,29,126,2,3,'Post Graduate Diploma In Computerized Financial Accounting - PGDCFA',20000,NULL,'offline','P','1',NULL,'2021-09-18 01:42:38','2021-09-18 01:42:38'),(129,1,6,127,2,3,'Office Automation',4500,NULL,'offline','P','1',NULL,'2021-09-20 01:22:10','2021-09-20 01:22:10'),(130,1,11,128,1,6,'Arabic Graphic Design Course',20000,NULL,'offline','P','1',NULL,'2021-09-21 22:44:33','2021-09-21 22:44:33'),(131,1,5,129,2,3,'MANUAL ACCOUNTING AND TALLY',10500,NULL,'offline','C','1',NULL,'2021-09-27 23:53:54','2021-09-27 23:53:54'),(132,1,6,130,2,3,'Office Automation',4500,NULL,'offline','P','1',NULL,'2021-10-01 01:07:26','2021-10-01 01:07:26'),(133,1,6,131,2,3,'Office Automation',4500,NULL,'offline','P','1',NULL,'2021-10-01 01:11:07','2021-10-01 01:11:07'),(134,1,29,132,2,3,'Post Graduate Diploma In Computerized Financial Accounting - PGDCFA',20000,NULL,'offline','P','1',NULL,'2021-10-05 00:41:06','2021-10-05 00:41:06'),(135,1,29,133,2,3,'Post Graduate Diploma In Computerized Financial Accounting - PGDCFA',20000,NULL,'offline','P','1',NULL,'2021-10-05 00:44:30','2021-10-05 00:44:30'),(136,1,35,134,1,1,'Abacus 3rd Level',3000,NULL,'online','C','1',NULL,'2021-10-09 03:49:33','2021-10-09 03:49:33'),(137,1,1,135,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-10-15 23:05:57','2021-10-15 23:05:57'),(138,1,6,136,2,3,'Office Automation',4500,NULL,'offline','P','1',NULL,'2021-10-16 00:57:49','2021-10-16 00:57:49'),(139,1,21,137,1,3,'English Typing',2500,NULL,'offline','C','1',NULL,'2021-10-21 01:32:27','2021-10-21 01:32:27'),(140,1,1,138,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-10-21 02:47:52','2021-10-21 02:47:52'),(141,1,6,140,2,3,'Office Automation',4500,NULL,'offline','P','1',NULL,'2021-10-22 03:18:04','2021-10-22 03:18:04'),(142,1,36,104,1,1,'Abacus 2nd level',3000,NULL,'online','C','1',NULL,'2021-10-22 22:33:59','2021-10-22 22:33:59'),(143,1,1,141,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-10-23 03:56:48','2021-10-23 03:56:48'),(144,1,29,142,2,3,'Post Graduate Diploma In Computerized Financial Accounting - PGDCFA',20000,NULL,'offline','P','1',NULL,'2021-10-26 00:34:22','2021-10-26 00:34:22'),(145,1,6,143,2,3,'Office Automation',4500,NULL,'offline','P','1',NULL,'2021-10-26 02:50:04','2021-10-26 02:50:04'),(146,1,29,144,2,3,'Post Graduate Diploma In Computerized Financial Accounting - PGDCFA',20000,NULL,'offline','P','1',NULL,'2021-11-02 02:06:29','2021-11-02 02:06:29'),(147,1,6,145,2,3,'Office Automation',4500,NULL,'offline','P','1',NULL,'2021-11-03 00:25:24','2021-11-03 00:25:24'),(149,1,29,147,2,3,'Post Graduate Diploma In Computerized Financial Accounting - PGDCFA',25000,NULL,'offline','P','1',NULL,'2021-11-15 01:00:43','2021-11-15 01:00:43'),(150,1,12,148,2,7,'Diploma in Interior Designing',22000,NULL,'offline','P','1',NULL,'2021-11-16 23:23:32','2021-11-16 23:23:32'),(151,1,18,150,1,3,'Microsoft Excel',1500,NULL,'offline','C','1',NULL,'2021-11-18 06:33:24','2021-11-18 06:33:24'),(152,1,13,151,1,7,'Master Diploma in Interior and Architectural designing',30000,NULL,'offline','P','1',NULL,'2021-11-18 23:49:28','2021-11-18 23:49:28'),(153,1,11,151,1,6,'Arabic Graphic Design Course',20000,NULL,'offline','P','1',NULL,'2021-11-18 23:49:39','2021-11-18 23:49:39'),(154,1,4,146,1,3,'Diploma in Graphic Designing',16000,NULL,'offline','P','1',NULL,'2021-11-19 03:18:57','2021-11-19 03:18:57'),(155,1,5,152,2,3,'MANUAL ACCOUNTING AND TALLY',12000,NULL,'offline','C','1',NULL,'2021-11-26 04:13:58','2021-11-26 04:13:58'),(156,1,5,153,2,3,'MANUAL ACCOUNTING AND TALLY',12000,NULL,'offline','C','1',NULL,'2021-11-29 23:00:35','2021-11-29 23:00:35'),(157,1,6,154,2,3,'Office Automation',5000,NULL,'offline','P','1',NULL,'2021-11-30 05:54:51','2021-11-30 05:54:51'),(159,1,4,155,1,3,'Diploma in Graphic Designing',28000,NULL,'offline','P','1',NULL,'2021-12-01 01:06:25','2021-12-01 01:06:25'),(160,1,4,156,1,3,'Diploma in Graphic Designing',28000,NULL,'offline','P','1',NULL,'2021-12-03 05:25:24','2021-12-03 05:25:24'),(161,1,7,157,1,3,'Data Entry Operator',6000,NULL,'offline','P','1',NULL,'2021-12-15 00:30:58','2021-12-15 00:30:58'),(162,1,4,158,1,3,'Diploma in Graphic Designing',28000,NULL,'offline','P','1',NULL,'2021-12-15 01:12:02','2021-12-15 01:12:02'),(163,1,6,159,2,3,'Office Automation',5000,NULL,'offline','P','1',NULL,'2021-12-20 00:55:36','2021-12-20 00:55:36'),(164,1,20,160,1,3,'ISM Malayalam Typing',3500,NULL,'offline','C','1',NULL,'2021-12-20 22:46:37','2021-12-20 22:46:37'),(165,1,6,162,2,3,'Office Automation',5000,NULL,'offline','P','1',NULL,'2021-12-21 02:41:05','2021-12-21 02:41:05'),(166,1,37,84,1,1,'Abacus 2nd Level',3500,NULL,'online','C','1',NULL,'2021-12-23 05:44:47','2021-12-23 05:44:47'),(167,1,1,163,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-12-24 00:03:54','2021-12-24 00:03:54'),(168,1,1,164,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-12-24 00:07:57','2021-12-24 00:07:57'),(169,1,1,165,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-12-24 00:40:08','2021-12-24 00:40:08'),(170,1,1,167,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-12-24 00:44:17','2021-12-24 00:44:17'),(171,1,1,168,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-12-24 00:44:39','2021-12-24 00:44:39'),(172,1,1,169,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-12-24 01:08:06','2021-12-24 01:08:06'),(173,1,1,170,1,1,'Abacus Training',3000,NULL,'online','C','1',NULL,'2021-12-24 01:22:53','2021-12-24 01:22:53');
+/*!40000 ALTER TABLE `student_courses` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `student_payments`
+--
+
+DROP TABLE IF EXISTS `student_payments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `student_payments` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned DEFAULT NULL,
+  `course_id` bigint unsigned NOT NULL,
+  `student_id` bigint unsigned NOT NULL,
+  `bill_id` bigint unsigned NOT NULL,
+  `type` varchar(5) NOT NULL,
+  `discount_rs` int NOT NULL,
+  `discount_per` int NOT NULL,
+  `dis_per_in_amount` int NOT NULL,
+  `payment_amount` int NOT NULL,
+  `day` int NOT NULL,
+  `month` int NOT NULL,
+  `year` int NOT NULL,
+  `financial_year` varchar(30) NOT NULL,
+  `filename` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `course_student_payments_fk` (`course_id`),
+  KEY `student_id_student_payment` (`student_id`),
+  KEY `bill_id_student_payments` (`bill_id`),
+  CONSTRAINT `bill_id_student_payments` FOREIGN KEY (`bill_id`) REFERENCES `student_bills` (`id`),
+  CONSTRAINT `course_student_payments_fk` FOREIGN KEY (`course_id`) REFERENCES `all_courses` (`id`),
+  CONSTRAINT `student_id_student_payment` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=183 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `student_payments`
+--
+
+LOCK TABLES `student_payments` WRITE;
+/*!40000 ALTER TABLE `student_payments` DISABLE KEYS */;
+INSERT INTO `student_payments` VALUES (15,1,1,2,15,'DP',0,0,0,1000,17,5,2021,'2020-2021','1_1621248296_Payment_Ujjwal Krishna M P_AK04213.pdf','2021-05-17 05:14:55','2021-05-17 10:44:56'),(16,1,1,2,16,'FP',0,0,0,100,17,5,2021,'2020-2021','1_1621248370_Payment_AK04213.pdf','2021-05-17 05:16:09','2021-05-17 10:46:10'),(17,1,1,1,17,'DP',0,0,0,100,19,5,2021,'2020-2021',NULL,'2021-05-19 10:55:52','2021-05-19 10:55:52'),(18,1,1,1,18,'FP',0,0,0,150,19,5,2021,'2020-2021',NULL,'2021-05-19 11:31:09','2021-05-19 11:31:09'),(19,1,1,1,19,'FP',0,0,0,50,19,5,2021,'2020-2021',NULL,'2021-05-19 11:31:30','2021-05-19 11:31:30'),(20,1,1,4,20,'DP',0,0,0,2500,25,5,2021,'2020-2021','1_1621944991_Payment_AK05215.pdf','2021-05-25 12:04:35','2021-05-25 17:46:31'),(21,1,1,5,21,'DP',0,0,0,2500,25,5,2021,'2020-2021','1_1621945324_Payment_AK05216.pdf','2021-05-25 12:22:02','2021-05-25 17:52:04'),(22,1,1,8,22,'DP',0,0,0,1000,25,5,2021,'2020-2021','1_1621945952_Payment_AK05219.pdf','2021-05-25 12:32:30','2021-05-25 18:02:32'),(23,1,1,10,23,'DP',0,0,0,2500,29,5,2021,'2020-2021','1_1622291865_Payment_AK052111.pdf','2021-05-29 12:36:40','2021-05-29 18:07:45'),(24,1,1,11,24,'DP',0,0,0,2500,29,5,2021,'2020-2021','1_1622292087_Payment_AK052112.pdf','2021-05-29 12:41:24','2021-05-29 18:11:27'),(25,1,1,12,25,'DP',0,0,0,2500,29,5,2021,'2020-2021','1_1622292359_Payment_AK052113.pdf','2021-05-29 12:45:53','2021-05-29 18:15:59'),(26,1,1,13,26,'DP',0,0,0,2500,29,5,2021,'2020-2021','1_1622292652_Payment_AK052114.pdf','2021-05-29 12:50:50','2021-05-29 18:20:52'),(27,1,1,14,27,'DP',0,0,0,2500,29,5,2021,'2020-2021','1_1622292965_Payment_AK052115.pdf','2021-05-29 12:56:01','2021-05-29 18:26:05'),(28,1,1,15,28,'DP',0,0,0,2500,29,5,2021,'2020-2021','1_1622294710_Payment_AK052116.pdf','2021-05-29 13:25:08','2021-05-29 18:55:10'),(29,1,1,16,29,'DP',0,0,0,2500,29,5,2021,'2020-2021','1_1622294878_Payment_AK052117.pdf','2021-05-29 13:27:56','2021-05-29 18:57:58'),(30,1,1,18,30,'DP',0,0,0,2500,29,5,2021,'2020-2021','1_1622295362_Payment_AK052119.pdf','2021-05-29 13:36:00','2021-05-29 19:06:02'),(31,1,1,19,31,'DP',0,0,0,2500,29,5,2021,'2020-2021','1_1622295508_Payment_AK052120.pdf','2021-05-29 13:38:25','2021-05-29 19:08:28'),(32,1,1,20,32,'DP',0,0,0,2500,29,5,2021,'2020-2021','1_1622296187_Payment_AK052121.pdf','2021-05-29 13:49:45','2021-05-29 19:19:47'),(33,1,1,1,33,'FP',0,0,0,2200,4,6,2021,'2020-2021','1_1622790781_Payment_AK04212.pdf','2021-06-04 07:12:59','2021-06-04 12:43:01'),(34,1,1,22,34,'DP',0,0,0,2500,5,6,2021,'2020-2021','1_1622885391_Payment_AK062123.pdf','2021-06-05 09:29:47','2021-06-05 14:59:51'),(35,1,1,23,35,'DP',0,0,0,2500,5,6,2021,'2020-2021','1_1622885729_Payment_AK062124.pdf','2021-06-05 09:35:27','2021-06-05 15:05:29'),(36,1,1,26,36,'DP',250,0,0,2250,5,6,2021,'2020-2021','1_1622888322_Payment_AK062127.pdf','2021-06-05 10:18:39','2021-06-05 15:48:42'),(37,1,1,27,37,'DP',250,0,0,2250,5,6,2021,'2020-2021','1_1622889074_Payment_AK062128.pdf','2021-06-05 10:30:57','2021-06-05 16:01:14'),(38,1,1,28,38,'DP',0,0,0,2500,7,6,2021,'2020-2021','1_1623086077_Payment_AK062129.pdf','2021-06-07 17:14:35','2021-06-07 22:44:37'),(39,1,6,29,39,'DP',0,0,0,2000,28,6,2021,'2020-2021','1_1624863520_Payment_AK062130.pdf','2021-06-28 06:58:34','2021-06-28 12:28:40'),(40,1,6,29,40,'FP',0,0,0,2000,28,6,2021,'2020-2021',NULL,'2021-06-28 07:03:45','2021-06-28 07:03:45'),(41,1,1,32,41,'DP',0,0,0,2500,1,7,2021,'2021-2022',NULL,'2021-07-01 10:32:03','2021-07-01 10:32:03'),(42,1,11,30,42,'DP',0,0,0,8000,2,7,2021,'2021-2022','1_1625205114_Payment_AK062131.pdf','2021-07-02 05:51:52','2021-07-02 11:21:54'),(43,1,6,31,43,'DP',0,0,0,1000,6,7,2021,'2021-2022','1_1625547867_Payment_AK062132.pdf','2021-07-06 05:04:23','2021-07-06 10:34:27'),(44,1,1,38,44,'DP',0,0,0,2500,26,7,2021,'2021-2022',NULL,'2021-07-26 05:25:23','2021-07-26 05:25:23'),(45,1,7,42,45,'DP',0,0,0,2500,26,7,2021,'2021-2022','1_1627281267_Payment_AK072143.pdf','2021-07-26 06:26:04','2021-07-26 12:04:27'),(46,1,29,33,46,'DP',0,0,0,3000,26,7,2021,'2021-2022','1_1627286853_Payment_AK072134.pdf','2021-07-26 08:07:32','2021-07-26 13:37:33'),(47,1,4,36,47,'DP',0,0,0,2000,28,7,2021,'2021-2022','1_1627460704_Payment_AK072137.pdf','2021-07-28 08:25:00','2021-07-28 13:55:04'),(48,1,4,43,48,'DP',0,0,0,1500,29,7,2021,'2021-2022','1_1627530730_Payment_AK072144.pdf','2021-07-29 03:52:08','2021-07-29 09:22:10'),(49,1,7,40,49,'DP',0,0,0,2500,29,7,2021,'2021-2022','1_1627536828_Payment_AK072141.pdf','2021-07-29 05:33:45','2021-07-29 11:03:48'),(50,1,1,46,50,'DP',0,100,3000,0,6,8,2021,'2021-2022','1_1628249684_Payment_AK082147.pdf','2021-08-06 06:04:28','2021-08-06 11:34:44'),(51,1,1,47,51,'DP',500,0,0,2000,7,8,2021,'2021-2022','1_1628350834_Payment_AK082148.pdf','2021-08-07 10:10:32','2021-08-07 15:40:34'),(52,1,1,56,52,'DP',500,0,0,2500,7,8,2021,'2021-2022','1_1628357302_Payment_AK082157.pdf','2021-08-07 11:58:19','2021-08-07 17:28:22'),(53,1,1,45,53,'DP',1000,0,0,1500,8,8,2021,'2021-2022','1_1628401879_Payment_AK082146.pdf','2021-08-08 00:21:14','2021-08-08 05:51:19'),(54,1,13,61,54,'DP',0,10,3000,10000,9,8,2021,'2021-2022',NULL,'2021-08-09 04:14:05','2021-08-09 04:14:05'),(55,1,12,62,55,'DP',6000,0,0,6000,9,8,2021,'2021-2022',NULL,'2021-08-09 05:44:48','2021-08-09 05:44:48'),(56,1,12,66,56,'DP',6000,0,0,0,10,8,2021,'2021-2022',NULL,'2021-08-09 23:14:42','2021-08-09 23:14:42'),(57,1,12,67,57,'DP',6000,0,0,0,10,8,2021,'2021-2022',NULL,'2021-08-09 23:18:43','2021-08-09 23:18:43'),(58,1,1,57,58,'DP',500,0,0,2500,10,8,2021,'2021-2022','1_1628594658_Payment_AK082158.pdf','2021-08-10 05:54:08','2021-08-10 11:24:18'),(59,1,1,59,59,'DP',500,0,0,2500,10,8,2021,'2021-2022','1_1628594794_Payment_AK082160.pdf','2021-08-10 05:56:31','2021-08-10 11:26:34'),(60,1,4,43,60,'FP',2400,0,0,3500,13,8,2021,'2021-2022','1_1628833888_Payment_AK072144.pdf','2021-08-13 00:21:25','2021-08-13 05:51:28'),(61,1,1,48,61,'DP',500,0,0,2500,13,8,2021,'2021-2022',NULL,'2021-08-13 01:38:59','2021-08-13 01:38:59'),(62,1,1,51,62,'DP',500,0,0,1000,16,8,2021,'2021-2022',NULL,'2021-08-15 22:29:08','2021-08-15 22:29:08'),(63,1,1,52,63,'DP',500,0,0,2500,16,8,2021,'2021-2022',NULL,'2021-08-15 22:30:56','2021-08-15 22:30:56'),(64,1,1,53,64,'DP',500,0,0,2500,16,8,2021,'2021-2022',NULL,'2021-08-15 22:32:32','2021-08-15 22:32:32'),(65,1,1,49,65,'DP',500,0,0,2500,16,8,2021,'2021-2022',NULL,'2021-08-15 22:34:04','2021-08-15 22:34:04'),(66,1,35,68,66,'DP',500,0,0,2500,16,8,2021,'2021-2022',NULL,'2021-08-16 00:47:27','2021-08-16 00:47:27'),(67,1,1,69,67,'DP',500,0,0,2500,17,8,2021,'2021-2022',NULL,'2021-08-16 23:01:07','2021-08-16 23:01:07'),(68,1,1,70,68,'DP',500,0,0,0,17,8,2021,'2021-2022',NULL,'2021-08-16 23:04:03','2021-08-16 23:04:03'),(69,1,1,73,69,'DP',500,0,0,2500,17,8,2021,'2021-2022',NULL,'2021-08-16 23:22:32','2021-08-16 23:22:32'),(70,1,1,74,70,'DP',500,0,0,2500,17,8,2021,'2021-2022',NULL,'2021-08-16 23:45:32','2021-08-16 23:45:32'),(71,1,1,75,71,'DP',500,0,0,2500,17,8,2021,'2021-2022',NULL,'2021-08-16 23:50:51','2021-08-16 23:50:51'),(72,1,1,76,72,'DP',500,0,0,2500,17,8,2021,'2021-2022',NULL,'2021-08-16 23:56:23','2021-08-16 23:56:23'),(73,1,1,77,73,'DP',2000,0,0,1000,17,8,2021,'2021-2022',NULL,'2021-08-17 00:01:38','2021-08-17 00:01:38'),(74,1,1,78,74,'DP',500,0,0,2000,17,8,2021,'2021-2022',NULL,'2021-08-17 00:05:50','2021-08-17 00:05:50'),(75,1,1,79,75,'DP',550,0,0,1000,17,8,2021,'2021-2022',NULL,'2021-08-17 00:09:47','2021-08-17 00:09:47'),(76,1,1,80,76,'DP',500,0,0,2500,17,8,2021,'2021-2022',NULL,'2021-08-17 00:30:15','2021-08-17 00:30:15'),(77,1,1,82,77,'DP',550,0,0,2450,17,8,2021,'2021-2022',NULL,'2021-08-17 00:44:35','2021-08-17 00:44:35'),(78,1,35,83,78,'DP',500,0,0,2500,17,8,2021,'2021-2022',NULL,'2021-08-17 00:47:38','2021-08-17 00:47:38'),(79,1,1,84,79,'DP',500,0,0,2500,17,8,2021,'2021-2022',NULL,'2021-08-17 00:56:59','2021-08-17 00:56:59'),(80,1,6,29,80,'FP',0,0,0,500,17,8,2021,'2021-2022',NULL,'2021-08-17 01:51:19','2021-08-17 01:51:19'),(81,1,35,85,81,'DP',500,0,0,1500,17,8,2021,'2021-2022',NULL,'2021-08-17 02:09:44','2021-08-17 02:09:44'),(82,1,1,86,82,'DP',500,0,0,0,17,8,2021,'2021-2022',NULL,'2021-08-17 02:45:02','2021-08-17 02:45:02'),(83,1,29,87,83,'DP',0,0,0,2000,24,8,2021,'2021-2022','1_1629778528_Payment_AK082188.pdf','2021-08-23 22:45:16','2021-08-24 04:15:28'),(84,1,5,60,84,'DP',3000,0,0,2000,27,8,2021,'2021-2022','1_1630053501_Payment_AK082161.pdf','2021-08-27 03:06:10','2021-08-27 08:38:21'),(85,1,1,88,85,'DP',500,0,0,2500,28,8,2021,'2021-2022',NULL,'2021-08-28 00:06:15','2021-08-28 00:06:15'),(86,1,1,89,86,'DP',500,0,0,2500,28,8,2021,'2021-2022',NULL,'2021-08-28 00:13:42','2021-08-28 00:13:42'),(87,1,1,90,87,'DP',500,0,0,2500,28,8,2021,'2021-2022',NULL,'2021-08-28 00:19:13','2021-08-28 00:19:13'),(88,1,1,91,88,'DP',500,0,0,1000,28,8,2021,'2021-2022',NULL,'2021-08-28 00:31:35','2021-08-28 00:31:35'),(89,1,1,92,89,'DP',500,0,0,1000,28,8,2021,'2021-2022',NULL,'2021-08-28 00:37:50','2021-08-28 00:37:50'),(90,1,35,93,90,'DP',500,0,0,2500,28,8,2021,'2021-2022',NULL,'2021-08-28 00:54:53','2021-08-28 00:54:53'),(91,1,1,94,91,'DP',500,0,0,2500,28,8,2021,'2021-2022',NULL,'2021-08-28 01:01:20','2021-08-28 01:01:20'),(92,1,1,95,92,'DP',500,0,0,1000,28,8,2021,'2021-2022',NULL,'2021-08-28 01:06:16','2021-08-28 01:06:16'),(93,1,35,97,93,'DP',500,0,0,2500,28,8,2021,'2021-2022',NULL,'2021-08-28 01:12:38','2021-08-28 01:12:38'),(94,1,1,102,94,'DP',500,0,0,2500,28,8,2021,'2021-2022',NULL,'2021-08-28 02:10:35','2021-08-28 02:10:35'),(95,1,1,103,95,'DP',500,0,0,2500,28,8,2021,'2021-2022',NULL,'2021-08-28 02:15:05','2021-08-28 02:15:05'),(96,1,1,105,96,'DP',500,0,0,2500,28,8,2021,'2021-2022',NULL,'2021-08-28 02:25:06','2021-08-28 02:25:06'),(97,1,1,106,97,'DP',500,0,0,2500,30,8,2021,'2021-2022',NULL,'2021-08-30 01:27:11','2021-08-30 01:27:11'),(98,1,4,109,98,'DP',0,0,0,1000,31,8,2021,'2021-2022','1_1630383314_Payment_AK0821110.pdf','2021-08-30 22:45:08','2021-08-31 04:15:14'),(99,1,1,65,99,'DP',500,0,0,1000,31,8,2021,'2021-2022',NULL,'2021-08-30 23:09:00','2021-08-30 23:09:00'),(100,1,1,45,100,'FP',0,0,0,500,31,8,2021,'2021-2022',NULL,'2021-08-30 23:27:05','2021-08-30 23:27:05'),(101,1,1,2,101,'FP',0,0,0,400,31,8,2021,'2021-2022',NULL,'2021-08-30 23:28:35','2021-08-30 23:28:35'),(102,1,4,110,102,'DP',0,15,2400,5000,1,9,2021,'2021-2022','1_1630482143_Payment_AK0921111.pdf','2021-09-01 02:12:20','2021-09-01 07:42:23'),(103,1,4,109,103,'FP',0,0,0,1000,2,9,2021,'2021-2022','1_1630562584_Payment_AK0821110.pdf','2021-09-02 00:33:01','2021-09-02 06:03:04'),(104,1,24,111,104,'DP',500,0,0,2000,4,9,2021,'2021-2022','1_1630737153_Payment_AK0921112.pdf','2021-09-04 01:02:20','2021-09-04 06:32:33'),(105,1,6,112,105,'DP',0,0,0,2000,4,9,2021,'2021-2022','1_1630737522_Payment_AK0921113.pdf','2021-09-04 01:08:31','2021-09-04 06:38:42'),(106,1,1,92,106,'FP',0,0,0,1500,9,9,2021,'2021-2022',NULL,'2021-09-09 05:41:20','2021-09-09 05:41:20'),(107,1,1,116,107,'DP',0,0,0,3000,11,9,2021,'2021-2022',NULL,'2021-09-10 22:18:40','2021-09-10 22:18:40'),(108,1,1,122,108,'DP',0,0,0,1000,13,9,2021,'2021-2022',NULL,'2021-09-12 22:48:31','2021-09-12 22:48:31'),(109,1,9,9,109,'DP',0,0,0,3000,13,9,2021,'2021-2022','1_1631521746_Payment_AK052110.pdf','2021-09-13 02:59:03','2021-09-13 08:29:06'),(110,1,5,60,110,'FP',0,0,0,4000,13,9,2021,'2021-2022','1_1631532151_Payment_AK082161.pdf','2021-09-13 05:52:25','2021-09-13 11:22:31'),(111,1,1,58,111,'DP',0,0,0,1000,14,9,2021,'2021-2022',NULL,'2021-09-14 04:56:10','2021-09-14 04:56:10'),(112,1,1,117,112,'DP',0,0,0,3000,14,9,2021,'2021-2022',NULL,'2021-09-14 04:58:02','2021-09-14 04:58:02'),(113,1,1,114,113,'DP',0,0,0,2500,14,9,2021,'2021-2022',NULL,'2021-09-14 04:58:35','2021-09-14 04:58:35'),(114,1,7,40,114,'FP',0,0,0,3000,15,9,2021,'2021-2022','1_1631684363_Payment_AK072141.pdf','2021-09-15 00:09:21','2021-09-15 05:39:23'),(115,1,6,124,115,'DP',0,0,0,2000,15,9,2021,'2021-2022','1_1631686480_Payment_AK0921125.pdf','2021-09-15 00:44:38','2021-09-15 06:14:40'),(116,1,7,42,116,'FP',0,0,0,3000,15,9,2021,'2021-2022','1_1631687403_Payment_AK072143.pdf','2021-09-15 01:00:00','2021-09-15 06:30:03'),(117,1,1,8,117,'FP',0,0,0,1000,16,9,2021,'2021-2022','1_1631775103_Payment_AK05219.pdf','2021-09-16 01:21:33','2021-09-16 06:51:43'),(118,1,1,121,118,'DP',0,0,0,3000,17,9,2021,'2021-2022',NULL,'2021-09-16 22:21:01','2021-09-16 22:21:01'),(119,1,29,126,119,'DP',0,0,0,2000,20,9,2021,'2021-2022','1_1632122759_Payment_AK0921127.pdf','2021-09-20 01:55:55','2021-09-20 07:25:59'),(120,1,4,43,120,'FP',0,0,0,1000,20,9,2021,'2021-2022','1_1632125344_Payment_AK072144.pdf','2021-09-20 02:39:01','2021-09-20 08:09:04'),(121,1,29,87,121,'FP',2700,0,0,5000,21,9,2021,'2021-2022','1_1632204196_Payment_AK082188.pdf','2021-09-21 00:33:11','2021-09-21 06:03:16'),(122,1,6,127,122,'DP',0,0,0,2000,21,9,2021,'2021-2022','1_1632211376_Payment_AK0921128.pdf','2021-09-21 02:32:51','2021-09-21 08:02:56'),(123,1,11,128,123,'DP',0,15,3000,4900,22,9,2021,'2021-2022','1_1632284266_Payment_AK0921129.pdf','2021-09-21 22:47:43','2021-09-22 04:17:46'),(124,1,5,129,124,'DP',0,0,0,2000,28,9,2021,'2021-2022','1_1632807043_Payment_AK0921130.pdf','2021-09-28 00:00:40','2021-09-28 05:30:43'),(125,1,12,66,125,'FP',0,0,0,3000,29,9,2021,'2021-2022','1_1632897428_Payment_AK082167.pdf','2021-09-29 01:06:58','2021-09-29 06:37:08'),(126,1,29,126,126,'FP',0,0,0,3000,30,9,2021,'2021-2022','1_1632981749_Payment_AK0921127.pdf','2021-09-30 00:32:26','2021-09-30 06:02:29'),(127,1,29,33,127,'FP',1500,0,0,2000,1,10,2021,'2021-2022','1_1633068005_Payment_AK072134.pdf','2021-10-01 00:30:02','2021-10-01 06:00:05'),(128,1,6,130,128,'DP',0,0,0,2000,5,10,2021,'2021-2022','1_1633406727_Payment_AK1021131.pdf','2021-10-04 22:35:20','2021-10-05 04:05:27'),(129,1,6,131,129,'DP',0,0,0,2000,5,10,2021,'2021-2022','1_1633406795_Payment_AK1021132.pdf','2021-10-04 22:36:32','2021-10-05 04:06:35'),(130,1,29,133,130,'DP',0,0,0,2000,5,10,2021,'2021-2022','1_1633414506_Payment_AK1021134.pdf','2021-10-05 00:45:03','2021-10-05 06:15:06'),(131,1,35,134,131,'DP',0,0,0,3000,9,10,2021,'2021-2022','1_1633771226_Payment_AK1021135.pdf','2021-10-09 03:50:24','2021-10-09 09:20:26'),(132,1,11,30,132,'FP',0,0,0,2000,12,10,2021,'2021-2022','1_1634019492_Payment_AK062131.pdf','2021-10-12 00:48:09','2021-10-12 06:18:12'),(133,1,1,135,133,'DP',0,0,0,3000,16,10,2021,'2021-2022',NULL,'2021-10-15 23:06:31','2021-10-15 23:06:31'),(134,1,6,136,134,'DP',0,0,0,2000,16,10,2021,'2021-2022','1_1634365684_Payment_AK1021137.pdf','2021-10-16 00:58:01','2021-10-16 06:28:04'),(135,1,21,137,135,'DP',0,0,0,2500,21,10,2021,'2021-2022','1_1634799845_Payment_AK1021138.pdf','2021-10-21 01:34:03','2021-10-21 07:04:05'),(136,1,6,112,136,'FP',0,0,0,2500,21,10,2021,'2021-2022','1_1634814796_Payment_AK0921113.pdf','2021-10-21 05:43:03','2021-10-21 11:13:16'),(137,1,36,104,137,'DP',0,0,0,3000,23,10,2021,'2021-2022',NULL,'2021-10-22 22:34:18','2021-10-22 22:34:18'),(138,1,1,141,138,'DP',0,0,0,3000,23,10,2021,'2021-2022','1_1634981398_Payment_AK1021142.pdf','2021-10-23 03:59:56','2021-10-23 09:29:58'),(139,1,6,127,139,'FP',0,0,0,2500,25,10,2021,'2021-2022','1_1635144631_Payment_AK0921128.pdf','2021-10-25 01:20:27','2021-10-25 06:50:31'),(140,1,4,43,140,'FP',0,0,0,2000,27,10,2021,'2021-2022','1_1635314552_Payment_AK072144.pdf','2021-10-27 00:32:28','2021-10-27 06:02:32'),(141,1,13,61,141,'FP',0,0,0,2000,27,10,2021,'2021-2022','1_1635316732_Payment_AK082162.pdf','2021-10-27 01:08:50','2021-10-27 06:38:52'),(142,1,4,109,142,'FP',0,0,0,1000,28,10,2021,'2021-2022','1_1635394198_Payment_AK0821110.pdf','2021-10-27 22:39:55','2021-10-28 04:09:58'),(143,1,6,143,143,'DP',0,0,0,1500,1,11,2021,'2021-2022','1_1635746310_Payment_AK1021144.pdf','2021-11-01 00:28:27','2021-11-01 05:58:30'),(144,1,6,140,144,'DP',0,0,0,2000,1,11,2021,'2021-2022','1_1635746511_Payment_AK1021141.pdf','2021-11-01 00:31:47','2021-11-01 06:01:51'),(145,1,29,126,145,'FP',0,0,0,3000,1,11,2021,'2021-2022','1_1635746668_Payment_AK0921127.pdf','2021-11-01 00:34:26','2021-11-01 06:04:28'),(146,1,5,60,146,'FP',0,0,0,1500,2,11,2021,'2021-2022','1_1635824600_Payment_AK082161.pdf','2021-11-01 22:12:54','2021-11-02 03:43:20'),(147,1,29,144,147,'DP',0,0,0,4000,2,11,2021,'2021-2022','1_1635838660_Payment_AK1121145.pdf','2021-11-02 02:07:38','2021-11-02 07:37:40'),(148,1,6,145,148,'DP',0,0,0,2000,3,11,2021,'2021-2022','1_1635919019_Payment_AK1121146.pdf','2021-11-03 00:26:57','2021-11-03 05:56:59'),(149,1,29,132,149,'DP',0,0,0,3000,5,11,2021,'2021-2022','1_1636091786_Payment_AK1021133.pdf','2021-11-05 00:25:58','2021-11-05 05:56:26'),(150,1,11,128,150,'FP',0,0,0,5000,10,11,2021,'2021-2022','1_1636523409_Payment_AK0921129.pdf','2021-11-10 00:19:22','2021-11-10 05:50:09'),(151,1,1,58,151,'FP',0,0,0,500,16,11,2021,'2021-2022',NULL,'2021-11-15 22:24:39','2021-11-15 22:24:39'),(152,1,1,58,152,'FP',0,0,0,500,16,11,2021,'2021-2022',NULL,'2021-11-15 22:24:39','2021-11-15 22:24:39'),(153,1,29,147,153,'DP',0,0,0,10000,16,11,2021,'2021-2022','1_1637049980_Payment_AK1121148.pdf','2021-11-16 02:36:15','2021-11-16 08:06:20'),(154,1,12,148,154,'DP',0,0,0,8000,17,11,2021,'2021-2022','1_1637125857_Payment_AK1121149.pdf','2021-11-16 23:40:54','2021-11-17 05:10:57'),(155,1,18,150,155,'DP',0,0,0,1500,18,11,2021,'2021-2022',NULL,'2021-11-18 06:34:30','2021-11-18 06:34:30'),(156,1,13,151,156,'DP',0,0,0,6000,19,11,2021,'2021-2022','1_1637299436_Payment_AK1121152.pdf','2021-11-18 23:53:53','2021-11-19 05:23:56'),(157,1,5,129,157,'FP',0,0,0,2000,19,11,2021,'2021-2022','1_1637309461_Payment_AK0921130.pdf','2021-11-19 02:40:58','2021-11-19 08:11:01'),(158,1,4,146,158,'DP',0,0,0,2000,19,11,2021,'2021-2022','1_1637311772_Payment_AK1121147.pdf','2021-11-19 03:19:30','2021-11-19 08:49:32'),(159,1,4,36,159,'FP',0,0,0,2000,22,11,2021,'2021-2022','1_1637561624_Payment_AK072137.pdf','2021-11-22 00:43:39','2021-11-22 06:13:44'),(160,1,6,145,160,'FP',0,0,0,2500,25,11,2021,'2021-2022','1_1637831227_Payment_AK1121146.pdf','2021-11-25 03:37:04','2021-11-25 09:07:07'),(161,1,6,136,161,'FP',0,0,0,2500,27,11,2021,'2021-2022','1_1637999632_Payment_AK1021137.pdf','2021-11-27 02:23:50','2021-11-27 07:53:52'),(162,1,5,153,162,'DP',2000,0,0,2000,30,11,2021,'2021-2022','1_1638246710_Payment_AK1121154.pdf','2021-11-29 23:01:46','2021-11-30 04:31:50'),(163,1,6,140,163,'FP',0,0,0,2500,30,11,2021,'2021-2022','1_1638252035_Payment_AK1021141.pdf','2021-11-30 00:30:32','2021-11-30 06:00:35'),(164,1,4,156,164,'DP',0,20,5600,0,3,12,2021,'2021-2022','1_1638528996_Payment_AK1221157.pdf','2021-12-03 05:26:34','2021-12-03 10:56:36'),(165,1,29,132,165,'FP',0,0,0,5000,6,12,2021,'2021-2022','1_1638763451_Payment_AK1021133.pdf','2021-12-05 22:33:47','2021-12-06 04:04:11'),(166,1,13,151,166,'FP',0,0,0,4000,6,12,2021,'2021-2022','1_1638763889_Payment_AK1121152.pdf','2021-12-05 22:41:27','2021-12-06 04:11:29'),(167,1,4,155,167,'DP',1500,0,0,2000,6,12,2021,'2021-2022','1_1638764018_Payment_AK1221156.pdf','2021-12-05 22:43:36','2021-12-06 04:13:38'),(168,1,29,144,168,'FP',2000,0,0,4000,6,12,2021,'2021-2022','1_1638764220_Payment_AK1121145.pdf','2021-12-05 22:46:58','2021-12-06 04:17:00'),(169,1,13,61,169,'FP',0,0,0,2000,6,12,2021,'2021-2022','1_1638765066_Payment_AK082162.pdf','2021-12-05 23:01:04','2021-12-06 04:31:06'),(170,1,29,126,170,'FP',0,0,0,4000,6,12,2021,'2021-2022','1_1638765120_Payment_AK0921127.pdf','2021-12-05 23:01:59','2021-12-06 04:32:00'),(171,1,6,143,171,'FP',0,0,0,2500,6,12,2021,'2021-2022','1_1638777430_Payment_AK1021144.pdf','2021-12-06 02:26:53','2021-12-06 07:57:10'),(172,1,4,43,172,'FP',0,0,0,2000,9,12,2021,'2021-2022','1_1639028206_Payment_AK072144.pdf','2021-12-09 00:06:44','2021-12-09 05:36:46'),(173,1,7,157,173,'DP',0,0,0,2000,15,12,2021,'2021-2022','1_1639548147_Payment_AK1221158.pdf','2021-12-15 00:32:23','2021-12-15 06:02:27'),(174,1,6,159,174,'DP',0,0,0,1000,20,12,2021,'2021-2022','1_1639981580_Payment_AK1221160.pdf','2021-12-20 00:56:18','2021-12-20 06:26:20'),(175,1,4,158,175,'DP',0,0,0,1000,20,12,2021,'2021-2022','1_1639981777_Payment_AK1221159.pdf','2021-12-20 00:59:34','2021-12-20 06:29:37'),(176,1,20,160,176,'DP',1500,0,0,1000,21,12,2021,'2021-2022','1_1640060337_Payment_AK1221161.pdf','2021-12-20 22:48:51','2021-12-21 04:18:57'),(177,1,6,162,177,'DP',0,0,0,2000,21,12,2021,'2021-2022','1_1640074313_Payment_AK1221163.pdf','2021-12-21 02:41:49','2021-12-21 08:11:53'),(178,1,4,146,178,'FP',0,0,0,2000,21,12,2021,'2021-2022','1_1640077208_Payment_AK1121147.pdf','2021-12-21 03:30:03','2021-12-21 09:00:08'),(179,1,11,128,179,'FP',0,0,0,2000,22,12,2021,'2021-2022','1_1640152619_Payment_AK0921129.pdf','2021-12-22 00:26:54','2021-12-22 05:56:59'),(180,1,37,84,180,'DP',0,0,0,3500,23,12,2021,'2021-2022',NULL,'2021-12-23 05:45:02','2021-12-23 05:45:02'),(181,1,1,168,181,'DP',0,0,0,3000,24,12,2021,'2021-2022',NULL,'2021-12-24 00:44:48','2021-12-24 00:44:48'),(182,1,1,169,182,'DP',0,0,0,3000,24,12,2021,'2021-2022',NULL,'2021-12-24 01:08:14','2021-12-24 01:08:14');
+/*!40000 ALTER TABLE `student_payments` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `studentnotes`
 --
 
 DROP TABLE IF EXISTS `studentnotes`;
-CREATE TABLE IF NOT EXISTS `studentnotes` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `student_id` bigint(20) UNSIGNED NOT NULL,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `studentnotes` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned NOT NULL,
+  `student_id` bigint unsigned NOT NULL,
   `note` text NOT NULL,
   `type` varchar(20) NOT NULL,
   `date` varchar(30) DEFAULT NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `studentnotes`
 --
 
-INSERT INTO `studentnotes` (`id`, `user_id`, `student_id`, `note`, `type`, `date`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 'sg', 'dropout', '06-05-2021', '2021-05-06 01:16:31', '2021-05-06 01:16:31'),
-(2, 1, 1, 'dsaf', 'enroledagain', '06-05-2021', '2021-05-06 01:16:37', '2021-05-06 01:16:37'),
-(3, 1, 3, 'leave for 1 month', 'dropout', '18-05-2021', '2021-05-18 16:15:43', '2021-05-18 16:15:43'),
-(4, 1, 3, 'rejoin', 'enroledagain', '18-05-2021', '2021-05-18 16:15:56', '2021-05-18 16:15:56');
-
--- --------------------------------------------------------
+LOCK TABLES `studentnotes` WRITE;
+/*!40000 ALTER TABLE `studentnotes` DISABLE KEYS */;
+INSERT INTO `studentnotes` VALUES (1,1,1,'sg','dropout','06-05-2021','2021-05-06 01:16:31','2021-05-06 01:16:31'),(2,1,1,'dsaf','enroledagain','06-05-2021','2021-05-06 01:16:37','2021-05-06 01:16:37'),(3,1,3,'leave for 1 month','dropout','18-05-2021','2021-05-18 16:15:43','2021-05-18 16:15:43'),(4,1,3,'rejoin','enroledagain','18-05-2021','2021-05-18 16:15:56','2021-05-18 16:15:56');
+/*!40000 ALTER TABLE `studentnotes` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `students`
 --
 
 DROP TABLE IF EXISTS `students`;
-CREATE TABLE IF NOT EXISTS `students` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `batch` bigint(20) UNSIGNED NOT NULL,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `students` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned DEFAULT NULL,
+  `batch` bigint unsigned NOT NULL,
   `name` varchar(80) NOT NULL,
   `qualification` varchar(150) DEFAULT NULL,
   `reg_number` varchar(40) DEFAULT NULL,
@@ -814,23 +1203,24 @@ CREATE TABLE IF NOT EXISTS `students` (
   `district` varchar(40) DEFAULT NULL,
   `pincode` varchar(30) DEFAULT NULL,
   `state` varchar(80) DEFAULT NULL,
-  `phone` bigint(20) NOT NULL,
+  `phone` bigint NOT NULL,
   `whatsapp` varchar(50) DEFAULT NULL,
   `email` varchar(40) DEFAULT NULL,
   `g_name` varchar(80) DEFAULT NULL,
   `g_occup` varchar(80) DEFAULT NULL,
   `g_relation` varchar(60) DEFAULT NULL,
   `g_specify` varchar(40) DEFAULT NULL,
-  `g_phon` bigint(20) DEFAULT NULL,
+  `g_phon` bigint DEFAULT NULL,
   `g_email` varchar(40) DEFAULT NULL,
-  `day` int(11) DEFAULT NULL,
-  `month` int(11) DEFAULT NULL,
-  `year` int(11) DEFAULT NULL,
+  `day` int DEFAULT NULL,
+  `month` int DEFAULT NULL,
+  `year` int DEFAULT NULL,
   `financial_year` varchar(30) DEFAULT NULL,
-  `added` int(11) DEFAULT NULL,
-  `updated` int(11) DEFAULT NULL,
+  `added` int DEFAULT NULL,
+  `updated` int DEFAULT NULL,
   `last_update` varchar(30) DEFAULT NULL,
-  `status` int(11) DEFAULT '1',
+  `status` int DEFAULT '1',
+  `marketing_member_id` bigint unsigned DEFAULT NULL,
   `dropout` varchar(20) DEFAULT NULL,
   `dropoutdate` varchar(40) DEFAULT NULL,
   `logkey` varchar(60) DEFAULT NULL,
@@ -842,240 +1232,58 @@ CREATE TABLE IF NOT EXISTS `students` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `reg_number` (`reg_number`),
   UNIQUE KEY `logkey` (`logkey`),
-  KEY `batches for students` (`batch`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+  KEY `batches for students` (`batch`),
+  CONSTRAINT `batches for students` FOREIGN KEY (`batch`) REFERENCES `batches` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=171 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `students`
 --
 
-INSERT INTO `students` (`id`, `user_id`, `batch`, `name`, `qualification`, `reg_number`, `custom_reg_num`, `dob`, `photo`, `house_name`, `place`, `district`, `pincode`, `state`, `phone`, `whatsapp`, `email`, `g_name`, `g_occup`, `g_relation`, `g_specify`, `g_phon`, `g_email`, `day`, `month`, `year`, `financial_year`, `added`, `updated`, `last_update`, `status`, `dropout`, `dropoutdate`, `logkey`, `password`, `refreshToken`, `passwordResetToken`, `created_at`, `updated_at`) VALUES
-(1, 1, 2, 'Atheena K', '3rd Standard studying', 'AK04212', NULL, '2011-01-26', NULL, 'Karanthad', 'AUP School Kunnaru', 'Kannur', NULL, 'Kerala', 9605014624, '9605014624', NULL, 'Chandralekha', 'Housewife', NULL, NULL, 9605014624, NULL, 4, 4, 2021, NULL, NULL, NULL, '29-04-21', 1, NULL, NULL, NULL, '$2y$10$GD7y74iCmHfKKOvck5mumuLIryBVX5GV2104HqyzvdMZKC3LnGXvW', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjIyMDkxNDQ2fQ.kH_1mI-4MFBZCkFHjXOB87sayogdFK1vaBIysVwQz1E', NULL, '2021-04-29 03:17:45', '2021-05-06 01:16:37'),
-(2, 1, 2, 'Ujjwal Krishna M P', NULL, 'AK04213', NULL, '2012-06-18', '', 'Mothanga House', 'vengara', 'Kannur', NULL, 'Kerala', 9847093634, '9847093634', NULL, 'Soumya', 'Housewife', 'Mother', 'S/o Mithunraj', 9847093634, NULL, 5, 4, 2021, NULL, NULL, NULL, '05-04-2021', 1, NULL, NULL, NULL, '$2y$10$vfL7hrZncAqy8IuSba1fieTCVU4JICYWj73m7wcphJ068LIQ0kGb.', NULL, NULL, '2021-04-29 04:10:07', '2021-04-29 04:10:07'),
-(3, 1, 2, 'UJJWAL', NULL, 'AK05214', NULL, '2012-06-18', '', 'MOTHANGA HOUSE', 'VENGARA', 'KANNUR', NULL, 'Kerala', 9847093634, '9847093634', NULL, 'SOUMYA M', 'HOUSE WIFE', 'Mother', 'W/O MITHUNRAJ', 9847093634, NULL, 5, 4, 2021, NULL, NULL, NULL, '05-04-2021', 1, NULL, NULL, NULL, '$2y$10$/c4UZSgZzy2oaqbU0eXSVeiFImJUn1YpNoRkmyUxAWhrCkucc0ixS', NULL, NULL, '2021-05-18 11:06:39', '2021-05-18 16:15:56'),
-(4, 1, 2, 'SRIYA S KUMAR', '1st Standard', 'AK05215', NULL, '2013-09-18', '', 'mekkara house', 'Kunjimangalam', 'KANNUR', NULL, 'kerala', 8943988342, '8943988342', 'anuskumar711@gmail.com', 'sasikumar mv', 'gulf', 'Father', NULL, 8943988342, NULL, 7, 4, 2021, NULL, NULL, NULL, '07-04-2021', 1, NULL, NULL, NULL, '$2y$10$0KPtA34FV5u7o01/GuAu/OmEB9tFWAeBmfHmu5MUsRirkaDTIqj9e', NULL, NULL, '2021-05-25 12:03:45', '2021-05-25 12:03:45'),
-(5, 1, 2, 'PARVATHI SREEJITH', 'primary class', 'AK05216', NULL, '2015-01-25', '', 'LAKSHMI', 'VILAYANCODE', 'KANNUR', NULL, 'KERALA', 8943883300, '8943883300', 'aswathijss@gmail.com', 'ASWATHI SREEJITH', 'AUDIOLOGIST', 'Mother', NULL, 8943883300, 'aswathijss@gmail.com', 8, 4, 2021, NULL, NULL, NULL, '08-04-2021', 1, NULL, NULL, NULL, '$2y$10$.dghmqGiaQo63ubhuWJV3Oi0mKJUbnGNA/1zCh/1cqWGMmFyRW8s.', NULL, NULL, '2021-05-25 12:21:35', '2021-05-25 12:21:35'),
-(6, 1, 2, 'KARTHIKA P', 'VIII', 'AK05217', NULL, '2008-08-23', '', 'NANDHANAM', 'KAITHAPRAM', 'KANNUR', NULL, 'KERALA', 9747172720, '9747172720', NULL, 'RAJEEVAN P', 'GOLDSMITH', 'Father', NULL, 9747172720, NULL, 10, 4, 2021, NULL, NULL, NULL, '10-04-2021', 1, NULL, NULL, NULL, '$2y$10$EnAd0u7p5mRAci7NBAWVg.rnWSiBdZrIkwtGGYiytP75aG5hAmqs2', NULL, NULL, '2021-05-25 12:25:21', '2021-05-25 12:25:21'),
-(7, 1, 2, 'RITHIWIK P RAJEEV', 'IV', 'AK05218', NULL, '2012-12-02', '', 'NANDHANAM', 'KAITHAPRAM', 'KANNUR', NULL, 'KERALA', 9747172720, '9747172720', NULL, 'RAJEEVAN', 'GOLDSMITH', 'Father', NULL, 9747172720, NULL, 10, 4, 2021, NULL, NULL, NULL, '10-04-2021', 1, NULL, NULL, NULL, '$2y$10$GxrijBrRoyX29bjChVcXbevs6PO4Heq0vGA3x1fvX2i2E.JjY3i8i', NULL, NULL, '2021-05-25 12:28:28', '2021-05-25 12:28:28'),
-(8, 1, 2, 'DRUPATH S KUMAR', 'primary class', 'AK05219', NULL, '2015-07-31', '', 'PUTHIYA VEEDU', 'cheruvancheri, mathamangalam', 'kannur', NULL, 'KERALA', 8547708438, '8547708438', 'santhosh1124@yahoo.com', 'SABTHOSH KUMAR P V', 'ACCOUNTANT', 'Father', NULL, 8547708438, 'santhosh1124@yahoo.com', 10, 4, 2021, NULL, NULL, NULL, '10-04-2021', 1, NULL, NULL, NULL, '$2y$10$3xV0YrIiYODWo8DWEmA2rO1y0iTy2tOfQ9CnCTZJbzGQI6rAeo3Ta', NULL, NULL, '2021-05-25 12:32:04', '2021-05-25 12:32:04'),
-(9, 1, 4, 'DIJITH K', NULL, 'AK052110', NULL, '1982-11-04', NULL, 'DEEPAM PUTHURKKUNNU', 'PARIYARAM MC', 'KANNUR', NULL, 'KERALA', 7907215272, '7907215272', 'dijithkannur@gmail.com', 'KUNJIRAMAN', 'NIL', NULL, NULL, 7907215272, NULL, 23, 4, 2021, NULL, NULL, NULL, '29-05-21', 1, NULL, NULL, NULL, '$2y$10$uMjxrf1P5wgo4KyGhFPeqOJ6cgmH4XEil3G9dlw2JCj/9g.2VFTRO', NULL, NULL, '2021-05-29 12:06:23', '2021-05-29 12:10:25'),
-(10, 1, 1, 'JEWEL MARIA JOBIN', 'II nd STANDARD', 'AK052111', NULL, '2014-05-16', '', 'KARIMARUTHAM CHALIL', 'kottayad, karuvanchal', NULL, NULL, 'KERALA', 9946090333, '9496661772', NULL, 'Jobin Jose', 'Business', 'Father', NULL, 9496661772, NULL, 27, 4, 2021, NULL, NULL, NULL, '27-04-2021', 1, NULL, NULL, NULL, '$2y$10$l5br/nMiQ5.FzeLX5aAByu1ccMbG3tjNz3oyTi2uNtyvmmqMKdari', NULL, NULL, '2021-05-29 12:35:50', '2021-05-29 12:35:50'),
-(11, 1, 1, 'ADHYA U', '3rd Standard', 'AK052112', NULL, '2012-04-24', '', 'Alinkeel House', 'vengara', 'kannur', NULL, 'Kerala', 9656841398, '9656841398', NULL, 'Suchithra', 'Housewife', 'Mother', NULL, 9656841398, NULL, 27, 4, 2021, NULL, NULL, NULL, '27-04-2021', 1, NULL, NULL, NULL, '$2y$10$MK/l6LuOauY7WRE/Ybt7tOzUH2E.iZPjjwRzVHrCmIKLw0wZVFvYu', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsImlhdCI6MTYyMjI5MzE0MH0.W9---uo9Q-oeUmKv-pk5Aq8UF6d2lgFvPq4mhgf76Js', NULL, '2021-05-29 12:41:00', '2021-05-29 12:41:00'),
-(12, 1, 1, 'SPARSHA A', '1st Standard', 'AK052113', NULL, '2013-12-01', '', 'STAFF QUATERS, RUDSET', 'THALIPARAMBA', 'KERALA', NULL, 'KERALA', 9400926241, '9747439611', NULL, 'ABHILASH N', 'TRAINER RUDSET', 'Father', NULL, 9400926241, NULL, 28, 4, 2021, NULL, NULL, NULL, '28-04-2021', 1, NULL, NULL, NULL, '$2y$10$nm8WeAxAfjHpM1aLbCthRuZ.4ib2N0j0phtqJdu3HF0tRGhAKDDS.', NULL, NULL, '2021-05-29 12:45:38', '2021-05-29 12:45:38'),
-(13, 1, 1, 'MUHAMMED NIHAL', '1st Standard', 'AK052114', NULL, '2014-07-10', '', 'PALAKKOTTU', 'NADAPPURAM, VADAKARA', 'KOZHIKODE', NULL, 'KERALA', 9847683440, '9847683440', NULL, 'MUHAMMED SHAFI', 'ABROAD', 'Father', NULL, 9847683440, NULL, 28, 4, 2021, NULL, NULL, NULL, '28-04-2021', 1, NULL, NULL, NULL, '$2y$10$OnHI3vVmKThV0RjEB3AmtOFULgPTProZnuF5wV5L9TfSQASOfJR.2', NULL, NULL, '2021-05-29 12:50:37', '2021-05-29 12:50:37'),
-(14, 1, 1, 'EZHIL SIVAM R', '2nd Standard', 'AK052115', NULL, '2014-01-14', '', 'BHAVANAS', 'MANIMALA CROSS ROAD', 'COCHIN', NULL, 'KERALA', 8606393180, '8606393180', NULL, 'RAMSHANKAR', 'HOME MAKER', 'Father', NULL, 8606393180, NULL, 28, 4, 2021, NULL, NULL, NULL, '28-04-2021', 1, NULL, NULL, NULL, '$2y$10$v6c8IV2lr23tlFC30FH3Cua5SaHXucLgCOYPzE10Tm4ihSD8XOlQ.', NULL, NULL, '2021-05-29 12:55:47', '2021-05-29 12:55:47'),
-(15, 1, 1, 'GAUTHAM RAMESH', NULL, 'AK052116', NULL, '2011-04-27', '', 'MAHIMA', 'NEAR OLACHERIKAVU', 'KANNUR', NULL, 'KERALA', 8547074609, '8547074609', NULL, 'SAMITHA MOHAN', 'CIVIL ENGINEER', 'Mother', NULL, 8547074609, NULL, 29, 4, 2021, NULL, NULL, NULL, '29-04-2021', 1, NULL, NULL, NULL, '$2y$10$lidPBCUeYMnj8tIdzsSP7OZGfxlc4WeIX41jTmIoPQmg226dMM3y6', NULL, NULL, '2021-05-29 13:24:56', '2021-05-29 13:24:56'),
-(16, 1, 1, 'VARDHA NISHANTH', '2nd Standard', 'AK052117', NULL, '2014-02-03', '', 'MAHIMA', 'OLANCHERI ,KANNUR', 'KANNUR', NULL, 'KERALA', 8547074609, '8547074609', NULL, 'DHANYA KRISHNANKUTTY', 'TEACHER', 'Mother', NULL, 8547074609, NULL, 29, 4, 2021, NULL, NULL, NULL, '29-04-2021', 1, NULL, NULL, NULL, '$2y$10$hKB52cmjfKCQzqZXeHrhOOWYRLZU8eoV/.f.mWpr42VWKFTMw4bUi', NULL, NULL, '2021-05-29 13:27:43', '2021-05-29 13:27:43'),
-(17, 1, 1, 'SNIGDHA M P', '1st Standard', 'AK052118', NULL, '2014-03-02', '', 'PUNARTHAM', 'KULAPPURAM,VILAYANCODE', 'KANNUR', NULL, 'KERALA', 8928073703, '9497127437', NULL, 'SUSIL CHANDRAN T V', 'BUSINESS', 'Father', NULL, 8928073703, 'susil-kulappuram@yahoo.co.in', 29, 4, 2021, NULL, NULL, NULL, '29-04-2021', 1, NULL, NULL, NULL, '$2y$10$LP716GKO1tVv1oTU7wA3gOf4t2FQFlxXl5N7UadukZ5dzyaEs8lIG', NULL, NULL, '2021-05-29 13:32:38', '2021-05-29 13:32:38'),
-(18, 1, 1, 'SREEHARI PV', '1st Standard, UPS CHALLAD', 'AK052119', NULL, '2011-10-04', '', 'KESAVAN MARAR', 'CHALAD TEMPLE, KANNUR', 'KANNUR', NULL, 'KERALA', 8111902038, '8111902038', NULL, 'PRADEEPAN', 'TEACHER', 'Father', NULL, 8111902038, NULL, 29, 4, 2021, NULL, NULL, NULL, '29-04-2021', 1, NULL, NULL, NULL, '$2y$10$eI2hVBHP7RYnqA1p6TXL6e/GtjYxApH.A721NFGhEES3mIxfGv9wC', NULL, NULL, '2021-05-29 13:35:44', '2021-05-29 13:35:44'),
-(19, 1, 1, 'THANAV', '1st Standard', 'AK052120', NULL, '2015-06-10', '', 'DIPINA', 'KARAYAD', 'KANNUR', NULL, 'KERALA', 9497420426, '9497420426', NULL, 'SHIMJITH', 'TEACHER', 'Father', NULL, 9497420426, NULL, 29, 4, 2021, NULL, NULL, NULL, '29-04-2021', 1, NULL, NULL, NULL, '$2y$10$DEbyr0Nd1HCyVpL22LEeLu5WBL5o.7G7jRZziBc6XM9umXzXdrAh2', NULL, NULL, '2021-05-29 13:38:15', '2021-05-29 13:38:15'),
-(20, 1, 1, 'ISHANI', NULL, 'AK052121', NULL, '2014-05-23', '', 'KUNDAN HOUSE', 'MELATHIYADAM, Sreestha', 'KANNUR', NULL, 'KERALA', 8086345719, '8086345719', 'nisha4433@gmail.com', 'nisha', 'teacher', 'Mother', NULL, 8086345719, NULL, 29, 4, 2021, NULL, NULL, NULL, '29-04-2021', 1, NULL, NULL, NULL, '$2y$10$RvlFjXpFws6YB7ftvDB1dO2HA8YRPeLcZ4pfuOGTkrCDROPJmhCF6', NULL, NULL, '2021-05-29 13:49:34', '2021-05-29 13:49:34');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `student_bills`
---
-
-DROP TABLE IF EXISTS `student_bills`;
-CREATE TABLE IF NOT EXISTS `student_bills` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `student_id` bigint(20) UNSIGNED NOT NULL,
-  `course_id` bigint(20) UNSIGNED NOT NULL,
-  `student_course_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `total` int(11) NOT NULL,
-  `day` int(11) NOT NULL,
-  `month` int(11) NOT NULL,
-  `year` int(11) NOT NULL,
-  `financial_year` varchar(25) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `course_bill_fk` (`course_id`),
-  KEY `student_bill_fk` (`student_id`),
-  KEY `student course id on student bills` (`student_course_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `student_bills`
---
-
-INSERT INTO `student_bills` (`id`, `user_id`, `student_id`, `course_id`, `student_course_id`, `total`, `day`, `month`, `year`, `financial_year`, `created_at`, `updated_at`) VALUES
-(9, 1, 2, 1, 6, 2500, 6, 5, 2021, '2020-2021', '2021-05-06 01:35:48', '2021-05-06 01:35:48'),
-(10, 1, 1, 1, 3, 2500, 17, 5, 2021, '2020-2021', '2021-05-17 03:29:17', '2021-05-17 03:29:17'),
-(11, 1, 1, 1, 3, 2500, 17, 5, 2021, '2020-2021', '2021-05-17 03:30:23', '2021-05-17 03:30:23'),
-(12, 1, 1, 1, 3, 2500, 17, 5, 2021, '2020-2021', '2021-05-17 04:31:23', '2021-05-17 04:31:23'),
-(13, 1, 1, 1, 3, 2500, 17, 5, 2021, '2020-2021', '2021-05-17 04:32:35', '2021-05-17 04:32:35'),
-(14, 1, 1, 1, 3, 2500, 17, 5, 2021, '2020-2021', '2021-05-17 04:39:06', '2021-05-17 04:39:06'),
-(15, 1, 2, 1, 6, 2500, 17, 5, 2021, '2020-2021', '2021-05-17 05:14:55', '2021-05-17 05:14:55'),
-(16, 1, 2, 1, 6, 2500, 17, 5, 2021, '2020-2021', '2021-05-17 05:16:09', '2021-05-17 05:16:09'),
-(17, 1, 1, 1, 3, 2500, 19, 5, 2021, '2020-2021', '2021-05-19 10:55:52', '2021-05-19 10:55:52'),
-(18, 1, 1, 1, 3, 2500, 19, 5, 2021, '2020-2021', '2021-05-19 11:31:09', '2021-05-19 11:31:09'),
-(19, 1, 1, 1, 3, 2500, 19, 5, 2021, '2020-2021', '2021-05-19 11:31:30', '2021-05-19 11:31:30'),
-(20, 1, 4, 1, 8, 2500, 25, 5, 2021, '2020-2021', '2021-05-25 12:04:35', '2021-05-25 12:04:35'),
-(21, 1, 5, 1, 9, 2500, 25, 5, 2021, '2020-2021', '2021-05-25 12:22:02', '2021-05-25 12:22:02'),
-(22, 1, 8, 1, 12, 2500, 25, 5, 2021, '2020-2021', '2021-05-25 12:32:30', '2021-05-25 12:32:30'),
-(23, 1, 10, 1, 14, 2500, 29, 5, 2021, '2020-2021', '2021-05-29 12:36:40', '2021-05-29 12:36:40'),
-(24, 1, 11, 1, 15, 2500, 29, 5, 2021, '2020-2021', '2021-05-29 12:41:24', '2021-05-29 12:41:24'),
-(25, 1, 12, 1, 16, 2500, 29, 5, 2021, '2020-2021', '2021-05-29 12:45:53', '2021-05-29 12:45:53'),
-(26, 1, 13, 1, 17, 2500, 29, 5, 2021, '2020-2021', '2021-05-29 12:50:50', '2021-05-29 12:50:50'),
-(27, 1, 14, 1, 18, 2500, 29, 5, 2021, '2020-2021', '2021-05-29 12:56:01', '2021-05-29 12:56:01'),
-(28, 1, 15, 1, 19, 2500, 29, 5, 2021, '2020-2021', '2021-05-29 13:25:08', '2021-05-29 13:25:08'),
-(29, 1, 16, 1, 20, 2500, 29, 5, 2021, '2020-2021', '2021-05-29 13:27:56', '2021-05-29 13:27:56'),
-(30, 1, 18, 1, 22, 2500, 29, 5, 2021, '2020-2021', '2021-05-29 13:36:00', '2021-05-29 13:36:00'),
-(31, 1, 19, 1, 23, 2500, 29, 5, 2021, '2020-2021', '2021-05-29 13:38:25', '2021-05-29 13:38:25'),
-(32, 1, 20, 1, 24, 2500, 29, 5, 2021, '2020-2021', '2021-05-29 13:49:45', '2021-05-29 13:49:45');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `student_courses`
---
-
-DROP TABLE IF EXISTS `student_courses`;
-CREATE TABLE IF NOT EXISTS `student_courses` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `course_id` bigint(20) UNSIGNED NOT NULL,
-  `student_id` bigint(20) UNSIGNED NOT NULL,
-  `certification` bigint(20) UNSIGNED DEFAULT NULL,
-  `scheme` bigint(20) UNSIGNED DEFAULT NULL,
-  `title` varchar(80) NOT NULL,
-  `fee` int(11) NOT NULL,
-  `track` varchar(30) DEFAULT NULL,
-  `course_type` varchar(30) DEFAULT NULL,
-  `type` varchar(10) DEFAULT NULL,
-  `status` varchar(20) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `student_student_course` (`student_id`),
-  KEY `course_student_course_fk` (`course_id`),
-  KEY `certification on student course` (`certification`),
-  KEY `scheme on student course` (`scheme`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `student_courses`
---
-
-INSERT INTO `student_courses` (`id`, `user_id`, `course_id`, `student_id`, `certification`, `scheme`, `title`, `fee`, `track`, `course_type`, `type`, `status`, `created_at`, `updated_at`) VALUES
-(3, 1, 1, 1, 1, 1, 'Abacus Training', 2500, NULL, 'online', 'C', '1', '2021-05-06 00:36:39', '2021-05-06 00:36:39'),
-(6, 1, 1, 2, 1, 1, 'Abacus Training', 2500, NULL, 'online', 'C', '1', '2021-05-06 01:35:42', '2021-05-06 01:35:42'),
-(7, 1, 1, 3, 1, 1, 'Abacus Training', 2500, NULL, 'online', 'C', '1', '2021-05-18 11:07:02', '2021-05-18 11:07:02'),
-(8, 1, 1, 4, 1, 1, 'Abacus Training', 2500, NULL, 'online', 'C', '1', '2021-05-25 12:04:06', '2021-05-25 12:04:06'),
-(9, 1, 1, 5, 1, 1, 'Abacus Training', 2500, NULL, 'online', 'C', '1', '2021-05-25 12:21:43', '2021-05-25 12:21:43'),
-(10, 1, 1, 6, 1, 1, 'Abacus Training', 2500, NULL, 'online', 'C', '1', '2021-05-25 12:25:38', '2021-05-25 12:25:38'),
-(11, 1, 1, 7, 1, 1, 'Abacus Training', 2500, NULL, 'online', 'C', '1', '2021-05-25 12:28:32', '2021-05-25 12:28:32'),
-(12, 1, 1, 8, 1, 1, 'Abacus Training', 2500, NULL, 'online', 'C', '1', '2021-05-25 12:32:12', '2021-05-25 12:32:12'),
-(13, 1, 9, 9, 2, 3, 'DIPLOMA IN AUTOCAD AND 3ds MAX', 15500, NULL, 'online', 'P', '1', '2021-05-29 12:06:28', '2021-05-29 12:06:28'),
-(14, 1, 1, 10, 1, 1, 'Abacus Training', 2500, NULL, 'online', 'C', '1', '2021-05-29 12:36:24', '2021-05-29 12:36:24'),
-(15, 1, 1, 11, 1, 1, 'Abacus Training', 2500, NULL, 'online', 'C', '1', '2021-05-29 12:41:03', '2021-05-29 12:41:03'),
-(16, 1, 1, 12, 1, 1, 'Abacus Training', 2500, NULL, 'online', 'C', '1', '2021-05-29 12:45:41', '2021-05-29 12:45:41'),
-(17, 1, 1, 13, 1, 1, 'Abacus Training', 2500, NULL, 'online', 'C', '1', '2021-05-29 12:50:40', '2021-05-29 12:50:40'),
-(18, 1, 1, 14, 1, 1, 'Abacus Training', 2500, NULL, 'online', 'C', '1', '2021-05-29 12:55:49', '2021-05-29 12:55:49'),
-(19, 1, 1, 15, 1, 1, 'Abacus Training', 2500, NULL, 'online', 'C', '1', '2021-05-29 13:24:59', '2021-05-29 13:24:59'),
-(20, 1, 1, 16, 1, 1, 'Abacus Training', 2500, NULL, 'online', 'C', '1', '2021-05-29 13:27:46', '2021-05-29 13:27:46'),
-(21, 1, 1, 17, 1, 1, 'Abacus Training', 2500, NULL, 'online', 'C', '1', '2021-05-29 13:32:42', '2021-05-29 13:32:42'),
-(22, 1, 1, 18, 1, 1, 'Abacus Training', 2500, NULL, 'online', 'C', '1', '2021-05-29 13:35:52', '2021-05-29 13:35:52'),
-(23, 1, 1, 19, 1, 1, 'Abacus Training', 2500, NULL, 'online', 'C', '1', '2021-05-29 13:38:17', '2021-05-29 13:38:17'),
-(24, 1, 1, 20, 1, 1, 'Abacus Training', 2500, NULL, 'online', 'C', '1', '2021-05-29 13:49:37', '2021-05-29 13:49:37');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `student_payments`
---
-
-DROP TABLE IF EXISTS `student_payments`;
-CREATE TABLE IF NOT EXISTS `student_payments` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `course_id` bigint(20) UNSIGNED NOT NULL,
-  `student_id` bigint(20) UNSIGNED NOT NULL,
-  `bill_id` bigint(20) UNSIGNED NOT NULL,
-  `type` varchar(5) NOT NULL,
-  `discount_rs` int(11) NOT NULL,
-  `discount_per` int(11) NOT NULL,
-  `dis_per_in_amount` int(11) NOT NULL,
-  `payment_amount` int(11) NOT NULL,
-  `day` int(11) NOT NULL,
-  `month` int(11) NOT NULL,
-  `year` int(11) NOT NULL,
-  `financial_year` varchar(30) NOT NULL,
-  `filename` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `course_student_payments_fk` (`course_id`),
-  KEY `student_id_student_payment` (`student_id`),
-  KEY `bill_id_student_payments` (`bill_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `student_payments`
---
-
-INSERT INTO `student_payments` (`id`, `user_id`, `course_id`, `student_id`, `bill_id`, `type`, `discount_rs`, `discount_per`, `dis_per_in_amount`, `payment_amount`, `day`, `month`, `year`, `financial_year`, `filename`, `created_at`, `updated_at`) VALUES
-(15, 1, 1, 2, 15, 'DP', 0, 0, 0, 1000, 17, 5, 2021, '2020-2021', '1_1621248296_Payment_Ujjwal Krishna M P_AK04213.pdf', '2021-05-17 05:14:55', '2021-05-17 10:44:56'),
-(16, 1, 1, 2, 16, 'FP', 0, 0, 0, 100, 17, 5, 2021, '2020-2021', '1_1621248370_Payment_AK04213.pdf', '2021-05-17 05:16:09', '2021-05-17 10:46:10'),
-(17, 1, 1, 1, 17, 'DP', 0, 0, 0, 100, 19, 5, 2021, '2020-2021', NULL, '2021-05-19 10:55:52', '2021-05-19 10:55:52'),
-(18, 1, 1, 1, 18, 'FP', 0, 0, 0, 150, 19, 5, 2021, '2020-2021', NULL, '2021-05-19 11:31:09', '2021-05-19 11:31:09'),
-(19, 1, 1, 1, 19, 'FP', 0, 0, 0, 50, 19, 5, 2021, '2020-2021', NULL, '2021-05-19 11:31:30', '2021-05-19 11:31:30'),
-(20, 1, 1, 4, 20, 'DP', 0, 0, 0, 2500, 25, 5, 2021, '2020-2021', '1_1621944991_Payment_AK05215.pdf', '2021-05-25 12:04:35', '2021-05-25 17:46:31'),
-(21, 1, 1, 5, 21, 'DP', 0, 0, 0, 2500, 25, 5, 2021, '2020-2021', '1_1621945324_Payment_AK05216.pdf', '2021-05-25 12:22:02', '2021-05-25 17:52:04'),
-(22, 1, 1, 8, 22, 'DP', 0, 0, 0, 1000, 25, 5, 2021, '2020-2021', '1_1621945952_Payment_AK05219.pdf', '2021-05-25 12:32:30', '2021-05-25 18:02:32'),
-(23, 1, 1, 10, 23, 'DP', 0, 0, 0, 2500, 29, 5, 2021, '2020-2021', '1_1622291865_Payment_AK052111.pdf', '2021-05-29 12:36:40', '2021-05-29 18:07:45'),
-(24, 1, 1, 11, 24, 'DP', 0, 0, 0, 2500, 29, 5, 2021, '2020-2021', '1_1622292087_Payment_AK052112.pdf', '2021-05-29 12:41:24', '2021-05-29 18:11:27'),
-(25, 1, 1, 12, 25, 'DP', 0, 0, 0, 2500, 29, 5, 2021, '2020-2021', '1_1622292359_Payment_AK052113.pdf', '2021-05-29 12:45:53', '2021-05-29 18:15:59'),
-(26, 1, 1, 13, 26, 'DP', 0, 0, 0, 2500, 29, 5, 2021, '2020-2021', '1_1622292652_Payment_AK052114.pdf', '2021-05-29 12:50:50', '2021-05-29 18:20:52'),
-(27, 1, 1, 14, 27, 'DP', 0, 0, 0, 2500, 29, 5, 2021, '2020-2021', '1_1622292965_Payment_AK052115.pdf', '2021-05-29 12:56:01', '2021-05-29 18:26:05'),
-(28, 1, 1, 15, 28, 'DP', 0, 0, 0, 2500, 29, 5, 2021, '2020-2021', '1_1622294710_Payment_AK052116.pdf', '2021-05-29 13:25:08', '2021-05-29 18:55:10'),
-(29, 1, 1, 16, 29, 'DP', 0, 0, 0, 2500, 29, 5, 2021, '2020-2021', '1_1622294878_Payment_AK052117.pdf', '2021-05-29 13:27:56', '2021-05-29 18:57:58'),
-(30, 1, 1, 18, 30, 'DP', 0, 0, 0, 2500, 29, 5, 2021, '2020-2021', '1_1622295362_Payment_AK052119.pdf', '2021-05-29 13:36:00', '2021-05-29 19:06:02'),
-(31, 1, 1, 19, 31, 'DP', 0, 0, 0, 2500, 29, 5, 2021, '2020-2021', '1_1622295508_Payment_AK052120.pdf', '2021-05-29 13:38:25', '2021-05-29 19:08:28'),
-(32, 1, 1, 20, 32, 'DP', 0, 0, 0, 2500, 29, 5, 2021, '2020-2021', '1_1622296187_Payment_AK052121.pdf', '2021-05-29 13:49:45', '2021-05-29 19:19:47');
-
--- --------------------------------------------------------
+LOCK TABLES `students` WRITE;
+/*!40000 ALTER TABLE `students` DISABLE KEYS */;
+INSERT INTO `students` VALUES (1,1,2,'ATHEENA K','3rd Standard studying','AK04212',NULL,'2011-01-26',NULL,'Karanthad','AUP School Kunnaru','Kannur',NULL,'Kerala',9605014624,'9605014624',NULL,'Chandralekha','Housewife','Mother',NULL,9605014624,NULL,4,4,2021,NULL,NULL,NULL,'04-06-21',1,NULL,NULL,NULL,NULL,'$2y$10$GD7y74iCmHfKKOvck5mumuLIryBVX5GV2104HqyzvdMZKC3LnGXvW','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjMxMTgxMjE1fQ.WcWEjTJh-kETO9pFYIc7y7-a8WHcZbm8tWQnYk-BYjI',NULL,'2021-04-29 03:17:45','2021-06-04 11:17:19'),(2,1,2,'UJJWAL KRISHNA M P',NULL,'AK04213',NULL,'2012-06-18',NULL,'Mothanga House','Vengara','Kannur',NULL,'Kerala',9847093634,'9847093634',NULL,'Soumya','Housewife',NULL,'S/o Mithunraj',9847093634,NULL,5,4,2021,NULL,NULL,NULL,'04-06-21',1,NULL,NULL,NULL,NULL,'$2y$10$vfL7hrZncAqy8IuSba1fieTCVU4JICYWj73m7wcphJ068LIQ0kGb.','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjMwMzA5NDQ1fQ.Pw5kCGeBv4KZjxejrfuxLEYlG9VYb0HAANn9kJT44x8',NULL,'2021-04-29 04:10:07','2021-06-04 11:23:56'),(3,1,2,'UJJWAL',NULL,'AK05214',NULL,'2012-06-18','','MOTHANGA HOUSE','VENGARA','KANNUR',NULL,'Kerala',9847093634,'9847093634',NULL,'SOUMYA M','HOUSE WIFE','Mother','W/O MITHUNRAJ',9847093634,NULL,5,4,2021,NULL,NULL,NULL,'05-04-2021',1,NULL,NULL,NULL,NULL,'$2y$10$/c4UZSgZzy2oaqbU0eXSVeiFImJUn1YpNoRkmyUxAWhrCkucc0ixS',NULL,NULL,'2021-05-18 11:06:39','2021-05-18 16:15:56'),(4,1,2,'SRIYA S KUMAR','1st Standard','AK05215',NULL,'2013-09-18','','mekkara house','Kunjimangalam','KANNUR',NULL,'kerala',8943988342,'8943988342','anuskumar711@gmail.com','sasikumar mv','gulf','Father',NULL,8943988342,NULL,7,4,2021,NULL,NULL,NULL,'07-04-2021',1,NULL,NULL,NULL,NULL,'$2y$10$0KPtA34FV5u7o01/GuAu/OmEB9tFWAeBmfHmu5MUsRirkaDTIqj9e',NULL,NULL,'2021-05-25 12:03:45','2021-05-25 12:03:45'),(5,1,2,'PARVATHI SREEJITH','primary class','AK05216',NULL,'2015-01-25','','LAKSHMI','VILAYANCODE','KANNUR',NULL,'KERALA',8943883300,'8943883300','aswathijss@gmail.com','ASWATHI SREEJITH','AUDIOLOGIST','Mother',NULL,8943883300,'aswathijss@gmail.com',8,4,2021,NULL,NULL,NULL,'08-04-2021',1,NULL,NULL,NULL,NULL,'$2y$10$.dghmqGiaQo63ubhuWJV3Oi0mKJUbnGNA/1zCh/1cqWGMmFyRW8s.',NULL,NULL,'2021-05-25 12:21:35','2021-05-25 12:21:35'),(6,1,2,'KARTHIK P','VIII','AK05217',NULL,'2008-08-23','','NANDHANAM','KAITHAPRAM','KANNUR',NULL,'KERALA',9747172720,'9747172720',NULL,'RAJEEVAN P','GOLDSMITH',NULL,NULL,9747172720,NULL,10,4,2021,NULL,NULL,NULL,'28-06-21',1,NULL,NULL,NULL,NULL,'$2y$10$EnAd0u7p5mRAci7NBAWVg.rnWSiBdZrIkwtGGYiytP75aG5hAmqs2',NULL,NULL,'2021-05-25 12:25:21','2021-06-28 08:36:27'),(7,1,2,'RITHIWIK P RAJEEV','IV','AK05218',NULL,'2012-12-02','','NANDHANAM','KAITHAPRAM','KANNUR',NULL,'KERALA',9747172720,'9747172720',NULL,'RAJEEVAN','GOLDSMITH','Father',NULL,9747172720,NULL,10,4,2021,NULL,NULL,NULL,'10-04-2021',1,NULL,NULL,NULL,NULL,'$2y$10$GxrijBrRoyX29bjChVcXbevs6PO4Heq0vGA3x1fvX2i2E.JjY3i8i',NULL,NULL,'2021-05-25 12:28:28','2021-05-25 12:28:28'),(8,1,2,'DRUPATH S KUMAR','Primary class','AK05219',NULL,'2015-07-31',NULL,'PUTHIYA VEEDU','Cheruvancheri, Mathamangalam','kannur',NULL,'KERALA',8547708438,'8547708438','santhosh1124@yahoo.com','SABTHOSH KUMAR P V','ACCOUNTANT',NULL,NULL,8547708438,'santhosh1124@yahoo.com',10,4,2021,NULL,NULL,NULL,'04-06-21',1,NULL,NULL,NULL,NULL,'$2y$10$3xV0YrIiYODWo8DWEmA2rO1y0iTy2tOfQ9CnCTZJbzGQI6rAeo3Ta','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwiaWF0IjoxNjMwNzIyNzE1fQ.biabalLZsdK86ltDscEFNTGHcjpC0zC-ACv_LuLOUwU',NULL,'2021-05-25 12:32:04','2021-06-04 11:23:18'),(9,1,4,'DIJITH K',NULL,'AK052110',NULL,'1982-11-04',NULL,'DEEPAM PUTHURKKUNNU','PARIYARAM MC','KANNUR',NULL,'KERALA',7907215272,'7907215272','dijithkannur@gmail.com','KUNJIRAMAN','NIL',NULL,NULL,7907215272,NULL,23,4,2021,NULL,NULL,NULL,'29-05-21',1,NULL,NULL,NULL,NULL,'$2y$10$uMjxrf1P5wgo4KyGhFPeqOJ6cgmH4XEil3G9dlw2JCj/9g.2VFTRO',NULL,NULL,'2021-05-29 12:06:23','2021-05-29 12:10:25'),(10,1,1,'JEWEL MARIA JOBIN','II nd STANDARD','AK052111',NULL,'2014-05-16',NULL,'KARIMARUTHAM CHALIL','Kottayad, Karuvanchal',NULL,NULL,'KERALA',9946090333,'9496661772',NULL,'Jobin Jose','Business',NULL,NULL,9496661772,NULL,27,4,2021,NULL,NULL,NULL,'04-06-21',1,NULL,NULL,NULL,NULL,'$2y$10$l5br/nMiQ5.FzeLX5aAByu1ccMbG3tjNz3oyTi2uNtyvmmqMKdari',NULL,NULL,'2021-05-29 12:35:50','2021-06-04 11:22:44'),(11,1,1,'ADHYA U','3rd Standard','AK052112',NULL,'2012-04-24',NULL,'Alinkeel House','Vengara','kannur',NULL,'Kerala',9656841398,'9656841398',NULL,'Suchithra','Housewife',NULL,NULL,9656841398,NULL,27,4,2021,NULL,NULL,NULL,'04-06-21',1,NULL,NULL,NULL,NULL,'$2y$10$MK/l6LuOauY7WRE/Ybt7tOzUH2E.iZPjjwRzVHrCmIKLw0wZVFvYu','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsImlhdCI6MTYyMjI5MzE0MH0.W9---uo9Q-oeUmKv-pk5Aq8UF6d2lgFvPq4mhgf76Js',NULL,'2021-05-29 12:41:00','2021-06-04 11:25:09'),(12,1,1,'SPARSHA A','1st Standard','AK052113',NULL,'2013-12-01','','STAFF QUATERS, RUDSET','THALIPARAMBA','KERALA',NULL,'KERALA',9400926241,'9747439611',NULL,'ABHILASH N','TRAINER RUDSET','Father',NULL,9400926241,NULL,28,4,2021,NULL,NULL,NULL,'28-04-2021',1,NULL,NULL,NULL,NULL,'$2y$10$nm8WeAxAfjHpM1aLbCthRuZ.4ib2N0j0phtqJdu3HF0tRGhAKDDS.','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsImlhdCI6MTYyODI3MDI0OH0.lVO-RI6sWZxTUa63pSLNkom0Jt0L3COGbNP4eyTeKls',NULL,'2021-05-29 12:45:38','2021-05-29 12:45:38'),(13,1,1,'MUHAMMED NIHAL','1st Standard','AK052114',NULL,'2014-07-10','','PALAKKOTTU','NADAPPURAM, VADAKARA','KOZHIKODE',NULL,'KERALA',9847683440,'9847683440',NULL,'MUHAMMED SHAFI','ABROAD','Father',NULL,9847683440,NULL,28,4,2021,NULL,NULL,NULL,'28-04-2021',1,NULL,NULL,NULL,NULL,'$2y$10$OnHI3vVmKThV0RjEB3AmtOFULgPTProZnuF5wV5L9TfSQASOfJR.2','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsImlhdCI6MTYyODI2OTU2MH0.v-Wj2pm-xkrHecf5RAXw5bexkwNhEWZqxFfBOhUZE7s',NULL,'2021-05-29 12:50:37','2021-05-29 12:50:37'),(14,1,1,'EZHIL SIVAM R','2nd Standard','AK052115',NULL,'2014-01-14','','BHAVANAS','MANIMALA CROSS ROAD','COCHIN',NULL,'KERALA',8606393180,'8606393180',NULL,'RAMSHANKAR','HOME MAKER','Father',NULL,8606393180,NULL,28,4,2021,NULL,NULL,NULL,'28-04-2021',1,NULL,NULL,NULL,NULL,'$2y$10$v6c8IV2lr23tlFC30FH3Cua5SaHXucLgCOYPzE10Tm4ihSD8XOlQ.','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQsImlhdCI6MTYzMDMwOTI2NH0.WgvJFwzqwJ42BP8TxeKND4f2I3t6xYEDmGnZapLL_ms',NULL,'2021-05-29 12:55:47','2021-05-29 12:55:47'),(15,1,1,'GAUTHAM RAMESH',NULL,'AK052116',NULL,'2011-04-27','','MAHIMA','NEAR OLACHERIKAVU','KANNUR',NULL,'KERALA',8547074609,'8547074609',NULL,'SAMITHA MOHAN','CIVIL ENGINEER','Mother',NULL,8547074609,NULL,29,4,2021,NULL,NULL,NULL,'29-04-2021',1,NULL,NULL,NULL,NULL,'$2y$10$lidPBCUeYMnj8tIdzsSP7OZGfxlc4WeIX41jTmIoPQmg226dMM3y6',NULL,NULL,'2021-05-29 13:24:56','2021-05-29 13:24:56'),(16,1,1,'VARDHA NISHANTH','2nd Standard','AK052117',NULL,'2014-02-03','','MAHIMA','OLANCHERI ,KANNUR','KANNUR',NULL,'KERALA',8547074609,'8547074609',NULL,'DHANYA KRISHNANKUTTY','TEACHER','Mother',NULL,8547074609,NULL,29,4,2021,NULL,NULL,NULL,'29-04-2021',1,NULL,NULL,NULL,NULL,'$2y$10$hKB52cmjfKCQzqZXeHrhOOWYRLZU8eoV/.f.mWpr42VWKFTMw4bUi',NULL,NULL,'2021-05-29 13:27:43','2021-05-29 13:27:43'),(17,1,1,'SNIGDHA M P','1st Standard','AK052118',NULL,'2014-03-02','','PUNARTHAM','KULAPPURAM,VILAYANCODE','KANNUR',NULL,'KERALA',8928073703,'9497127437',NULL,'SUSIL CHANDRAN T V','BUSINESS','Father',NULL,8928073703,'susil-kulappuram@yahoo.co.in',29,4,2021,NULL,NULL,NULL,'29-04-2021',1,NULL,NULL,NULL,NULL,'$2y$10$LP716GKO1tVv1oTU7wA3gOf4t2FQFlxXl5N7UadukZ5dzyaEs8lIG','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTcsImlhdCI6MTYzMDMzODk5M30.5XKnN8--bs3UCpjm-U5VZEOmARCKq0-m1rWucd_wzFs',NULL,'2021-05-29 13:32:38','2021-05-29 13:32:38'),(18,1,1,'SREEHARI PV','1st Standard, UPS CHALLAD','AK052119',NULL,'2011-10-04','','KESAVAN MARAR','CHALAD TEMPLE, KANNUR','KANNUR',NULL,'KERALA',8111902038,'8111902038',NULL,'PRADEEPAN','TEACHER','Father',NULL,8111902038,NULL,29,4,2021,NULL,NULL,NULL,'29-04-2021',1,NULL,NULL,NULL,NULL,'$2y$10$eI2hVBHP7RYnqA1p6TXL6e/GtjYxApH.A721NFGhEES3mIxfGv9wC',NULL,NULL,'2021-05-29 13:35:44','2021-05-29 13:35:44'),(19,1,1,'THANAV','1st Standard','AK052120',NULL,'2015-06-10','','DIPINA','KARAYAD','KANNUR',NULL,'KERALA',9497420426,'9497420426',NULL,'SHIMJITH','TEACHER','Father',NULL,9497420426,NULL,29,4,2021,NULL,NULL,NULL,'29-04-2021',1,NULL,NULL,NULL,NULL,'$2y$10$DEbyr0Nd1HCyVpL22LEeLu5WBL5o.7G7jRZziBc6XM9umXzXdrAh2',NULL,NULL,'2021-05-29 13:38:15','2021-05-29 13:38:15'),(20,1,1,'ISHANI',NULL,'AK052121',NULL,'2014-05-23','','KUNDAN HOUSE','MELATHIYADAM, Sreestha','KANNUR',NULL,'KERALA',8086345719,'8086345719','nisha4433@gmail.com','nisha','teacher','Mother',NULL,8086345719,NULL,29,4,2021,NULL,NULL,NULL,'29-04-2021',1,NULL,NULL,NULL,NULL,'$2y$10$RvlFjXpFws6YB7ftvDB1dO2HA8YRPeLcZ4pfuOGTkrCDROPJmhCF6',NULL,NULL,'2021-05-29 13:49:34','2021-05-29 13:49:34'),(21,1,8,'ADISREE SHYJU','2nd std','AK062122',NULL,'2014-04-03','1_1623836573.jpg','Vadakkanmar house','Kunnaru, Karanthad','Kannur','670308','Kerala',9072183914,'9567971172',NULL,'Sumitha. P','House wife',NULL,NULL,9072183914,'sumithashyjusree91@gmail.com',3,6,2021,NULL,NULL,NULL,'16-06-21',1,NULL,NULL,NULL,NULL,'$2y$10$SPs7cLO6ZTNkP2Ugf0BHJuB810DcDEAhNU3qS1LXIiVjcZfuiRg9G','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjEsImlhdCI6MTYzMDU5OTcyNX0.5Ljyor4ncTDILWY967uf54hdX3mtz0AJEPi0khJ1-lM',NULL,'2021-06-03 14:06:00','2021-06-16 09:42:53'),(22,1,8,'Amaya K A','3rd Standard','AK062123',NULL,'2013-02-15','','Keyiparambil House','Kuzhuppilly, Ayyampilly','Ernakulam','682501','Kerala',9645988549,'9645988549',NULL,'Ajith Kumar K S','IT Professional','Father',NULL,9645988549,'amayakarscs@gmail.com',4,6,2021,NULL,NULL,NULL,'04-06-2021',1,NULL,NULL,NULL,NULL,'$2y$10$I17Y1mDdUAyRLUK4myNf1uXRirH0fUmDRw9L1TJGsjqmA271tasJi','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjIsImlhdCI6MTYyMjk4NTExNH0.7tKFgadfhUe72vPO8Hl5hc3Mk_iXLbKGjCSzZnrxQqs',NULL,'2021-06-05 09:28:11','2021-06-05 09:28:11'),(23,1,8,'Atharv jayesh','2nd Standard','AK062124',NULL,'2014-08-25','','S/o Madhavam','karipode, Nhekly','kannur','670307','Kerala',8606595762,'8606595762',NULL,'Harsha jayesh','House wife','Mother',NULL,8606595762,'harshajayeshanu@gmail.com',4,6,2021,NULL,NULL,NULL,'04-06-2021',1,NULL,NULL,NULL,NULL,'$2y$10$eWvu5DBrZsgv7fIAVc5EZOA0a9Q7g9f2JQD4Sif.2eUGQ/WnqKM.C','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjMsImlhdCI6MTYzMDYwMDA1Nn0.k5KSAObmSzfZKraoyReVgZt15iJuILVjPVAcKWU29bQ',NULL,'2021-06-05 09:34:42','2021-06-05 09:34:42'),(24,1,8,'Parvana T V',NULL,'AK062125',NULL,'2010-10-28','','Theyyathinte Valappil','vengara ,pazhayangadi','kannur','670305','Kerala',9947648239,'9947648239',NULL,'maneesha','Teacher','Mother',NULL,9947648239,NULL,4,6,2021,NULL,NULL,NULL,'04-06-2021',1,NULL,NULL,NULL,NULL,'$2y$10$R1jLPM4PbWVQ8FIjUBTdPOAv0c4RvY0nJXYBt1gkeivuBW/xbRhI2',NULL,NULL,'2021-06-05 09:45:09','2021-06-05 09:45:09'),(25,1,8,'Ishan Sajesh','3rd Standard','AK062126',NULL,'2013-07-02','','Ravi Vihar','Opp Old Post Office, AndamKovval, Kunjimangalam','Kannur','670309','kerala',9497854470,'9497854470',NULL,'Sajesh PP','Abroad','Father',NULL,9497854470,'sanam.edat@gmail.com',5,6,2021,NULL,NULL,NULL,'05-06-2021',1,NULL,NULL,NULL,NULL,'$2y$10$8HPjJW6I6lOW22L/E5aDNesxewzTJFICoaCh5AA/x.THf3o1h..Du',NULL,NULL,'2021-06-05 10:10:22','2021-06-05 10:10:23'),(26,1,8,'Vihaan Rajesh','2nd Standard','AK062127',NULL,'2014-11-06','','Vihaastha','Nr.Manjappalam P O Chalad','kannur','670012','Kerala',7907309039,'9544128575',NULL,'Rajesh Cherumanalil','CA','Father',NULL,7907309039,'reepnarajesh@gmail.com',4,6,2021,NULL,NULL,NULL,'04-06-2021',1,NULL,NULL,NULL,NULL,'$2y$10$YXwhdSajvviyNYwbB0L40eVwrbBQ88FNgtHvEdcqwNGgHWiiRdq3q','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjYsImlhdCI6MTYyMjg5MjY4M30.bH8C46jRGFj74iwAOdNH7TmoysXkkntgby8atFycrn4',NULL,'2021-06-05 10:15:44','2021-06-05 10:15:45'),(27,1,8,'Thristha Rajesh','2nd Standard','AK062128',NULL,'2014-11-06','','Vihaastha','Nr.Manjappalam P O Chalad','kannur','670012','Kerala',7907309039,'9544128575',NULL,'Rajesh Cherumanalil',NULL,'Father',NULL,7907309039,'reepnarajesh@gmail.com',4,6,2021,NULL,NULL,NULL,'04-06-2021',1,NULL,NULL,NULL,NULL,'$2y$10$KSKCAGUHjX.h/u7TERn0gewLB76oeEudqhSTwBOg5XBZgtzDXAc4K',NULL,NULL,'2021-06-05 10:30:41','2021-06-05 10:30:42'),(28,1,2,'Aswathy C B','4th Standard','AK062129',NULL,'2021-09-01','1_1627992911.png','Chandrasseril House','Kodungallur, Moothakunnam','Ernakulam',NULL,'Kerala',9746271821,'9746271821',NULL,'Boney C R','Self Employment',NULL,NULL,9746271821,'boneyrnath@gmail.com',8,4,2021,NULL,NULL,NULL,'03-08-21',1,NULL,NULL,NULL,NULL,'$2y$10$SgBQTIOj/skeIiImGki41u0hr4IrYtWvUtOR/qtSeIxwaSUmGn4da','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjgsImlhdCI6MTYyODE3NTQ2NH0.5c27qRg5tKFdXCCsIqPewAI777aJlxSQ2tfhGIWz4tU',NULL,'2021-06-07 17:14:06','2021-08-03 06:45:18'),(29,1,10,'Vimaljith PV','BBA','AK062130',NULL,'1997-02-06','','Aryamvally House','Eripuram, Pazhayangadi','Kannur','670303','Kerala',9961751441,'9961751441','vimaljithpv97@gmail.com','Muralidaran M V','Business',NULL,NULL,8157816958,NULL,25,6,2021,NULL,NULL,NULL,'29-06-21',1,NULL,NULL,NULL,NULL,'$2y$10$vlBMC3cAPTUqY92C530hCejssRofbrPm5qrhfVorUSYLuqv0yRJum',NULL,NULL,'2021-06-25 06:29:25','2021-06-29 11:31:50'),(30,1,15,'SHAMMAS M','degree','AK062131',NULL,'2000-09-19','','MOOPPANTAKATH H','Peringome, uzhichi','Kannur','670353','Kerala',9074825824,'9074825824','shammusha3@gmail.com','Ahammed M','Arabic Teacher',NULL,NULL,9061217442,NULL,28,6,2021,NULL,NULL,NULL,'29-06-21',1,NULL,NULL,NULL,NULL,'$2y$10$e8D8GxaAz6uWug1GBkleO.iNOZS4L2lMHiLAwZ6TrOEbZbIkjZdSK',NULL,NULL,'2021-06-28 07:33:49','2021-06-29 11:37:14'),(31,1,10,'Sarath K V','plus 2','AK062132',NULL,'1997-05-03','','Kodoor Veedu','Kottakunnu, Nareekamvally','Kannur','670501','Kerala',9048229380,'9048229380',NULL,'Shyamlal','Cooli','Father',NULL,9048229380,NULL,3,5,2021,NULL,NULL,NULL,'03-05-2021',1,NULL,NULL,NULL,NULL,'$2y$10$NGt.v1ciUop.LAnQSjRCNepeH3Wzy34dpUrSCB3qjUxkcCpm4yvX6',NULL,NULL,'2021-06-28 08:01:34','2021-06-28 08:01:34'),(32,1,16,'Devang T D','2nd Standard','AK072133',NULL,'2014-11-07','','Krishnamritham','Eranakulam','Eranakulam','682024','Edapally, Eranakulam',9400455144,'9400455144',NULL,'Anjana Sreedhar','Ayurveda Doctor',NULL,NULL,9400455144,NULL,1,7,2021,NULL,NULL,NULL,'31-08-21',1,NULL,NULL,NULL,NULL,'$2y$10$CT.bajKAKjyZzJ/AtLLAEe3LGIYFNyHfyVc3QeeNL/rgu3TINyu/q',NULL,NULL,'2021-07-01 10:31:19','2021-08-30 23:29:00'),(33,1,9,'Abhinav. M','Plus Two','AK072134',NULL,'2002-08-05','','Mathyari','Panapuzha','kannur','670306','Kerala',9207849601,'9207849601','anbinavpnz@gmail.com','Mahija','Kooli','Mother',NULL,9961341637,NULL,5,7,2021,NULL,NULL,NULL,'05-07-2021',1,NULL,NULL,NULL,NULL,'$2y$10$pXan1ezYiGV5cJQcKtiYaeD8ODcSCxGuA90/YIQiRCnZQ3oO4nAbC',NULL,NULL,'2021-07-05 05:15:08','2021-07-05 05:15:08'),(34,1,15,'Muhammed Aslam T K','Plus Two','AK072135',NULL,'2001-09-13','','Thekke Kolayath','Peringome, Uzhichi','Kannur','670353','KERALA',9207878126,'9207878126',NULL,'Jameela','House Wife','Mother',NULL,9947144598,NULL,5,7,2021,NULL,NULL,NULL,'05-07-2021',1,NULL,NULL,NULL,NULL,'$2y$10$WBTJJpV2/jc6H3P0Djiiku4aQ3XPVDrKSlhwSCWknSQZGTIiBe/bS',NULL,NULL,'2021-07-05 07:00:58','2021-07-05 07:00:58'),(35,1,15,'Musafir PS','Plus Two','AK072136',NULL,'2002-05-22','','Padikashalirit','Nhekkly','KANNUR',NULL,'Kerala',9061315451,'9061315451','muhammedmuzafar@gmail.com','Suhara PS','HOUSE WIFE','Mother',NULL,9744438371,NULL,6,7,2021,NULL,NULL,NULL,'06-07-2021',1,NULL,NULL,NULL,NULL,'$2y$10$fMMy4G8E9hXomH0HCN5s..TSM96UUM5wQ7ni7ixLHiaS/WtsiY/6e',NULL,NULL,'2021-07-06 06:46:04','2021-07-06 06:46:04'),(36,1,13,'Shamal Ravindran','plus 2','AK072137',NULL,'2002-11-06','','Kalariullaparambil','Panapuzha','Kannur','670306','Kannur',6235122971,'6235122971',NULL,'Nirmala','Kooli',NULL,NULL,9526281477,NULL,23,7,2001,NULL,NULL,NULL,'08-09-21',1,NULL,NULL,NULL,NULL,'$2y$10$/GMADCTRNVr1XAkYjdQXHeqMJZDFFfwZ8IT5ASUe3r1klkBT2gDA.',NULL,NULL,'2021-07-23 08:23:14','2021-09-08 02:36:17'),(37,1,10,'Lijith A','B.Ed.','AK072138',NULL,'1989-01-10','','Krishna Nilayam','Vengara','Kannur','670305','KERALA',9633058988,'9633058988','lijithvengara@gmail.com','Bindhu','Business','Other','Friend',9562917368,'venusbindh@gmail.com',23,7,2021,NULL,NULL,NULL,'23-07-2021',1,NULL,NULL,NULL,NULL,'$2y$10$FWx.PHKg0icCbvsY2wfAJ.WvVoRVHFlZAReBMSYwxvPL52flk24kK',NULL,NULL,'2021-07-23 10:56:32','2021-07-23 10:56:32'),(38,1,16,'Naynika Shiju','5th','AK072139',NULL,'2011-05-23','','Radhalayam','Kannur','Kannur','670692','Kannur',69896981272,'009687825783','kpkshiju@gmail.com','Shiju. kp','Business','Father',NULL,69896981272,NULL,24,7,2021,NULL,NULL,NULL,'24-07-2021',1,NULL,NULL,NULL,NULL,'$2y$10$678LDjBVa6TvKtFf9KYf3OdLSvd7x0oqyrvTcq7xIbBDN/7cW.BCm','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzgsImlhdCI6MTYzMTExNzYyM30.fuh7TUj4A2_3_qlDdHpXexEzujpg34obvJPbdfVaLqI',NULL,'2021-07-26 05:24:59','2021-07-26 05:24:59'),(39,1,1,'Sriya Shyju','8th','AK072140',NULL,'2008-07-16','','Radhalayam','Kannur','KANNUR','670692','Kerala',69892443694,'0096879770219','sreeshashyju@gmail.com','Shyju','Sales Manager','Father',NULL,96892443694,NULL,25,7,2021,NULL,NULL,NULL,'25-07-2021',1,NULL,NULL,NULL,NULL,'$2y$10$.hRdKsT9Gcx4fKJ.770bPOrpnVEYmx6IQ8YqxXKEyxxcDPnAdZdtm','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzksImlhdCI6MTYzMTQ2NzQ4Nn0.xOPdS-3H7aw0qp02-7qlIymnLivr3vNVu10tsX4IAYQ',NULL,'2021-07-26 05:29:36','2021-07-26 05:29:36'),(40,1,4,'Soorya. P.K','PG','AK072141',NULL,'1998-10-02','','Panayanthatta kulangarath','Kadannapally','Kannur','670501','Kannur',6282564065,'6282564065','pksoorya20@gmail.com','Balakrishnan','Hotel','Father',NULL,75960866132,NULL,26,7,2021,NULL,NULL,NULL,'26-07-2021',1,NULL,NULL,NULL,NULL,'$2y$10$aKNlFVv0BOmE3KjZe3YKFu4E03BI70.S66p2yhJIgMxzTDOYef2WG',NULL,NULL,'2021-07-26 05:55:01','2021-07-26 05:55:01'),(41,1,15,'Murshid K',NULL,'AK072142',NULL,'2002-08-15','','Kunnol House','Thattummal','Kannur','670511','Kerala',9188754053,'9188754053',NULL,'Khadhar','Driver','Father',NULL,9747914053,NULL,26,7,2021,NULL,NULL,NULL,'26-07-2021',1,NULL,NULL,NULL,NULL,'$2y$10$bYpq4u2yaMy0io9eE0Ka7OoSGrseMPLSXouAXABSny1.EX6cLzUo6',NULL,NULL,'2021-07-26 06:15:53','2021-07-26 06:15:53'),(42,1,10,'Rahila Shaheen','+2','AK072143',NULL,'2002-11-18','','Rahila Mullanakath House','Kadannapally','Kannur','670305','Kerala',8590950188,'8590950188','rahilakdn@gmail.com','Anwar','Abroad','Other','Uncle',8590950188,NULL,26,7,2021,NULL,NULL,NULL,'26-07-2021',1,NULL,NULL,NULL,NULL,'$2y$10$15pADYpwQbj6JPTsj9Zgx.E87B1utsRtKPf.BuiJ.YVZPJsHa.mn.','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDIsImlhdCI6MTYzNTkyNTUxN30.WX92cCHrmRWsGeO2O4nnZYYiXlYKY52ZRMfcVOtTPxI',NULL,'2021-07-26 06:23:19','2021-07-26 06:23:19'),(43,1,13,'Akash. R. M','Plus Two','AK072144',NULL,'2003-08-22','','Akash House','Olayambadi','KANNUR','670306','KERALA',8111802504,'8111802504',NULL,'Unnikrishnan','Abroad','Father',NULL,9497183468,NULL,28,7,2021,NULL,NULL,NULL,'28-07-2021',1,2,NULL,NULL,NULL,'$2y$10$e7.EUHq3H1zSHr12hkUe7.wtZ2mS3jfaIlzx0EoeUXEY8ZKvw9SWy',NULL,NULL,'2021-07-28 03:54:59','2021-07-28 03:55:00'),(44,1,7,'Navaneeth Suresh Kumar','8th','AK072145',NULL,'2008-09-20','','Navanandanam','Kadannapally','Kannur','670501','Kerala',9447334578,'9447334578',NULL,'Suresh Kumar','Dupt Thahasildar','Father',NULL,9747370018,NULL,28,7,2021,NULL,NULL,NULL,'28-07-2021',1,NULL,NULL,NULL,NULL,'$2y$10$5H4WjdhGKDwDqy5uBTwTXufwzH8lWiQVocPRfY.l.Ga/MS4oZxjmy',NULL,NULL,'2021-07-28 11:16:58','2021-07-28 11:16:58'),(45,1,17,'Nandagopan S Kumar','3rd Standard','AK082146',NULL,'2013-05-07','1_1628246073.jpg','Kuthurummal','Kochi','kannur','670309','Kerala',9895906498,'9895906498','tv9sreejith@gmail.com','Sreejith Kumar TV','Teacher','Father',NULL,9895906498,'tv9sreejith@gmail.com',6,8,2021,NULL,NULL,NULL,'06-08-21',1,NULL,NULL,NULL,NULL,'$2y$10$5IGQ4AG8/d2b53jAxg8ZXuqRgU8yXtV1kSqDfZXpg7/C12pJRgK/e','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDUsImlhdCI6MTYyODM5MzQwMn0.HQrdebFKVwFgn-whJwanTL157sq46PDzSfqHnLTwrTU',NULL,'2021-08-06 04:01:08','2021-08-06 05:17:02'),(46,1,2,'Asthik A Jithin','2nd Standard','AK082147',NULL,'2014-05-26','1_1628250495.jpg','Chaithram','Nayattupara','Kannur','670595','kerala',9446341010,'8281203006','ambilijithin@gmail.com','Ambili Jithin C','Microbiologist',NULL,NULL,8281203006,'ambilijithin@gmail.com',2,4,2021,NULL,NULL,NULL,'06-08-21',1,NULL,NULL,NULL,NULL,'$2y$10$yXFebqkhS3bn4WIycb8ebO4qe4RoFzH.SOkPYBbxT.5nVn24UAz92',NULL,NULL,'2021-08-06 06:03:49','2021-08-06 06:19:56'),(47,1,2,'Kalyani R Hareesh',NULL,'AK082148',NULL,'2013-06-17','','rudset quarters','kanjirangad,','kannur',NULL,'kerala',9539167967,'8547682411','roshni.chamblon@gmail.com','Roshni Hareesh','Teacher Rudset','Mother',NULL,9539167967,'roshni.chamblon@gmail.com',7,4,2021,NULL,NULL,NULL,'07-04-2021',1,NULL,NULL,NULL,NULL,'$2y$10$R1ApUjlsQ9wX.x630Ohy7.LLaVAaJ9TAXEU4C823Uxe9W5IN0QP5u','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDcsImlhdCI6MTYyODkxMjM1NX0.DySzxnV0vwaYQvbu3hrZGlEPQ8ltcBIKPYQX5nbfjsA',NULL,'2021-08-07 10:09:46','2021-08-07 10:09:46'),(48,1,17,'NUMAIR MUNDOPADATH SUNAISE','6th Standard','AK082149',NULL,'2009-10-01','','PB NO 1022','Sohar, Oman','SOHAR',NULL,'OMAN',96894351429,'0096894351429','sunaise@gmail.com','Neethu fathima ismail','Teacher','Mother',NULL,96894351429,'sunaise@gmail.com',7,8,2021,NULL,NULL,NULL,'07-08-2021',1,NULL,NULL,NULL,NULL,'$2y$10$N8lidvDCWzzpXgiSGrkmGe2lYguTdgCFeFEo8tuKBQveWFZw6WErC','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDgsImlhdCI6MTYyODM2MjY4MX0.1p0lly5zsfD2y-_cXkPv15XapyY_iBjQKifffPB5WDo',NULL,'2021-08-07 11:02:46','2021-08-07 11:02:47'),(49,1,17,'Nandakishore Nair','5th Standard Study','AK082150',NULL,'2010-12-24','','sreenilayam','North kalamasseri','Ernakulam','683104','kerala',971562625858,'00971562625858','reshmavinish@gmail.com','Vinesh / reshma','Superviser',NULL,NULL,971562625858,NULL,7,8,2021,NULL,NULL,NULL,'31-08-21',1,NULL,NULL,NULL,NULL,'$2y$10$/8pt4m505B/nyF5EG74KJeeRSBN48dhMFIHgJBgbdHsKZy39e8TKu',NULL,NULL,'2021-08-07 11:10:55','2021-08-30 23:14:41'),(50,1,17,'ADITI RAGESH',NULL,'AK082151',NULL,'2013-11-21','','villa no8','maroor road, abu dubai',NULL,NULL,'uae',503954063,'0564975767','dhanu.k18@gmail.com','Ragesh P V','Banker','Father',NULL,503954063,NULL,7,8,2021,NULL,NULL,NULL,'07-08-2021',1,NULL,NULL,NULL,NULL,'$2y$10$hADdpWpKzwcDELyRtzNqyu2.EpYx7S7AUn1wuSpjlX0JHnz4kaF.e','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTAsImlhdCI6MTYyODM2NDEwMn0.3ez3gfj2Rllo2A-BR5idB_8mumL0WldBlACjRyvYFLw',NULL,'2021-08-07 11:17:00','2021-08-07 11:17:00'),(51,1,1,'Aaron Vilesh','3rd Standard','AK082152',NULL,'2013-04-06','','Kariyil House','Mattannur','kannur',NULL,'kerala',9447538827,'9447538827','shimnavilesh15477@gmail.com','Shimnavilesh',NULL,'Father',NULL,9447538827,'shimnavilesh15477@gmail.com',7,8,2021,NULL,NULL,NULL,'07-08-2021',1,NULL,NULL,NULL,NULL,'$2y$10$i.ApWLZvtmkbW4/u0I/LueExqdZJ2IZf9Z0F0pB7jhAxtJMljdJtG',NULL,NULL,'2021-08-07 11:21:38','2021-08-07 11:21:38'),(52,1,17,'ADRITH S KRISHNA','2nd Standard','AK082153',NULL,'2014-01-01','','Sai Chaithanya','Chandera, Maniyat','kasaragod','671310','kerala',9847012335,'9847012335','satheesh.kumar@yahoo.com','Satheesh Kumar K K','Banker','Father',NULL,9847012335,'satheesh.kumar@yahoo.com',7,8,2021,NULL,NULL,NULL,'07-08-2021',1,NULL,NULL,NULL,NULL,'$2y$10$Ifztq3NJvtX6a9n59HW1buOF/I8fVWKOCO1/QrXj6p63eYcDz421W',NULL,NULL,'2021-08-07 11:38:09','2021-08-07 11:38:09'),(53,1,17,'Adrija S Krishna','1st Standard','AK082154',NULL,'2015-01-01','','sai chaythanya','Chandera, Maniyat','kannur',NULL,'kerala',9847012335,'9847012335',NULL,'Saneesh K',NULL,'Father',NULL,9847012335,NULL,7,8,2021,NULL,NULL,NULL,'07-08-2021',1,NULL,NULL,NULL,NULL,'$2y$10$XCYta1aA/Ptx8q3A6TyzEe7Ge.zhcw1c2jjuWgdl0YVAbyiuJ8Rpe','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTMsImlhdCI6MTYzMDMxNTg1OX0.wZivoQEnTuxnjk2urIZOJZUK-YDHULwJg_FODryMyXM',NULL,'2021-08-07 11:46:27','2021-08-07 11:46:28'),(54,1,17,'Ishan V K','2nd Standard','AK082155',NULL,'2014-04-11','','Madathumpadikkal Palai House','Karivellur','kannur',NULL,'kerala',9207463346,NULL,'bijupalai@gmail.com','Biju','Abroad','Father',NULL,9207463346,NULL,7,8,2021,NULL,NULL,NULL,'07-08-2021',1,NULL,NULL,NULL,NULL,'$2y$10$GSQTqzfWY/29qrbK96eH1OGdXcB0n1NpNeJepdTG7D75dzsdDYsVa','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTQsImlhdCI6MTYzMDM5OTk0Mn0.JeI7PkYvXkUfIGekamM4ckmgEl4XhPCz5T2OTX1ehN0',NULL,'2021-08-07 11:52:10','2021-08-07 11:52:10'),(55,1,17,'Ishan V K','2nd Standard','AK082156',NULL,'2014-04-11','','Madathumpadikkal Palai House','Karivellur','kannur',NULL,'kerala',9207463346,NULL,'bijupalai@gmail.com','Biju','Abroad','Father',NULL,9207463346,NULL,7,8,2021,NULL,NULL,NULL,'07-08-2021',1,NULL,NULL,NULL,NULL,'$2y$10$gi.Dt9rpfKwkiPcBXKiiIOk3w/310Kigl35eGBC59LG/xQyfLgWnK','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTUsImlhdCI6MTYyODQ0Mzc3Nn0.EGe1gpG8lgmOKh0EQMTa8mOJ8bjBtd1pbsx0EObSlbM',NULL,'2021-08-07 11:53:20','2021-08-07 11:53:20'),(56,1,17,'VASUDEV S RAMITH','UKG','AK082157',NULL,'2015-10-21','','Thalakodoth House','Manoor, Cheruthazham','kannur','670501','kerala',9745082865,'9745082865','sinisha19@gmail.com','Ramith K V','Central Govt Employee','Father',NULL,9745082865,NULL,7,8,2021,NULL,NULL,NULL,'07-08-2021',1,NULL,NULL,NULL,NULL,'$2y$10$8DyJgW6/sdwLLGmbinNRUON.XprKFdi74AwCT/F.1aY7.FBnqG/Qa','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTYsImlhdCI6MTYyODM5ODQwMn0.UFOqMUTpRaH5IgNdaqvsshGj--BRyb_IQrNsj-NmbvM',NULL,'2021-08-07 11:58:00','2021-08-07 11:58:00'),(57,1,17,'Shrey Dhanesh','1st Standard','AK082158',NULL,'2016-02-22','','Thiruvathira','kodithayal, cheruthazham','kannur','670501','kerala',9605519149,'9605519149',NULL,'Sruthi Danesh','NRI','Mother',NULL,9605519149,'sruthidhanesh100@gmail.com',7,8,2021,NULL,NULL,NULL,'07-08-2021',1,NULL,NULL,NULL,NULL,'$2y$10$8N5VeqhJFEn55vMK16nSGu6KUnXlKpmWEJgWTaq8lWt8cq79cGUBu','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTcsImlhdCI6MTYyODY0OTE4Mn0.xRG-FVWl8q8UtoB9vcOSBt4vWECfDVvbU_S1tC--duI',NULL,'2021-08-08 00:34:20','2021-08-08 00:34:20'),(58,1,17,'ANVITHA HARIDAS','2nd Standard','AK082159',NULL,'2014-10-10','','Kaiprath House','kandankulangara, kunjimangalam','kannur','670309','kerala',9746609104,'9746609104',NULL,'Haridas P','Business','Father',NULL,9746609104,'haridasklm@gmail.com',8,8,2021,NULL,NULL,NULL,'08-08-2021',1,NULL,NULL,NULL,NULL,'$2y$10$slzgGMQ0sQnPPbSGIi7PSu3jMcAg4PTP8e3GqI6KLS3U8OenXJ5rm','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTgsImlhdCI6MTYyODc2NDg5OX0.IP8NrgMgSQaLlCgM3_pzpYYBTL715vLLaV_6dJ4LMHU',NULL,'2021-08-08 04:51:44','2021-08-08 04:51:44'),(59,1,17,'THANMAYA SUNIL','6th Standard','AK082160',NULL,'2010-12-17','','ARAYAMBATH HOUSE','THEKKUMBAD, KUNJIMANGALAM','kannur','670309','kerala',8289828825,'8289828825',NULL,'Sunil Kumar',NULL,'Father',NULL,8289828825,'sangeethasunil747@gmail.com',8,8,2021,NULL,NULL,NULL,'08-08-2021',1,NULL,NULL,NULL,NULL,'$2y$10$j1J9o4MikJrllfPPmkk0m.8ycn93I3v456EQxaR2EQi5Nu16.g7AK','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTksImlhdCI6MTYyODY1NDQ2MH0.4y-Rgjnvvm7dHlmHjZu1PgHxCgDHSAErQuQi_72PDCE',NULL,'2021-08-08 04:59:21','2021-08-08 04:59:22'),(60,1,9,'Rasna Rameshan','PG','AK082161',NULL,'1998-11-23','','Nandanam','Ezhilode','kannur','670309','Kerala',9400501932,'9400501932','rasnarameshan1@gmail.com','Prasanna K v','Post man','Mother',NULL,9400501932,NULL,9,8,2021,NULL,NULL,NULL,'09-08-2021',1,NULL,NULL,NULL,NULL,'$2y$10$mNCOMfvNldfo2iBT9RWUgO.MtcZGhb5ZN58iUS5NiSuTvDeR0waW6',NULL,NULL,'2021-08-08 22:41:23','2021-08-08 22:41:23'),(61,1,7,'Anusha Vijayan','Degree','AK082162',NULL,'1999-12-25','','Moolakaran House','Ezhilode','kannur','670504','Kerala',9656416875,'9656416875','anushavijayan22@gmail.com','Vijayan','Decoration','Father',NULL,9656416875,NULL,21,12,2020,NULL,NULL,NULL,'21-12-2020',1,NULL,NULL,NULL,NULL,'$2y$10$yjeyKyVuXCcu5xcNcm0rO.xlZLzeVVJtOpqSFv..8krgW4pkF..dq',NULL,NULL,'2021-08-09 04:12:12','2021-08-09 04:12:12'),(62,1,7,'Amal. K. v','Plus Two','AK082163',NULL,'1998-10-22','','Oloth veedu','Sreestha','Kannur','670501','Kerala',8592894986,'8592894986',NULL,'Sudhakaran','Business','Father',NULL,8592894986,NULL,18,1,2021,NULL,NULL,NULL,'18-01-2021',1,NULL,NULL,NULL,NULL,'$2y$10$rapB4vx.1H0sOMcJkDlO2uisoimNqef8pcJ/LdD4MoB5//fSi474a',NULL,NULL,'2021-08-09 05:43:32','2021-08-09 05:43:33'),(63,1,7,'Junaid Muhammed','Plus Two','AK082164',NULL,'1998-09-25','','Noormahal','Vengara, payangadi','kannur','670504','KERALA',9947824604,'9947824604',NULL,'nejumunissa','House wife','Mother',NULL,9947824604,NULL,10,2,2021,NULL,NULL,NULL,'10-02-2021',1,NULL,NULL,NULL,NULL,'$2y$10$OdAh1Kf84hL9jkPb1VaVieB.3muvTZ9V3TqWF3mB65I8zkpKirMXC',NULL,NULL,'2021-08-09 05:47:31','2021-08-09 05:47:32'),(64,1,7,'Shamshad T P','Plus Two','AK082165',NULL,'2000-01-22','','Zeenath manzil','Thaikadappuram, Muttam','Kannur','670504','Kerala',8086351382,'8086351382',NULL,'Salahudheen','Abroad','Mother',NULL,9656082953,NULL,30,3,2021,NULL,NULL,NULL,'30-03-2021',1,NULL,NULL,NULL,NULL,'$2y$10$Lv.PISgslEYryJfpIHGtiOoUskmwULJEnHpcfAl/Ak0TCZNVFei6O',NULL,NULL,'2021-08-09 05:50:25','2021-08-09 05:50:25'),(65,1,17,'Sivathej  Uthaman','3rd','AK082166',NULL,'2013-08-01','','nandadeepam','nareekamvalli','kannur','670504','Kerala',9744695452,'9744695452',NULL,'Uthaman','Abroad','Mother',NULL,9744695452,NULL,9,8,2021,NULL,NULL,NULL,'09-08-2021',1,NULL,NULL,NULL,NULL,'$2y$10$DZvuugjDjQeCNfAEl05kvekrrZKNDwBTyrrlbQRzd83BEI/iRFiXi',NULL,NULL,'2021-08-09 23:00:57','2021-08-09 23:00:57'),(66,1,7,'Shamshad T P','Plus Two','AK082167',NULL,'2000-01-22','','Zeenath manzil','kakkadapuram, Muttam','kannur','670504','kerala',8086351382,'8086351382',NULL,'Salahudheen','Abroad','Father',NULL,9656082953,NULL,30,3,2021,NULL,NULL,NULL,'30-03-2021',1,NULL,NULL,NULL,NULL,'$2y$10$kk8E3So9K267W166CcqioOvDa1SnZ.lCgUEsqi6q1utzGkBp/Ej9y',NULL,NULL,'2021-08-09 23:14:08','2021-08-09 23:14:09'),(67,1,7,'junaid mohammed','Plus Two','AK082168',NULL,'1998-09-25','','Noor Mahal','Vengara','Kannur','670504','KERALA',9947824604,'9947824604','mpjunumohd@gmail.com','nejumunissa','HOUSE WIFE','Mother',NULL,9947824604,NULL,10,2,2021,NULL,NULL,NULL,'10-02-2021',1,NULL,NULL,NULL,NULL,'$2y$10$hJSC.1BColxQgtBL.1D76uyfZ9Z8ezKk6Ab8b0CgJ2DxUg4IXdOTC',NULL,NULL,'2021-08-09 23:18:20','2021-08-09 23:18:20'),(68,1,17,'Aswanth A V','6th','AK082169',NULL,'2010-06-15','','pariyaran house','PILATHARA','Kannur','670501','Kerala',9847887650,'9847887650',NULL,'Anil Kumar','Business',NULL,NULL,9847887650,NULL,16,7,2021,NULL,NULL,NULL,'16-08-21',1,NULL,NULL,NULL,NULL,'$2y$10$W56I8O2wVufxyMZrWNv/oufESZftPZH/kabzw3oNYzVtw7L96uvq6',NULL,NULL,'2021-08-16 00:47:05','2021-08-16 04:11:51'),(69,1,17,'Adisree shyju','2nd std','AK082170',NULL,'2014-04-03','','pariyaran house','ramanthali, payyanur','Kannur','670308','Kerala',9567971172,'9567971172',NULL,'sumitha. P','House wife','Mother',NULL,9567971172,NULL,6,3,2021,NULL,NULL,NULL,'06-03-2021',1,NULL,NULL,NULL,NULL,'$2y$10$Mh8bpcFhf3x9Ya1.SD2g4e6z60C2I2Dn5Ic3BuFST95oZkhb.fE/C',NULL,NULL,'2021-08-16 23:00:34','2021-08-16 23:00:34'),(70,1,17,'ADITI RAGESH','2nd std','AK082171',NULL,'2013-11-21','','VILLA NO 8 MUROOR ROAD,ABU DHABI , UAE','UAE',NULL,NULL,'Kerala',564975767,'0564975767','DHANU.K18@GMAIL.COM','Dhanya','House wife','Mother',NULL,564975767,NULL,8,7,2021,NULL,NULL,NULL,'08-07-2021',1,NULL,NULL,NULL,NULL,'$2y$10$ik3p4N65l5CdZWlno/wUAu3H8QZn35.6C5xhjtzAk.QqYuimi2WL6',NULL,NULL,'2021-08-16 23:03:40','2021-08-16 23:03:41'),(71,1,17,'AISWARYA.M.N','5th','AK082172',NULL,'2021-05-09','','KULAPPURAM EAST','VILAYANCODE','Kannur','670501','Kerala',9961933210,'9961933210',NULL,'MALLESHAN','Sterilization Head','Father',NULL,9446837635,NULL,20,10,2019,NULL,NULL,NULL,'20-10-2019',1,NULL,NULL,NULL,NULL,'$2y$10$ZPvlnufjfJLawJP3KzuqEuAns01u6gel6bFBH2b1r.9AjJr6fKyj2',NULL,NULL,'2021-08-16 23:14:20','2021-08-16 23:14:20'),(72,1,17,'AISWARYA.M.N','5th','AK082173',NULL,'2021-05-09','','KULAPPURAM EAST','VILAYANCODE','Kannur','670501','Kerala',9961933210,'9961933210',NULL,'MALLESHAN','Sterilization Head','Father',NULL,9446837635,NULL,20,10,2019,NULL,NULL,NULL,'20-10-2019',1,NULL,NULL,NULL,NULL,'$2y$10$I2KiJ7w0YQ4ePMdgy7cU1uy3xRNfXgFjG/pjH4GKCAzmduavFkvLW',NULL,NULL,'2021-08-16 23:15:14','2021-08-16 23:15:15'),(73,1,17,'Ameg.kv','3rd std','AK082174',NULL,'2021-03-14','','Kodivalappil House','Paravantatta','Kannur','670307','Kerala',9562011103,'9562011103',NULL,'Divya K','House wife','Mother',NULL,9562011103,NULL,6,5,2021,NULL,NULL,NULL,'06-05-2021',1,NULL,NULL,NULL,NULL,'$2y$10$X9j7Pv2aZsrRII9FcAnbo.d21.IirT/bK/uxp9B8d6FDqdGPgHjES',NULL,NULL,'2021-08-16 23:22:09','2021-08-16 23:22:10'),(74,1,1,'Ankitha Sanvi Subeesh','1st srd','AK082175',NULL,'2014-11-29','','Choice Nivas','Nareekamvally','Kannur','670501','Kerala',9895224747,'9895224747',NULL,'Subeesh V V','physiotherapist','Father',NULL,9895224747,NULL,5,12,2020,NULL,NULL,NULL,'05-12-2020',1,NULL,NULL,NULL,NULL,'$2y$10$dOFon4dKe/xOt8iolOV5aeQ5dlJlvuc.VeDDmnHXJCVqy6JXat7Ky','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzQsImlhdCI6MTYzMDMzNTE5Nn0.6K4h6hOSLpy1MQ573vHJKMykFfchHsg2flR56Lwgu7I',NULL,'2021-08-16 23:45:12','2021-08-16 23:45:12'),(75,1,17,'Arathi','2nd std','AK082176',NULL,'2014-04-01','','Deepthi House','Kunhimangalam','Kannur','670504','Kerala',9495796065,'9495796065',NULL,'Deepak P','Professional Assistant Kannur University','Father',NULL,9495479791,NULL,29,12,2020,NULL,NULL,NULL,'29-12-2020',1,NULL,NULL,NULL,NULL,'$2y$10$brHOWzN.xXdSHW43t0rOtOMaAgW4Y/7sd6iLsSBzNMngsaPJ1Bnfi',NULL,NULL,'2021-08-16 23:50:33','2021-08-16 23:50:33'),(76,1,17,'Arunima Arun','3rd std','AK082177',NULL,'2012-10-08','','Arunima House','Vayakkara','Kannur','670304','Kerala',8606597151,'8606597151',NULL,'Arun','Business','Father',NULL,8606597151,NULL,30,12,2020,NULL,NULL,NULL,'30-12-2020',1,NULL,NULL,NULL,NULL,'$2y$10$P/6IBXuai3ggqq7x1kGyDOgXzxUoPy8eHte2ibJrEhP81ou0LaqKu',NULL,NULL,'2021-08-16 23:56:04','2021-08-16 23:56:04'),(77,1,17,'Aarushi P k','2nd std','AK082178',NULL,'2014-09-09','','Pallot Kavil','Kunhimangalam','Kannur','670504','Kerala',9495102174,'9495102174',NULL,'Sunitha Biju','House wife','Mother',NULL,9495102174,NULL,26,3,2021,NULL,NULL,NULL,'26-03-2021',1,NULL,NULL,NULL,NULL,'$2y$10$xLyuRirWVBlyVxbIq36mW.wHlhLW/eMxcQV..jccaCah3YiU7lLue',NULL,NULL,'2021-08-17 00:01:16','2021-08-17 00:01:16'),(78,1,17,'Bhagath K Vipin','5th STD','AK082179',NULL,'2011-10-06','','Oolikam','Eranakulam','Eranakulam','670001','Kerala',9747207466,NULL,NULL,'Vipin','Welder','Father',NULL,9747207466,NULL,6,10,2021,NULL,NULL,NULL,'06-10-2021',1,NULL,NULL,NULL,NULL,'$2y$10$gbN.Rbs1SLytyDtyXKVt1Okk0OAXKFNrBuUSUjUmg4J/veX94ErH.',NULL,NULL,'2021-08-17 00:05:12','2021-08-17 00:05:12'),(79,1,17,'Gourinanda Sujith','2nd std','AK082180',NULL,'2012-12-19','','Snehalayam','Vengara','Kannur','670305','Kerala',8289829661,'8289829661',NULL,'Sneha Sujith','House wife','Mother',NULL,8289829661,NULL,12,12,2020,NULL,NULL,NULL,'12-12-2020',1,NULL,NULL,NULL,NULL,'$2y$10$6nCnLlh1JpbuZbp/t1LUKuVVTIEqpzCLa/d.X765CDhqTmWKSp5Hm',NULL,NULL,'2021-08-17 00:08:43','2021-08-17 00:08:43'),(80,1,17,'Goutham Ramesh','5th STD','AK082181',NULL,'2011-04-27','','Mahima','Thalap','Kannur','670300','Kerala',8547074609,'8547074609',NULL,'Shamitha Mohan','Civil Engineer','Mother',NULL,8547074609,NULL,29,4,2021,NULL,NULL,NULL,'29-04-2021',1,NULL,NULL,NULL,NULL,'$2y$10$IQ7YTGUKDNxd.5m0ruN3NuGRMXwgM.iDWJBiNzEMkiEFX6lq1jzOu',NULL,NULL,'2021-08-17 00:29:50','2021-08-17 00:29:51'),(81,1,17,'Ishaan Baburaj','5th STD','AK082182',NULL,'2010-11-14','','Vadakke veetil','Kunhimangalam','Kannur','670305','Kerala',9995587802,'9995587802','venussindh@gmail.com','Sindhu PK','Leacture','Mother',NULL,9995587802,NULL,10,1,2019,NULL,NULL,NULL,'10-01-2019',1,NULL,NULL,NULL,NULL,'$2y$10$FJAwwZetv67ly3bqPi6XTuqg.mJdBoEeDpqUaa/lfWPNDdGhy3tdy',NULL,NULL,'2021-08-17 00:37:58','2021-08-17 00:37:58'),(82,1,17,'Jhanvi Binish','1st std','AK082183',NULL,'2014-12-08','','Karanthad','Kunnaru','Kannur','670304','Kerala',7559815145,'7559815145',NULL,'Megha','House wife','Mother',NULL,7559815145,NULL,21,3,2021,NULL,NULL,NULL,'21-03-2021',1,NULL,NULL,NULL,NULL,'$2y$10$jocSghFlAW6ahivSsfrgZeP7ztc0pV.XEuIXChtHcbT.pbKWKw9My',NULL,NULL,'2021-08-17 00:44:14','2021-08-17 00:44:14'),(83,1,17,'Nandakishore K. V','7th','AK082184',NULL,'2009-09-30','','Pariyaran house','PILATHARA','Kannur','670501','Kerala',9947138785,'9947138785',NULL,'Mani N. E','Bank employ','Mother',NULL,9947138785,NULL,24,4,2019,NULL,NULL,NULL,'24-04-2019',1,NULL,NULL,NULL,NULL,'$2y$10$P4ayLtmg1yfQqmsG2ElaJuVzYU.Q428fSh/xN0CZWAM1p8LUsOmR6',NULL,NULL,'2021-08-17 00:46:43','2021-08-17 00:46:43'),(84,1,17,'MIHIKA SAJITH','4th Std','AK082185',NULL,'2021-06-10','','MANSVI','Edat','Kannur','670327','Kerala',9744722653,'9744722653',NULL,'Sajith','Businesss','Father',NULL,9744722653,NULL,6,8,2021,NULL,NULL,NULL,'06-08-2021',1,NULL,NULL,NULL,NULL,'$2y$10$03N6rs3QQxiBdRWukaG.O.2cR5dhDT/A5UmDKGQhi.o3qlyIfaoAC',NULL,NULL,'2021-08-17 00:56:39','2021-08-17 00:56:39'),(85,1,17,'MUHAMMED MAZIN','3rd std','AK082186',NULL,'2013-07-18','','SHAMSEERA\'S','Mandoor','Kannur','670504','Kerala',9207256275,'9207256275',NULL,'NASEERA.B','House wife','Mother',NULL,9207256275,NULL,10,8,2021,NULL,NULL,NULL,'10-08-2021',1,NULL,NULL,NULL,NULL,'$2y$10$3UZZqq6HbiYS.G9liCfG3OPU5QNYl6uByGp1XYbkL07FOPrY81ZeK',NULL,NULL,'2021-08-17 02:09:06','2021-08-17 02:09:06'),(86,1,17,'Snigdha M P','1st srd','AK082187',NULL,'2014-03-02','','Punartham','Kulapuram','Kannur','670504','Kerala',8928073703,'8928073703',NULL,'susil Chandran','Business','Father',NULL,8928073703,NULL,29,4,2021,NULL,NULL,NULL,'29-04-2021',1,NULL,NULL,NULL,NULL,'$2y$10$z42PuUEbxqqiDR.Dtm1Hi.b.O4c81aDyCvKWcyBQxIkZ7hFICCHMe',NULL,NULL,'2021-08-17 02:44:34','2021-08-17 02:44:34'),(87,1,9,'Rahul. P P','Degree','AK082188',NULL,'2000-07-07','','Saradha Nivas','Olayambadi','8943867247','670306','Kerala',8943867247,'8943867247','Rahul.haneesh@gmail.com','Haneesh','driver','Father',NULL,9539537032,NULL,24,8,2021,NULL,NULL,NULL,'24-08-2021',1,2,NULL,NULL,NULL,'$2y$10$wI8Ayh4AJH.mmn8gR1WpKOBW1cZVUHN7VHrO0cKbFy.0.bari6owq',NULL,NULL,'2021-08-23 22:42:34','2021-08-23 22:42:34'),(88,1,16,'Aashmin T Shine','1st','AK082189',NULL,'2014-02-04','','Oolikkara House','Cherai','Ernakulam','6750321','Kerala',9497683149,'9497683149',NULL,'Dhanya','Insurance Officer','Mother',NULL,9497683149,NULL,20,7,2021,NULL,NULL,NULL,'20-07-2021',1,NULL,NULL,NULL,NULL,'$2y$10$bX3UM1iPqFeoPn4nAqd1yeEgmRF9bbFtRGcLn5yKjXVzO3OvCZ6j.','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ODgsImlhdCI6MTYzMDMxMzUwM30.jPwi-jlPfi1WBEJaXPHS0VUgyQx3-_tm6yJHSQc1sK8',NULL,'2021-08-28 00:05:43','2021-08-28 00:05:43'),(89,1,16,'Abhay T shine','6th','AK082190',NULL,'2009-04-17','','Oolikkara House','Cherai','Ernakulam','632154','KERALA',9497683149,'9497683149',NULL,'Dhanya',NULL,'Mother',NULL,9497683149,NULL,28,7,2021,NULL,NULL,NULL,'28-07-2021',1,NULL,NULL,NULL,NULL,'$2y$10$X/BIZ8wuqS5GIyPVZvt4SekTa5xcLvmnopODVr962TKL9ItDUbxjy',NULL,NULL,'2021-08-28 00:13:22','2021-08-28 00:13:22'),(90,1,1,'Janvi Binish','1st Standard','AK082191',NULL,'2014-12-08','','Janvi Nilayalam','Kunnaru','KANNUR','670504','Kerala',7559815145,'7559815145',NULL,'Megha','House Wife','Mother',NULL,7559815145,NULL,20,6,2021,NULL,NULL,NULL,'20-06-2021',1,NULL,NULL,NULL,NULL,'$2y$10$fZ2KgOrBN99/9BTjokrGme5DZRhyD0R.HGXV7GZjRK/t5TG.fgSG.','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OTAsImlhdCI6MTYzMDMxNDQ1MX0.jsLlxK06MXyyNHh1SDFTu-yg1OJ3M2MT4WNhLkpXHSM',NULL,'2021-08-28 00:18:54','2021-08-28 00:18:54'),(91,1,1,'Yathin Manoj','8th','AK082192',NULL,'2008-03-05','','Kunnaru','Kunnaur','KANNUR','670504','Kerala',9188317561,'9188317561',NULL,'Rajina Manoj','House wife','Mother',NULL,9188317561,NULL,24,6,2021,NULL,NULL,NULL,'24-06-2021',1,NULL,NULL,NULL,NULL,'$2y$10$eqD4Sspk/7Wn9yUNA.5wZuI9sNEpz3pZ7m038DZV8fscmTeXZKZXa',NULL,NULL,'2021-08-28 00:31:05','2021-08-28 00:31:05'),(92,1,1,'Rithu','4th Standard','AK082193',NULL,'2011-08-30','','Rithu Nilayalam','Kunnaru','KANNUR','670504','KERALA',9446796215,'9446796215',NULL,'Mridula','HOUSE WIFE','Mother',NULL,9446796215,NULL,24,5,2021,NULL,NULL,NULL,'24-05-2021',1,NULL,NULL,NULL,NULL,'$2y$10$Y.anB3Ae4xa7RCGQWXxEg.Hp4wbiw0wZX7UNnf3kxBd1A2Ah0owtW','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OTIsImlhdCI6MTYzMDMxNDg2MX0.Vs6x6nMyx-FO8hcM6D2baLk3QjdhrYrboebCIdhqivM',NULL,'2021-08-28 00:37:10','2021-08-28 00:37:10'),(93,1,17,'Aswanth A V','6th','AK082194',NULL,'2010-06-15','','Pariyaran House','Pilathara','KANNUR','670501','Kerala',9847887650,'8157919567',NULL,'Anil Kumar','HOUSE WIFE','Mother',NULL,9847887650,NULL,5,8,2021,NULL,NULL,NULL,'05-08-2021',1,NULL,NULL,NULL,NULL,'$2y$10$qCGGWiEo8k2sbPvT8o1x7eFbtguCUvro0d85NSKnWo0QFZz36.qha',NULL,NULL,'2021-08-28 00:54:34','2021-08-28 00:54:34'),(94,1,1,'Adwaith S Sudheesh','4th Standard','AK082195',NULL,'2012-05-11','','Adwaitham','Ezhilode','KANNUR','670309','Kerala',9847459701,'9847459701',NULL,'Sudheesh','Govt Service','Father',NULL,9847459701,'pksudhi.701@gmail.com',5,8,2021,NULL,NULL,NULL,'05-08-2021',1,NULL,NULL,NULL,NULL,'$2y$10$m6UMIZXrG1CanVErtPYtKe1JE1tHdhuAh3iygN8HJpJ4Hh2uEm/xO','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OTQsImlhdCI6MTYzMDM5MTYwMn0.SsCgYojqnWRGSyZ5pd-sipCDumjr74C0a75QCjh4bmU',NULL,'2021-08-28 01:00:33','2021-08-28 01:00:33'),(95,1,1,'Anvitha. k','1st Standard','AK082196',NULL,'2014-08-19','','Kundan House','Vengara','KANNUR','670305','Kerala',6235453110,'6235453110',NULL,'Sindhu','House wife','Mother',NULL,6235453110,NULL,5,5,2021,NULL,NULL,NULL,'05-05-2021',1,NULL,NULL,NULL,NULL,'$2y$10$YQKjlGu5T8yuFP1SjijiWuacgSXUl.9nzh7YD2/fZiCJIedTePgdu',NULL,NULL,'2021-08-28 01:04:52','2021-08-28 01:04:52'),(96,1,1,'Ikshan sajesh','3rd','AK082197',NULL,'2013-07-02','','ravi Vihar','Andamkovval','KANNUR','670309','Kerala',9497854470,'9497854470',NULL,'Sajesh P P','Abroad','Father',NULL,9497854470,NULL,31,5,2021,NULL,NULL,NULL,'31-05-2021',1,NULL,NULL,NULL,NULL,'$2y$10$mjl8mm12xTT3N8o3dyIAY..5a5Nb94fjrzA1pIRdWb/rrMzw7pTxW',NULL,NULL,'2021-08-28 01:09:47','2021-08-28 01:09:47'),(97,1,1,'Nandakishore K V','7th','AK082198',NULL,'2009-09-30','','Pariyaran House','VILAYANCODE','KANNUR','670504','Kerala',9947138785,'9947138785',NULL,'Mini N e','Bank Employee','Mother',NULL,9947138785,NULL,7,8,2021,NULL,NULL,NULL,'07-08-2021',1,NULL,NULL,NULL,NULL,'$2y$10$cJx0Pi.jqudwpx6nn5XZm.XmRRDqkPQDvfvXKjHMwtxE8Smh5RfNK',NULL,NULL,'2021-08-28 01:11:46','2021-08-28 01:11:46'),(98,1,1,'Niharika Baburaj','2nd Standard','AK082199',NULL,'2015-07-15','','gokulam','Kunhimangalam','KANNUR','670304','Kerala',9995587802,'9995587802',NULL,'Sindhu P K','Leacture','Mother',NULL,9995587802,NULL,10,10,2021,NULL,NULL,NULL,'10-10-2021',1,NULL,NULL,NULL,NULL,'$2y$10$UC8hQMakxA5vEW4k5tSt2uDwi9zJZ89/o5ChODH8q42v7hoawCtMq',NULL,NULL,'2021-08-28 01:26:42','2021-08-28 01:26:42'),(99,1,1,'Shikha S Lakshmi','4th Standard','AK0821100',NULL,'2012-08-21','','Shikhalayam','Ezhilode','KANNUR','670309','Kerala',9747601970,'9747601970',NULL,'Sindhu K V','Teacher','Mother',NULL,9747601970,NULL,27,5,2021,NULL,NULL,NULL,'27-05-2021',1,NULL,NULL,NULL,NULL,'$2y$10$v1ODeqtTzLQDNbxcPzzLUOfpF6saPgEGq5U3SmJm8ryBg/SgcwMNW','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OTksImlhdCI6MTYzMDMxOTQzMX0.kREm_moVbhb4Zgn6nzAx8Q24aVJySHflCSkvwTl5DDA',NULL,'2021-08-28 01:30:43','2021-08-28 01:30:43'),(100,1,1,'Sreepad Sujith','2nd Standard','AK0821101',NULL,'2014-01-12','','Govindam','Aduthila','Kannur','670303','Kerala',9847377101,'9847377101',NULL,'Dilana T p','House Wife','Mother',NULL,9847377101,NULL,3,6,2021,NULL,NULL,NULL,'03-06-2021',1,NULL,NULL,NULL,NULL,'$2y$10$/fBiOHH.AbcvrONM3WVO6Oix3bnWqDeDdsnnh80ClUFdiPDHbN/5y','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwLCJpYXQiOjE2MzA5NDM1NDJ9.0ezwTreB_JgplnmUjbfUglsyTyEwRzJeYIDixhFyWX8',NULL,'2021-08-28 01:43:06','2021-08-28 01:43:06'),(101,1,1,'vaiga Suchith','4th Standard','AK0821102',NULL,'2021-05-26','','Parathi House','Vengara','KANNUR','670305','Kerala',9895449966,'9895449966',NULL,'Suchhith','Business','Father',NULL,9895449966,NULL,4,6,2021,NULL,NULL,NULL,'04-06-2021',1,NULL,NULL,NULL,NULL,'$2y$10$dfz0OcYBMa0M0QwwWofBIe6sAShO2QM1DOwwy7yKEMYvWRKV5jQ7.',NULL,NULL,'2021-08-28 01:46:24','2021-08-28 01:46:24'),(102,1,1,'Naazneen Navas','3rd Standard','AK0821103',NULL,'2013-02-28','','Sibina Manzil','Kunnaru','KANNUR','670301','Kerala',9188220717,'9188220717',NULL,'Sibina. A','HOUSE WIFE','Mother',NULL,9188220717,NULL,5,5,2021,NULL,NULL,NULL,'05-05-2021',1,NULL,NULL,NULL,NULL,'$2y$10$wmPnj4mVrjjIC9mwq3pJTuNo6YH3TQHMdybF1UdTT14Vv4poCEm1C',NULL,NULL,'2021-08-28 02:10:11','2021-08-28 02:10:12'),(103,1,1,'Prarthana Prabhathal','4th Standard','AK0821104',NULL,'2012-10-26','','Thiruvathira House','Ezhilode','KANNUR','670309','Kerala',8606730602,'8606730602',NULL,'Prabhathal','Supervisor','Father',NULL,8606730602,NULL,10,10,2021,NULL,NULL,NULL,'10-10-2021',1,NULL,NULL,NULL,NULL,'$2y$10$xj2Xn1c6NaxRQnxMMd34lemMWT2upIMJHR07IrbgcijZx23KS9KMm',NULL,NULL,'2021-08-28 02:13:58','2021-08-28 02:13:58'),(104,1,1,'Thapas A m','4th Standard','AK0821105',NULL,'2012-01-05','','Chettiam Tharammal','Kozhikode','KANNUR','673524','Kerala',9497859430,'9497859430',NULL,'Maneesh k v','Teacher',NULL,NULL,9497859430,NULL,1,3,2021,NULL,NULL,NULL,'28-08-21',1,NULL,NULL,NULL,NULL,'$2y$10$g6V6zbPnrO30dyINOK4jaeN4heihjW/wz3blzyAQnVf1TTowPprjW',NULL,NULL,'2021-08-28 02:17:41','2021-08-28 02:21:45'),(105,1,1,'Vedika Vinod','4th Standard','AK0821106',NULL,'2011-11-17','','Kambrath House','Payyanur','KANNUR','670307','Kerala',9847603511,'9847475599',NULL,'Vineetha Vinod','HOUSE WIFE','Mother',NULL,9847603511,NULL,2,12,2021,NULL,NULL,NULL,'02-12-2021',1,NULL,NULL,NULL,NULL,'$2y$10$xZ6KI9A.0HBoAyqhydQdK.fP9b4X0VcW/gI55SK.m68IvD3uC6tO2',NULL,NULL,'2021-08-28 02:24:17','2021-08-28 02:24:17'),(106,1,1,'Niya Krishna. T','2nd','AK0821107',NULL,'2013-11-23','','Naniyil House','vengara','Kannur','670305','Kerala',9656384315,'9656384315',NULL,'Shamna. T','House wife',NULL,NULL,9656384315,NULL,20,5,2021,NULL,NULL,NULL,'31-08-21',1,NULL,NULL,NULL,NULL,'$2y$10$U96vLs.DKtvjP/aMkl2zZeafVUbTl7kIwjUfPVO2slBZld4K2yrsa',NULL,NULL,'2021-08-30 01:26:50','2021-08-30 23:29:45'),(107,1,1,'Suryanand. M K','6th','AK0821108',NULL,'2009-08-23','','Pariyaran House','VILAYANCODE','KANNUR','670504','KERALA',9495619512,'9495619512',NULL,'Sasindran','Business','Father',NULL,9495619512,NULL,20,8,2021,NULL,NULL,NULL,'20-08-2021',1,NULL,NULL,NULL,NULL,'$2y$10$EuKXAukukDQ/WxnpUwZyrehtMfJXjfkFJujqFEL1ofYXoh7wvhRu.',NULL,NULL,'2021-08-30 01:30:43','2021-08-30 01:30:43'),(108,1,1,'Lakshmisree','2nd Standard','AK0821109',NULL,'2013-12-11','','Souparnika','Vengara','KANNUR','670305','KERALA',9446270475,'9446270475',NULL,'Lesitha Sreelal','Home maker','Mother',NULL,9446270475,NULL,21,2,2021,NULL,NULL,NULL,'21-02-2021',1,NULL,NULL,NULL,NULL,'$2y$10$y7tGOBxa4/yW07BliQspJeY3/tMu8Q5UP2UtRXFqqSDu8WoVtcq5W',NULL,NULL,'2021-08-30 01:33:46','2021-08-30 01:33:46'),(109,1,13,'Akarsh balakrishnan','Plus Two','AK0821110',NULL,'2001-11-25','','Thankayath House','kannadipoyil','Kannur','670306','KERALA',7510229971,'7510229971',NULL,'Balakrishnan','Business','Father',NULL,9995160938,NULL,31,8,2021,NULL,NULL,NULL,'31-08-2021',1,2,NULL,NULL,NULL,'$2y$10$KVCX3ROhN73/pFSCeDDAPep4jUyrrcK//6rspjiYK0N58wtU62FaG',NULL,NULL,'2021-08-30 22:42:03','2021-08-30 22:42:03'),(110,1,13,'Adarsh k',NULL,'AK0921111',NULL,'2000-04-27','','Dermal House','Pilathara','Kannur','670501','Kerala',9746387301,'9746387301',NULL,'Prakashan',NULL,'Father',NULL,8156912817,NULL,1,9,2021,NULL,NULL,NULL,'01-09-2021',1,5,NULL,NULL,NULL,'$2y$10$6AfmV3Geyk.uxbXHA5CZbu2tXuUbB27zVgitHCBpPeri9ya1Ap5Jq',NULL,NULL,'2021-09-01 02:08:16','2021-09-01 02:08:16'),(111,1,13,'Ashwin Suresh','plus 2','AK0921112',NULL,'2000-03-09','','Kousthumbham','Pilathara','Kannur','670501','Kerala',9497231440,'9497231440',NULL,'Loona Suresh','House wife','Mother',NULL,9497231440,NULL,4,9,2021,NULL,NULL,NULL,'04-09-2021',1,NULL,NULL,NULL,NULL,'$2y$10$jm5YQwL5CqX3.76B/YykweS.Kfm9JjzfjpgyjFEmXjwANn6XL2Yga','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTExLCJpYXQiOjE2MzA3Mzc3ODV9.9xkyprnMGDCohIcIEt5Gm98j9JjT2tAusUJWsVgMwJI',NULL,'2021-09-04 00:58:20','2021-09-04 00:58:21'),(112,1,10,'Ratheesh. A P',NULL,'AK0921113',NULL,'1983-12-03','','Korom North','Korom','Kannur','670501','KERALA',9961488970,'9961488970',NULL,'Shamili. T k','Bank employ','Wife',NULL,9961488970,NULL,3,9,2021,NULL,NULL,NULL,'03-09-2021',1,NULL,NULL,NULL,NULL,'$2y$10$dujPXIsNsnrLYze4/1hzSuldRXJEtWYG9v1/wo17bOqA8/U4J.MPW',NULL,NULL,'2021-09-04 01:08:09','2021-09-04 01:08:09'),(113,1,18,'Aradhya P v','4th','AK0921114',NULL,'2012-06-12','','Krishna Nilayam','Vengara','Kannur','670305','Kerala',9605185731,'9605185731',NULL,'Shithil. A','Army','Father',NULL,9605185731,NULL,4,6,2021,NULL,NULL,NULL,'04-06-2021',1,NULL,NULL,NULL,NULL,'$2y$10$4mV3hg2LCgZJEDUvTXmx/eExlbyvsVEQ9TXzYyEaRQn4YZekDiSti','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEzLCJpYXQiOjE2MzA3NDQyMDV9.ZrhFz4b9I-Dic7x8BOgWj-e4qIDd7AGjiZkWP8lnj-E',NULL,'2021-09-04 01:45:38','2021-09-04 01:45:38'),(114,1,18,'Avika Arjun','4th','AK0921115',NULL,'2021-08-27','','Dhanalakshmi Oecan park','Kannur','Kannur','670501','KERALA',7034750535,'7034750535',NULL,'Anjali Anand','House wife','Mother',NULL,7034750535,NULL,4,9,2021,NULL,NULL,NULL,'04-09-2021',1,NULL,NULL,NULL,NULL,'$2y$10$Pyr9tnFMynaO6rGQRyJyDuq39Uim.3rl9uOUzunmRcse98CThUFUa',NULL,NULL,'2021-09-04 02:05:22','2021-09-04 02:05:23'),(115,1,18,'Deva Nandan','4th','AK0921116',NULL,'2013-03-13','','Near Sundarayana mandhiram','Vilayancode','Kannur','670501','KERALA',9497837744,'9497837744','nityasree.nanda@gmail.com','Sumesh A v','Army',NULL,NULL,9497837744,NULL,4,9,2021,NULL,NULL,NULL,'04-09-21',1,NULL,NULL,NULL,NULL,'$2y$10$2qchiQCQc3KNdAAxUYKIhu0WB3HSk3RHgoBcJLcz5WoK4Zk4eQcjm','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTE1LCJpYXQiOjE2MzA3NDk1ODd9.Ujo1Ss1N684R2JPnukJwZe2gSLP3HdAlXLoGzyOhOv4',NULL,'2021-09-04 02:12:11','2021-09-04 02:15:12'),(116,1,18,'Rajathraj','5th','AK0921117',NULL,'2011-02-24','','Thiruvathira','Kasargod','Kasargode','671313','Kerala',9846445644,'9207505644',NULL,'Pushparaj Kana','Business','Father',NULL,9207505644,NULL,4,9,2021,NULL,NULL,NULL,'04-09-2021',1,NULL,NULL,NULL,NULL,'$2y$10$ixfQ9MtvR2iY3YE7ESMQiOFTnZJgokt4Ol0rRc/NQGwVJlC7C.BNW',NULL,NULL,'2021-09-04 02:44:52','2021-09-04 02:44:52'),(117,1,18,'Arya Krishna A V','10th','AK0921118',NULL,'2005-07-16','','Anaparambil','Eranakulam','Eranakulam','683516','Kerala',9656950020,'9656950020',NULL,'Unnikrishnan. A k','Driver','Father',NULL,9656950020,NULL,4,9,2021,NULL,NULL,NULL,'04-09-2021',1,NULL,NULL,NULL,NULL,'$2y$10$YImy07lKdaL2zeW8n1kKAesNoYRJ6DN7FIUQj6kZSykS3EXmn.OFS','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTE3LCJpYXQiOjE2MzEzMzAxNTh9.pYC3BeJ8-AeQBTnpX_Jqm2GdXAzvZVj-_YEAbaIXbH0',NULL,'2021-09-04 02:55:08','2021-09-04 02:55:09'),(118,1,18,'Parthiv. P. K','4th','AK0921119',NULL,'2011-06-26','','Padinjare kandi','Cherukunnu','Kannur','670301','Kerala',9746841032,'9746841032',NULL,'Baiju. P K','Driver','Father',NULL,9746841032,NULL,4,9,2021,NULL,NULL,NULL,'04-09-2021',1,NULL,NULL,NULL,NULL,'$2y$10$kZ4Dkm6/gyQpbyk8nebpc.mtdepWFcLTFiYFwcpznYwp5CM3GIXLS',NULL,NULL,'2021-09-04 03:11:37','2021-09-04 03:11:37'),(119,1,18,'Parvathi P K','6th','AK0921120',NULL,'2021-09-20','','Padinjare kandi','Cherukunnu','Kannur','670501','KERALA',9847341032,'9847341032',NULL,'Baiju. P K','Driver','Father',NULL,9847341032,NULL,4,9,2021,NULL,NULL,NULL,'04-09-2021',1,NULL,NULL,NULL,NULL,'$2y$10$qVckL/JcM8HoHcO62j3Yv.JpkQeDlgsCbgTdAiTzzQ0dd.drnKgjK',NULL,NULL,'2021-09-04 03:15:04','2021-09-04 03:15:04'),(120,1,18,'Ankitha Manoj K V','1st','AK0921121',NULL,'2015-09-23','','Edadan Puthiya veetil','payyanur','Kannur','670307','KERALA',9744206759,'9744206759',NULL,'Manojkumar','Govt Service','Father',NULL,9744206759,NULL,4,9,2021,NULL,NULL,NULL,'04-09-2021',1,NULL,NULL,NULL,NULL,'$2y$10$lF64pe3HrhlFgayD5LjcvuU81zSJMquyNAz6zpgFioctggZ7WO34S','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIwLCJpYXQiOjE2MzEzNDIxMDZ9.Q5gTUwbWIjvukqMb7qzSwts8C3wNexgz5shL5KZ3NbU',NULL,'2021-09-04 03:19:48','2021-09-04 03:19:48'),(121,1,18,'Shravan Jiju','3rd','AK0921122',NULL,'2013-03-08','','Kunhimangalam','Kunhimangalam','Kannur','670309','Kerala',971505420283,'00971505420283',NULL,'Jiju PP','Purchaser','Father',NULL,971505420283,'nithasethu@gmail.com',6,9,2021,NULL,NULL,NULL,'06-09-2021',1,NULL,NULL,NULL,NULL,'$2y$10$iDLQa8WPSOKGkmUQbHfWH.3IWVxDrgf8usH.Vg6r/DxtP0WTGQjDy',NULL,NULL,'2021-09-05 22:51:19','2021-09-05 22:51:19'),(122,1,18,'Anandra. K P','5th','AK0921123',NULL,'2011-11-02','','Kuthirummal House','Ramanthali','Kannur','670308','Kerala',9495868205,'9497837533',NULL,'Sajeevan K','Civil Engineer','Father',NULL,9495868205,NULL,7,9,2021,NULL,NULL,NULL,'07-09-2021',1,NULL,NULL,NULL,NULL,'$2y$10$ZehVCygVdsT1OuAVAvUTx.e.RBuhL7bgxHlAX2.Gbbt0gK8IqTN5W','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIyLCJpYXQiOjE2MzE1MDc0MTl9.9RzHTAVWeGl0TNABLEcxRsO_K4uUTOCby3FIcsROQGU',NULL,'2021-09-12 22:48:12','2021-09-12 22:48:12'),(123,1,10,'Ashfque K','10th','AK0921124',NULL,'2000-12-25','','Kolayath House','Nhekly','Kannur','670353','Kerala',6235399457,'6235399457','ashaque736@gmail.com','Fathima','house wife','Mother',NULL,8547551890,NULL,13,9,2021,NULL,NULL,NULL,'13-09-2021',1,NULL,NULL,NULL,NULL,'$2y$10$SkQW0mFszJZjXxLhzj7I7e3sOnpNJ/NFwCplax0gpZtgbi5EaN9Xi',NULL,NULL,'2021-09-12 23:03:07','2021-09-12 23:03:07'),(124,1,10,'Muhammed Ajmal','+2','AK0921125',NULL,'2002-12-02','','fathima manzil','kadannapally','Kannur','670501','Kerala',9061456317,'8157931011',NULL,'Abdulla M','Accountent','Mother',NULL,8157931011,NULL,15,9,2021,NULL,NULL,NULL,'15-09-2021',1,NULL,NULL,NULL,NULL,'$2y$10$L.8yyR8pFY2TReu3MZyIBel6ItgpzELqKdSYhTFggdQ0m5GA0KMw2','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTI0LCJpYXQiOjE2MzE2OTk0NTF9.o0P-l3AtkDrL9UfIHDT01hFENJm6E-6vEKrD4yut-w4',NULL,'2021-09-15 00:44:05','2021-09-15 00:44:05'),(125,1,18,'Vyga Pushparaj','7th','AK0921126',NULL,'2009-07-14','','Thiruvathira','Pilicode','Kasargode','671310','Kerala',8547162816,'8547162816','pushparajkana@gmail.com','Pushparaj','Business','Father',NULL,8547162816,NULL,17,9,2021,NULL,NULL,NULL,'17-09-2021',1,NULL,NULL,NULL,NULL,'$2y$10$.FrQzfSoMQ62qHk.vfIqj.bbGw2tqSGpky28SzefwvPCwPjaUyuEC',NULL,NULL,'2021-09-16 22:59:58','2021-09-16 22:59:59'),(126,1,10,'Sreya  Chandrasekharan',NULL,'AK0921127',NULL,'1999-09-06','','nadakkal House','Payangadi','Kannur','670303','Kerala',7561896390,'7561896390',NULL,'Divya Chandrakesharan','Housewife','Mother',NULL,7561896390,NULL,18,9,2021,NULL,NULL,NULL,'18-09-2021',1,NULL,NULL,NULL,NULL,'$2y$10$tjmdRcD7X94O0RKYV4mh.edc0x6QiqJIECCbOV9gL/VmGaJv7q0ya',NULL,NULL,'2021-09-18 01:42:28','2021-09-18 01:42:28'),(127,1,10,'Safuwan Kamarudeen','plus 2','AK0921128',NULL,'2003-11-10','','Safan parol','Kadanappally','Kannur','670504','Kerala',8921981263,'8921981263',NULL,'fabeena','house wife','Mother',NULL,8111981263,NULL,20,9,2021,NULL,NULL,NULL,'20-09-2021',1,NULL,NULL,NULL,NULL,'$2y$10$j9sCHfLwobVpdaN0ZcJuY.BJi7raKgzCDOH7nctAS5eXMreM.gaiq',NULL,NULL,'2021-09-20 01:22:00','2021-09-20 01:22:00'),(128,1,13,'AHAMMED ZAHARI','plus 2','AK0921129',NULL,'2003-11-05','','MP HOUSE','KOKKAD, CHUMADUTHANGI, MANDOOR','Kannur','670501','Kerala',9074568520,NULL,NULL,'DAVOOD KP',NULL,'Brother',NULL,9074568520,NULL,22,9,2021,NULL,NULL,NULL,'22-09-2021',1,7,NULL,NULL,NULL,'$2y$10$yuPGyfFVAahXb65Po4i/e.BiAmFoCcZrW/7HQYHKvlIQDuOCyEug6','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTI4LCJpYXQiOjE2MzIzODMwMDd9.XtkJ7c4ayGjProjs27VLp4k5vQ5_M9trHSgrSIrhOQM',NULL,'2021-09-21 22:44:14','2021-09-21 22:44:14'),(129,1,9,'ADHIL S MUKESH','Degree Bcom','AK0921130',NULL,'1999-10-27','','OK HOUSE','Chembalikundu,','Kannur','670305','Kerala',7025515877,'7025515877','adhil.smukesh@gmail.com','MUKESH O K','GULF','Father','FATHER',9746490886,'adhil.smukesh@gmail.com',28,9,2021,NULL,NULL,NULL,'28-09-2021',1,NULL,NULL,NULL,NULL,'$2y$10$ZDos1vf921hw4I5rJyJ6quaj.YTlYOAIuctrrFLSX4Sp5rkRKC.u.','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTI5LCJpYXQiOjE2MzI4MDc0OTV9.Gs1nVYIN0jmclB7C8tj0aiOhKkgYyCIJkrjlL0D7vz4',NULL,'2021-09-27 23:53:26','2021-09-27 23:53:26'),(130,1,10,'Dani Varghese','plus 2','AK1021131',NULL,'2005-09-07','','Vayalammanil','Pariyaram','Kannur','670502','Kerala',6238575997,'6238575997',NULL,'Varghese','Business','Father',NULL,9447448056,NULL,1,10,2021,NULL,NULL,NULL,'01-10-2021',1,NULL,NULL,NULL,NULL,'$2y$10$Ks5.jC7z24B58gC/oWlgI.6CPEdVcpx1z7crNJDck5i/FF7MuWpDG',NULL,NULL,'2021-10-01 01:07:14','2021-10-01 01:07:14'),(131,1,4,'Aksa Arul','plus 2','AK1021132',NULL,'2001-02-14','','Mukalel House','9947478555','kannur','670502','Kerala',9497344467,'9497344467',NULL,'Arul','Business','Father',NULL,9947478555,NULL,1,10,2021,NULL,NULL,NULL,'01-10-2021',1,NULL,NULL,NULL,NULL,'$2y$10$Xqt01i5cJGn3nwe9aAm3ROZI.8pr5OX/CAGOxz2a/cKn8rzDrFt8y',NULL,NULL,'2021-10-01 01:10:41','2021-10-01 01:10:41'),(132,1,9,'Neethu Divakaran','PG','AK1021133',NULL,'1991-11-14','','Karapath House','Vengara, payangadi','Kannur','670501','Kerala',7510926182,'7510926182','neethunichus@gmail.com','Divakaran','Ex Military','Father',NULL,8156929670,NULL,5,10,2021,NULL,NULL,NULL,'05-10-2021',1,4,NULL,NULL,NULL,'$2y$10$ndFfW4U8MHnCavud07ATUuIX6n/UR93Y6YNx4z/OprTbnPSMesXCS',NULL,NULL,'2021-10-05 00:40:58','2021-10-05 00:40:58'),(133,1,9,'Aswathi Ashokan','plus 2','AK1021134',NULL,'2004-02-02','','Maniyil House','Vengara, payangadi','Kannur','670305','Kerala',9995070596,'9995070596','aswathiashokan87@gmail.com','Ashokan M','Business','Father',NULL,9446774244,NULL,5,10,2021,NULL,NULL,NULL,'05-10-2021',1,4,NULL,NULL,NULL,'$2y$10$nK3KYK/sRqc.8LlD8UckZeskGs7JapkMfQJVk1P7JCd7ULP4HDG4W',NULL,NULL,'2021-10-05 00:44:25','2021-10-05 00:44:25'),(134,1,19,'Ishaan Sajeevan','4th','AK1021135',NULL,'2013-02-11','','P V House','Ezhilode','Kannur','670309','Kerala',9947896866,'9947896866',NULL,'Ajitha','Teacher','Mother',NULL,9947896866,NULL,9,10,2021,NULL,NULL,NULL,'09-10-2021',1,NULL,NULL,NULL,NULL,'$2y$10$mhTZQ/fqcsbxEKhzxqNvEe1HDZzmkc3ASXrbQhxyxpFbXztQJXng.',NULL,NULL,'2021-10-09 03:49:25','2021-10-09 03:49:25'),(135,1,19,'Thanmay. P','3rd','AK1021136',NULL,'2013-04-23','','Thiruvathira','Kooveri','kannur','670581','Kerala',9947291516,'9747718227','jasnakpanneri@gmail.com','Sooraj C','DAS Guruvayoor','Father',NULL,9947291516,NULL,15,10,2021,NULL,NULL,NULL,'15-10-2021',1,4,NULL,NULL,NULL,'$2y$10$lJLGohriAT3RxDA84loV1evcIJkfKajCspeh2cbFUweZs2zmlTPk.',NULL,NULL,'2021-10-15 23:05:48','2021-10-15 23:05:48'),(136,1,4,'Seena P V','Teacher','AK1021137',NULL,'1983-05-12','','Chalilthhotu kara','Ezhilode','Kannur','670501','Kerala',9562785284,'9562785284',NULL,'Prasad','Gulf','Husband',NULL,9562785284,NULL,16,10,2021,NULL,NULL,NULL,'16-10-2021',1,4,NULL,NULL,NULL,'$2y$10$sQpF8lnYecGHu2l7cGHgZuFwlw8ZDblKDs6RuHKeh/qCdhq7liRD2',NULL,NULL,'2021-10-16 00:57:34','2021-10-16 00:57:34'),(137,1,4,'Arjun v',NULL,'AK1021138',NULL,'2000-04-09','','kazhakakkaran house','panappuzha','Kannur','670306','KERALA',8921716278,'8921716278',NULL,'Rameshan k','Business','Father',NULL,9847774178,NULL,21,10,2021,NULL,NULL,NULL,'21-10-2021',1,2,NULL,NULL,NULL,'$2y$10$sDAkhgdLzVEMiXolPP4zyeUpqo9wsaRcNoX39.bOlvUyC89ZD06Le',NULL,NULL,'2021-10-21 01:32:16','2021-10-21 01:32:16'),(138,1,19,'Adish Vinod','5th','AK1021139',NULL,'2011-03-05','','puthiyapurayil house','Kuttiyeri','Kannur','670141','Kerala',9497510638,'9497510638','soumyavinu88@gmail.com','Vinod','Civil Engineer','Father',NULL,9497510638,NULL,15,10,2021,NULL,NULL,NULL,'15-10-2021',1,4,NULL,NULL,NULL,'$2y$10$/sLiHtvOzT2JtMBqiz1UruTeM4vB0uFgqMdl8dU7IQ01m7gZd/uyC',NULL,NULL,'2021-10-21 02:47:46','2021-10-21 02:47:46'),(139,1,19,'Akshaj. M','7th','AK1021140',NULL,'2009-01-25','','Kunimmal House','Vengara, payangadi','Kannur','670501','KERALA',9847773970,'8547804364',NULL,'Jayakumar','Assistent Audit Officer','Father',NULL,9847773970,NULL,15,10,2021,NULL,NULL,NULL,'15-10-2021',1,4,NULL,NULL,NULL,'$2y$10$gUnMyK3rL3Fn07FZvhLKse.A16YEmPKbJ5mhegDFuVmYWbFTXUG1O',NULL,NULL,'2021-10-21 02:50:53','2021-10-21 02:50:53'),(140,1,4,'VIKITHA K','DEGREE - BCOM','AK1021141',NULL,'1985-05-01','','SEEMA NIVAS','KANDONTHR, MATHAMANGALAM P.O','KANNUR','670306','KERALA',9747778591,'9747778591',NULL,'P V SHABU','NRI','Husband',NULL,9995769722,NULL,22,10,2021,NULL,NULL,NULL,'22-10-2021',1,5,NULL,NULL,NULL,'$2y$10$pU7PKoGoRtE53.R.DCRh5OJrY.snC4xwxgXX8CxCRK5N8rXExsgU.',NULL,NULL,'2021-10-22 03:17:46','2021-10-22 03:17:46'),(141,1,19,'SREEPRIYA V','3rd Standard','AK1021142',NULL,'2013-04-02','','Velliyotillam','mandoor, Periyat','Kannur','670501','Kerala',8547694348,'8547694348',NULL,'Madhavan V',NULL,'Father',NULL,8547694348,NULL,23,10,2021,NULL,NULL,NULL,'23-10-2021',1,5,NULL,NULL,NULL,'$2y$10$o.gNSvCxjzdY0gqxM8fdp.5mM98jvTqLdLmgeSMBqJ1taQVaZQPjO',NULL,NULL,'2021-10-23 03:56:33','2021-10-23 03:56:33'),(142,1,9,'Sruthi M V','plus 2','AK1021143',NULL,'1998-04-17','','Kuzhikattu vayail','Ezhilode','Kannur','670501','Kerala',8078592285,'8078592285',NULL,'Mallika','house wife','Mother',NULL,8281128861,NULL,26,10,2021,NULL,NULL,NULL,'26-10-2021',1,NULL,NULL,NULL,NULL,'$2y$10$LlTMsAX7IEu6KeK2iigmfOuD7IWcwLWsbJZPywy79gl3b.MXR/MpS',NULL,NULL,'2021-10-26 00:34:11','2021-10-26 00:34:11'),(143,1,4,'SOUMYA M','Plus Two','AK1021144',NULL,'1984-09-11','','THALIKKARAN VEEDU','PERIYAT, Vilayancode','kannur','670504','Kerala',9562561958,'9562561958',NULL,'suresh m k',NULL,'Husband',NULL,9544085374,NULL,26,10,2021,NULL,NULL,NULL,'26-10-2021',1,4,NULL,NULL,NULL,'$2y$10$GwfWUPiFgYu7ZIZG4WBIeOqfV91Sifb8DXIpvaUtK2/Jv5wFE.N7q',NULL,NULL,'2021-10-26 02:49:48','2021-10-26 02:49:48'),(144,1,9,'Rasna',NULL,'AK1121145',NULL,'2002-08-03','','Madathil house','Pedena','Kannur','670306','KERALA',9061217559,'9061217559',NULL,'Khadeeja','House wife','Mother',NULL,9061217559,NULL,2,11,2021,NULL,NULL,NULL,'02-11-2021',1,NULL,NULL,NULL,NULL,'$2y$10$Cm8fA.SldpfgtTRJjRa55.Adfp63nzzUPYGfI8o/4SIpZ9lN6sbWq',NULL,NULL,'2021-11-02 02:05:31','2021-11-02 02:05:31'),(145,1,10,'Muhammad Nabil','plus 2','AK1121146',NULL,'1999-08-12','','Naseema manzil','Kadannappalli','Kannur','670504','KERALA',9061405726,'9061405726',NULL,'Abdul Kareem','Shop Keeper','Father',NULL,9947021530,NULL,3,11,2021,NULL,NULL,NULL,'03-11-2021',1,NULL,NULL,NULL,NULL,'$2y$10$GjRrIk.ftgF/1Bwzjion8el14h0XN6b97pFtYtHR5ccZvFFBY39GG',NULL,NULL,'2021-11-03 00:25:12','2021-11-03 00:25:12'),(146,1,13,'Asfad P P','Polytechnic','AK1121147',NULL,'1998-02-18','','Poomkavil House','Cherukunnu','kannur','670308','kerala',9567769268,'9567769268',NULL,'Zameera','House Wife',NULL,NULL,9895486417,NULL,12,11,2021,NULL,NULL,NULL,'19-11-21',1,NULL,NULL,NULL,NULL,'$2y$10$PbWDEoS/kJbGvQcbwEUWuOFmBfrh92L33xBU1NKzQc7ci0YftItNW',NULL,NULL,'2021-11-11 23:48:50','2021-11-19 03:18:29'),(147,1,9,'Nikhila c','plus 2','AK1121148',NULL,'1994-02-23','','Chalil thottu kara','Ezhilode','Kannur','670309','KERALA',7356304181,'8111971259',NULL,'Dineesh','Accountant','Husband',NULL,8547221259,NULL,15,11,2021,NULL,NULL,NULL,'15-11-2021',1,2,NULL,NULL,NULL,'$2y$10$9AmX.oEwin.4.78UJ4pXFO7KNd/t7yValFWLrUiugB82E.r65I2/K',NULL,NULL,'2021-11-15 01:00:11','2021-11-15 01:00:11'),(148,1,7,'Aiswarya M','degree','AK1121149',NULL,'2021-11-17','','Parayil House','Embate','kannur','670502','Kerala',6238488080,'6238488080','aiswaryam032000@gmail.com','Surendran m','Ex Military','Father',NULL,9446085833,NULL,17,11,2021,NULL,NULL,NULL,'17-11-2021',1,NULL,NULL,NULL,NULL,'$2y$10$z7AzbZvPnM1PxXizEdiGouL.pfE5lpd6XYc1ral3xtjv.hhax1NmW',NULL,NULL,'2021-11-16 23:23:20','2021-11-16 23:23:21'),(149,1,10,'Subin k','degree','AK1121150',NULL,'1993-02-05','','Kovammal','Nareekkamvalli','Kannur','670504','Kerala',9995805084,'9995805084',NULL,'Surendran k','Cooli','Father',NULL,9995805084,NULL,18,11,201,NULL,NULL,NULL,'18-11-0201',1,5,NULL,NULL,NULL,'$2y$10$Ol2jDajEpWXOROqhDLavwu/apNJjNMWKWTIfrPZ1UzHXLZN0nnjne',NULL,NULL,'2021-11-18 06:32:59','2021-11-18 06:32:59'),(150,1,10,'Subin k','degree','AK1121151',NULL,'1993-02-05','','Kovammal','Nareekkamvalli','Kannur','670504','Kerala',9995805084,'9995805084',NULL,'Surendran k','Cooli','Father',NULL,9995805084,NULL,18,11,2021,NULL,NULL,NULL,'18-11-2021',1,5,NULL,NULL,NULL,'$2y$10$bWiFuZi/ZT1iP1NVAYhRI.BvIv7CJOhVGBpNCzD6lUDnoGxrBTuB.',NULL,NULL,'2021-11-18 06:33:13','2021-11-18 06:33:13'),(151,1,4,'Suhail. M .K','plus 2','AK1121152',NULL,'2001-04-09','','Sumayya Manzil','Vilayancode','Kannur','670502','Kerala',7012181090,'9995805084',NULL,'Sumayya. M K','house wife','Mother',NULL,8129686993,NULL,19,11,2021,NULL,NULL,NULL,'19-11-2021',1,NULL,NULL,NULL,NULL,'$2y$10$ZKHkhbaP0e5pNyAVwrPRwuZp2oxYgPe0l0vhpwjF8w6us12yQV.pW',NULL,NULL,'2021-11-18 23:49:19','2021-11-18 23:49:19'),(152,1,4,'VISHNU M V','PLUS TWO','AK1121153',NULL,'1996-02-17','','THURUTHIPPALLY HOUSE','KANNAYI SOUTH','Kannur','670503','Kerala',7736165967,'9539904660',NULL,'t p kumaran',NULL,'Father',NULL,7736165967,NULL,26,11,2021,NULL,NULL,NULL,'26-11-2021',1,7,NULL,NULL,NULL,'$2y$10$QaedhyHaRR99nhFPnVLsc.XwvKXepDoiDY1J5jBrhdi/ND8svh83K',NULL,NULL,'2021-11-26 04:06:06','2021-11-26 04:06:06'),(153,1,9,'Vishnu mv','plus 2','AK1121154',NULL,'1996-02-17','','Thuruthippally house','Kaanaayi','Kannur','670306','Kerala',9539904660,'9539904660',NULL,'Kumaran','Cooli','Father',NULL,9562347611,NULL,30,11,2021,NULL,NULL,NULL,'30-11-2021',1,7,NULL,NULL,NULL,'$2y$10$D05dwx3/wckuxVrbzDTYHOywMkLayiwRekYE0EmkQFypYKh6lJNK6',NULL,NULL,'2021-11-29 23:00:09','2021-11-29 23:00:09'),(154,1,1,'demo','plus 2','AK1121155',NULL,'2000-10-10','','gs','Kunnaru, karanthad',NULL,NULL,'kjl',2136547,NULL,NULL,'gfdgd','gf','Mother','ff',9562917368,NULL,30,11,2021,NULL,NULL,NULL,'30-11-2021',1,NULL,NULL,NULL,NULL,'$2y$10$DHK70rNIDxyhX7K2cVGdueRNOU3prJt/ZVQOpvYBpFtXDg7.TjVP2',NULL,NULL,'2021-11-30 05:54:39','2021-11-30 05:54:39'),(155,1,13,'Vishnu K P','plus 2','AK1221156',NULL,'2002-12-28','','Kizhakk Purayil','Panapuzha',NULL,'670501306','KERALA',6238089310,'6238089310',NULL,'Krishnan K P','CARpenter','Mother',NULL,9961189204,NULL,1,12,2002,NULL,NULL,NULL,'01-12-2002',1,NULL,NULL,NULL,NULL,'$2y$10$mHshA9WsvzPYdOqNHhJXpOBWDjJ8zOw.Z/Kn7NOau1SUqU7QQXPNy',NULL,NULL,'2021-12-01 01:06:04','2021-12-01 01:06:04'),(156,1,4,'MUHAMMED YASEENA TP','ITI','AK1221157',NULL,'2000-04-27','','KOTTILE VALAPIL','KORANPEEDIKA , C POYIL','KANNUR','670502','SAKKEENA ATP',9567203470,'9567203470',NULL,'MUHAMMED JASIR','BTECH','Brother',NULL,7034229778,NULL,3,12,2021,NULL,NULL,NULL,'03-12-2021',1,NULL,NULL,NULL,NULL,'$2y$10$D31Svy3zVkq380CFAZgZiej7eVV2vEE8ljM.Arx9IsHXQXnPZ7oHi',NULL,NULL,'2021-12-03 05:25:10','2021-12-03 05:25:10'),(157,1,5,'LATHA P P','Bcom','AK1221158',NULL,'1981-04-03','','OTHENACHAL','KADANAPALLI','KANNUR','670504','KERALA',9526162961,'9526162961','lathasurendran81@gmail.com','O SURENDRAN','POLICE','Husband',NULL,9526162961,NULL,15,12,2021,NULL,NULL,NULL,'15-12-2021',1,NULL,NULL,NULL,NULL,'$2y$10$tvlwFEpTdLSJmHDusWCkC.6TJd7aDqUkmn7mc1TuogNFzZDG75fbK',NULL,NULL,'2021-12-15 00:30:44','2021-12-15 00:30:44'),(158,1,13,'SOSHNA A','Plus Two humanitics','AK1221159',NULL,'2001-02-04','','ANANTHOTH HOUSE','Puracheri, Ezhilode','KANNUR','670501','KERALA',7356930412,'7356930412',NULL,'USHA K P','HOUSE WIFE','Mother',NULL,7356930412,NULL,15,12,2021,NULL,NULL,NULL,'15-12-2021',1,5,NULL,NULL,NULL,'$2y$10$zpKfmVnvEGODK0KqOejtguAfPI.iqy66BqBDSCMt0fWCcuOOA4BnG',NULL,NULL,'2021-12-15 01:11:52','2021-12-15 01:11:52'),(159,1,10,'Vivek. B K',NULL,'AK1221160',NULL,'1999-11-01','','Kizhakkadath','Perul, mathamangalam','KANNUR','670306','KERALA',8593995721,'8593995721','bkvivekbiju1999@gmail.com','Biju K M`','Kooli','Father',NULL,8606732775,NULL,20,12,2021,NULL,NULL,NULL,'20-12-2021',1,NULL,NULL,NULL,NULL,'$2y$10$nKvXDg6olG1h/9slPHbdq.yo1Ro2KS3CAuRlaG5rQIL8W69zeehQK',NULL,NULL,'2021-12-20 00:55:27','2021-12-20 00:55:27'),(160,1,10,'priya A',NULL,'AK1221161',NULL,'1984-05-26','','nandanam','Madapram, Sreestha','KANNUR','670303','Kerala',9747913704,'9747913704','priyasatheeshan2605@gmail.com','Satheeshan','Shop Maker','Husband',NULL,7559011537,NULL,21,12,2021,NULL,NULL,NULL,'21-12-2021',1,NULL,NULL,NULL,NULL,'$2y$10$zFk2UeHan1vsYMW5WDgQ6eNYXS7SvrWaZ/LeTr8w0rpB5.890z48C',NULL,NULL,'2021-12-20 22:46:29','2021-12-20 22:46:29'),(161,1,10,'Alameen K e',NULL,'AK1221162',NULL,'1997-04-14','','K E house','Panapuzha','Kannur','670306','Kerala',9995097021,'9995097021',NULL,'Naseera','HOUSE WIFE','Mother',NULL,8129670834,NULL,21,12,2021,NULL,NULL,NULL,'21-12-2021',1,NULL,NULL,NULL,NULL,'$2y$10$tia/mEMBC.4Qe.7LWh0Ja.0dLwQUS6cNxwpHQ6Gv9vP.jWYo9xdNi',NULL,NULL,'2021-12-21 02:40:06','2021-12-21 02:40:06'),(162,1,10,'Alameen K e',NULL,'AK1221163',NULL,'1997-04-14','','K E house','Panapuzha','Kannur','670306','Kerala',9995097021,'9995097021',NULL,'Naseera','HOUSE WIFE','Mother',NULL,8129670834,'ameerml771@gmail.com',21,12,2021,NULL,NULL,NULL,'21-12-2021',1,NULL,NULL,NULL,NULL,'$2y$10$xQ61Od1vGR2YzlgRs3ObE./nSFeVnQRzBarKIHn9iQi7JFu0aSSv6',NULL,NULL,'2021-12-21 02:40:56','2021-12-21 02:40:56'),(163,1,1,'Rishmiga P v','2nd std','AK1221164',NULL,'2013-11-14','','Palakkavalappil Hpuse','Cherukunnu','Kannur','670305','Kerala',7025965009,'8281876109',NULL,'ragesh P v','Abroad','Father',NULL,7025965009,NULL,24,12,2021,NULL,NULL,NULL,'24-12-2021',1,NULL,NULL,NULL,NULL,'$2y$10$NEZW3jxrO2zL7e7OsrULp.lfLB3DfUZ6HwFYVrlRWVZbGrzymEaYW',NULL,NULL,'2021-12-24 00:03:32','2021-12-24 00:03:32'),(164,1,1,'Ashli p k','3rd','AK1221165',NULL,'2013-01-04','','Padijare kandi House','Cherukunnu','Kannur','670501','Kerala',8129398653,'8129398653',NULL,'Liju P K','Elutriation','Father',NULL,8129398653,NULL,24,12,2021,NULL,NULL,NULL,'24-12-2021',1,NULL,NULL,NULL,NULL,'$2y$10$zLMQGValQ6p0bVOtqlA9MOZuLJrQXxbFtiQMSxoysGq.EAqLTN/oK',NULL,NULL,'2021-12-24 00:07:05','2021-12-24 00:07:06'),(165,1,1,'Aadish P','4th','AK1221166',NULL,'2012-08-22','','Manheri House','Kuttikool, taliparamba','Kannur','670562','kerala',9656074762,'6235776825',NULL,'Dinesh kumar','Elutriation','Father',NULL,9656074762,NULL,23,12,21,NULL,NULL,NULL,'23-12-0021',1,NULL,NULL,NULL,NULL,'$2y$10$ApWyLjMqiWBYSInfl45TXOs0Po5/iWNJBNTyxca0nBaXYaM5WmMqq',NULL,NULL,'2021-12-24 00:40:02','2021-12-24 00:40:02'),(166,1,1,'Swasthik Sathyan','4th','AK1221167',NULL,'2011-10-27','','Shivam','mavungal, Kasargode','Kannur','671531','Kasargode',7558866662,'9447406124',NULL,'Sathyan','Principal VHSC Dept','Father',NULL,9447406124,NULL,23,12,2021,NULL,NULL,NULL,'23-12-2021',1,NULL,NULL,NULL,NULL,'$2y$10$tDr/Iy4u6tsweT.5vW6Ksuk8X5VPml0Spw.YZ0c/fCDTZy5.jnmAS',NULL,NULL,'2021-12-24 00:43:42','2021-12-24 00:43:42'),(167,1,1,'Aadish P','4th','AK1221168',NULL,'2012-08-22','','Manheri House','Kuttikool, taliparamba','Kannur','670562','kerala',9656074762,'6235776825',NULL,'Dinesh kumar','Elutriation','Father',NULL,9656074762,NULL,23,12,21,NULL,NULL,NULL,'23-12-0021',1,NULL,NULL,NULL,NULL,'$2y$10$/HMBQtW4zSPPU.giaRcyy.u8KXq4nFbUfPMYslGZYYjiR38ISi7xa',NULL,NULL,'2021-12-24 00:44:11','2021-12-24 00:44:11'),(168,1,1,'Aadish P','4th','AK1221169',NULL,'2012-08-22','','Manheri House','Kuttikool, taliparamba','Kannur','670562','kerala',9656074762,'6235776825',NULL,'Dinesh kumar','Elutriation','Father',NULL,9656074762,NULL,23,12,21,NULL,NULL,NULL,'23-12-0021',1,3,NULL,NULL,NULL,'$2y$10$JjUrq1ic1wWWGEM8gq3z0edHgigHhbC5XxSP1OEa7pqC2jz.2wE36',NULL,NULL,'2021-12-24 00:44:34','2021-12-24 00:44:34'),(169,1,1,'Abhinav kalathil','7th','AK1221170',NULL,'2010-04-25','','Chaithram','mokery','Kannur','670692','Kerala',7358726047,'00971508254606',NULL,'Shijina','house wife','Mother',NULL,7358726047,NULL,24,12,2021,NULL,NULL,NULL,'24-12-2021',1,NULL,NULL,NULL,NULL,'$2y$10$Wd/NDTYDUYqiJhvhaImXaeTsP5BLnYfQzA/TdlFkMm8bMelOfMH8y',NULL,NULL,'2021-12-24 01:07:55','2021-12-24 01:07:55'),(170,1,1,'Ameya','2nd std','AK1221171',NULL,'2014-12-20','','Chaithram','mokery, kannur','Kannur00971508254606','670692','Kerala',7358726047,'00971508254606',NULL,'Shijina','house wife','Mother',NULL,7358726047,NULL,23,12,2021,NULL,NULL,NULL,'23-12-2021',1,NULL,NULL,NULL,NULL,'$2y$10$9S3Qm1cdLQme0INIcOvtheTGawEzdnhLZENH9nYDHuydPdrGque7W',NULL,NULL,'2021-12-24 01:22:46','2021-12-24 01:22:46');
+/*!40000 ALTER TABLE `students` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `tags`
 --
 
 DROP TABLE IF EXISTS `tags`;
-CREATE TABLE IF NOT EXISTS `tags` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `tags` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned NOT NULL,
   `tagname` varchar(60) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `tags`
 --
 
-INSERT INTO `tags` (`id`, `user_id`, `tagname`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Design', '2021-05-03 06:59:30', '2021-05-03 06:59:30'),
-(3, 1, 'Photoshop', '2021-05-03 06:59:50', '2021-05-03 06:59:50'),
-(4, 1, 'Angular', '2021-05-03 07:00:02', '2021-05-03 07:00:02'),
-(5, 1, 'CAD', '2021-05-18 11:58:47', '2021-05-18 11:58:47'),
-(6, 1, 'office automation', '2021-05-18 11:59:19', '2021-05-18 11:59:19'),
-(7, 1, 'Abacus', '2021-05-19 11:48:33', '2021-05-19 11:48:33'),
-(9, 1, 'Accounting', '2021-05-23 08:59:45', '2021-05-23 08:59:45');
-
--- --------------------------------------------------------
+LOCK TABLES `tags` WRITE;
+/*!40000 ALTER TABLE `tags` DISABLE KEYS */;
+INSERT INTO `tags` VALUES (1,1,'Design','2021-05-03 06:59:30','2021-05-03 06:59:30'),(5,1,'CAD','2021-05-18 11:58:47','2021-05-18 11:58:47'),(7,1,'Abacus','2021-05-19 11:48:33','2021-05-19 11:48:33'),(9,1,'Accounting','2021-05-23 08:59:45','2021-05-23 08:59:45'),(10,1,'Events','2021-06-08 13:00:22','2021-06-08 13:00:22'),(11,1,'Web & Apps','2021-06-15 17:40:33','2021-06-15 17:40:33');
+/*!40000 ALTER TABLE `tags` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `teams`
 --
 
 DROP TABLE IF EXISTS `teams`;
-CREATE TABLE IF NOT EXISTS `teams` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `teams` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned NOT NULL,
   `name` varchar(100) DEFAULT NULL,
   `role` varchar(50) DEFAULT NULL,
   `phone` varchar(50) DEFAULT NULL,
@@ -1086,143 +1294,60 @@ CREATE TABLE IF NOT EXISTS `teams` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `teams`
 --
 
-INSERT INTO `teams` (`id`, `user_id`, `name`, `role`, `phone`, `whatsapp`, `facebook`, `linkedin`, `photo`, `created_at`, `updated_at`) VALUES
-(2, 1, 'SHANIL K P', 'CMD', '9946041479', '9946041479', 'https://www.facebook.com/shanil.kp.7', NULL, '1_1621443484.jpg', '2021-05-19 16:58:04', '2021-05-19 16:58:04'),
-(3, 1, 'Bindhu Suresh', 'HOD', '8281016662', '8281016662', 'https://www.facebook.com/venusbindh', NULL, '1_1621922954.jpg', '2021-05-25 06:09:14', '2021-05-25 06:09:14'),
-(4, 1, 'Pranav V V', 'Software Head', '9633895528', '9633895528', NULL, NULL, '1_1621923185.jpg', '2021-05-25 06:13:05', '2021-05-25 06:13:05'),
-(5, 1, 'Rajesh KLC', 'Master Trainer', '9061670777', '9061670777', 'https://www.facebook.com/kvrajeshklm', NULL, '1_1622021361.jpg', '2021-05-26 09:26:13', '2021-05-26 09:29:21'),
-(6, 1, 'Suhail C P', 'BDO', '9961534231', '9961534231', 'https://www.facebook.com/shuhail.chattiol', NULL, '1_1622021816.jpg', '2021-05-26 09:36:56', '2021-05-26 09:36:56');
-
--- --------------------------------------------------------
+LOCK TABLES `teams` WRITE;
+/*!40000 ALTER TABLE `teams` DISABLE KEYS */;
+INSERT INTO `teams` VALUES (2,1,'SHANIL K P','CMD','9946041479','9946041479','https://www.facebook.com/shanil.kp.7',NULL,'1_1623898851.jpg','2021-05-19 16:58:04','2021-06-17 03:00:51'),(3,1,'Bindhu Suresh','HOD','8281016662','8281016662','https://www.facebook.com/venusbindh',NULL,'1_1623898944.jpg','2021-05-25 06:09:14','2021-06-17 03:02:24'),(4,1,'Pranav V V','Software Head','9633895528','9633895528',NULL,NULL,'1_1623899106.jpg','2021-05-25 06:13:05','2021-06-17 03:05:06'),(5,1,'Rajesh KLC','Master Trainer','9061670777','9061670777','https://www.facebook.com/kvrajeshklm',NULL,'1_1623899216.jpg','2021-05-26 09:26:13','2021-06-17 03:06:56'),(6,1,'Suhail C P','BDO','9961534231','9961534231','https://www.facebook.com/shuhail.chattiol',NULL,'1_1623899283.jpg','2021-05-26 09:36:56','2021-06-17 03:08:03'),(7,1,'Rahul Gireesh','Graphic Designer','98955117188','98955117188','https://www.facebook.com/rahul.gireesh.142',NULL,'1_1624864897.jpg','2021-06-02 08:07:17','2021-06-28 07:21:37'),(8,1,'Ashwin  Radhakrishnan','Digital Creator - SPROMO','9048598348','9048598348','https://www.facebook.com/ashwin.radhakrishnan.27',NULL,'1_1623899154.jpg','2021-06-02 08:22:15','2021-06-17 03:05:54'),(9,1,'Jishnu T V','App Developer','9061014814','9061014814','https://www.facebook.com/jishnutv.96','https://www.linkedin.com/in/jishnutv','1_1623876719.png','2021-06-02 08:43:02','2021-06-16 20:51:59'),(10,1,'Ma Hesh','Creative Writer','9188079338','9188079338','https://www.facebook.com/mahesh.india.kerala',NULL,'1_1623899325.jpg','2021-06-02 08:56:27','2021-06-17 03:08:45'),(11,1,'Nikhil PV','Accounting Faculty','9946814680','9946814680','https://www.facebook.com/nikhil.pv.129',NULL,'1_1623899374.jpg','2021-06-02 09:03:58','2021-06-17 03:09:34'),(12,1,'Soorya','Accountant','9809105189','9809105189',NULL,NULL,'1_1623866487.jpg','2021-06-02 09:25:29','2021-06-16 18:01:27'),(13,1,'Akash Arvind','Project Coordinator','9495645915','9495645915','https://www.facebook.com/akash.aks.33',NULL,'1_1623899532.jpg','2021-06-02 09:49:24','2021-06-17 03:12:12');
+/*!40000 ALTER TABLE `teams` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `users`
 --
 
 DROP TABLE IF EXISTS `users`;
-CREATE TABLE IF NOT EXISTS `users` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `email` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `role` enum('user','admin') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'user',
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `refreshToken` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `passwordResetToken` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `role` enum('user','admin') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'user',
+  `remember_token` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `refreshToken` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `passwordResetToken` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `role`, `remember_token`, `refreshToken`, `passwordResetToken`, `created_at`, `updated_at`) VALUES
-(1, 'archikites', 'archikites@gmail.com', NULL, '$2y$10$kXpByEjNjrVB4yTS4G28Nu7agfpEQfNLGZPB2NwF0S04G8m.A39IO', 'admin', 'UdBvDWrQuaCGlsdHedNtyjW1FyTjhOimcTsmPebX394lZj24h4PCGHcBOyWG', NULL, NULL, '2021-02-19 20:45:13', '2021-02-19 20:45:13'),
-(2, 'Pranav', 'vvpranav04@gmail.com', NULL, '$2y$10$NtthR1wOm4J/lY9tJyNX3.gfqVhDEA3OohGHKo0r.WaH.v9JFb7Ay', 'admin', NULL, NULL, NULL, '2021-02-19 22:42:54', '2021-02-19 22:42:54'),
-(15, 'Bindhu P K', 'venusbindh@gmail.com', NULL, '$2y$10$NtthR1wOm4J/lY9tJyNX3.gfqVhDEA3OohGHKo0r.WaH.v9JFb7Ay', 'user', NULL, NULL, NULL, '2021-04-29 04:00:15', '2021-04-29 04:00:15'),
-(16, 'shanil kp', 'shanilkp@gmail.com', NULL, '$2y$10$GCTcGguyAlsbnkPscJswGubUlYBoFQBeMqEWq6E/zOxvCLrRwfLW6', 'user', NULL, NULL, NULL, '2021-05-18 15:40:36', '2021-05-18 15:40:36'),
-(17, 'SWETHA P K', 'swe@gmail.com', NULL, '$2y$10$mpT7mU3LH5v5.niZBW.2femCbTcZHC94Wbx3PTqzcUJTvsVp8e1hS', 'user', NULL, NULL, NULL, '2021-05-18 15:46:03', '2021-05-18 15:46:03'),
-(18, 'rajanpilla', 'shanilkp1@gmail.com', NULL, '$2y$10$YxZgeiYIAMPhYFUIWgJfF.OZAQcWSdiW1uJklHBzxryLUzIU7qfFe', 'user', NULL, NULL, NULL, '2021-05-18 15:46:49', '2021-05-18 15:46:49'),
-(19, 'rajesh', 'rajesh@gmail.com', NULL, '$2y$10$59sLkvB/grxw7n8BNLmIleeMHkcRYv5iI/p5/.vBsSXPfqroJiRFW', 'user', NULL, NULL, NULL, '2021-05-18 15:48:42', '2021-05-18 15:48:42');
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'archikites','archikites@gmail.com',NULL,'$2y$10$kXpByEjNjrVB4yTS4G28Nu7agfpEQfNLGZPB2NwF0S04G8m.A39IO','admin','cpD6lwPa73MuWVsf26JNc0E3uzysEaIBbsB8hjjB9q1yt0rWJpWTYaaO0VJW',NULL,NULL,'2021-02-19 20:45:13','2021-02-19 20:45:13'),(2,'Pranav','vvpranav04@gmail.com',NULL,'$2y$10$NtthR1wOm4J/lY9tJyNX3.gfqVhDEA3OohGHKo0r.WaH.v9JFb7Ay','admin',NULL,NULL,NULL,'2021-02-19 22:42:54','2021-02-19 22:42:54'),(15,'Bindhu P K','venusbindh@gmail.com',NULL,'$2y$10$1Wa2l9rX46293YUHsD646eABj8Bv0.5J96.h50iT5JTxMZ/qMbfsy','user','Nx64b9Bk4avHC07f7JdrtEY6tUZ6jsADI1tDC7jc04p65ra9QLi0ycniHfhn','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTYzMTI2NDcxMH0.RPPwcZKmW59Fz74AH-xlUEs_x5VCqLe2mNsZD78pwbE',NULL,'2021-04-29 04:00:15','2021-06-19 12:38:56'),(16,'shanil kp','shanilkp@gmail.com',NULL,'$2y$10$GCTcGguyAlsbnkPscJswGubUlYBoFQBeMqEWq6E/zOxvCLrRwfLW6','user',NULL,NULL,NULL,'2021-05-18 15:40:36','2021-05-18 15:40:36'),(17,'SWETHA P K','swe@gmail.com',NULL,'$2y$10$mpT7mU3LH5v5.niZBW.2femCbTcZHC94Wbx3PTqzcUJTvsVp8e1hS','user',NULL,NULL,NULL,'2021-05-18 15:46:03','2021-05-18 15:46:03'),(18,'rajanpilla','shanilkp1@gmail.com',NULL,'$2y$10$YxZgeiYIAMPhYFUIWgJfF.OZAQcWSdiW1uJklHBzxryLUzIU7qfFe','user',NULL,NULL,NULL,'2021-05-18 15:46:49','2021-05-18 15:46:49'),(19,'rajesh','rajesh@gmail.com',NULL,'$2y$10$59sLkvB/grxw7n8BNLmIleeMHkcRYv5iI/p5/.vBsSXPfqroJiRFW','user',NULL,NULL,NULL,'2021-05-18 15:48:42','2021-05-18 15:48:42'),(20,'test1','test1@gmail.com',NULL,'$2y$10$PV0mCUgzhuvTailHMDUwWOR6pDPGV.wR8KyvIJlprkl3k5jWWB8Qq','user',NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjAsImlhdCI6MTYyMjU2ODAyOX0.IDB0yyr0nYvQsIR2EtYONolyAH9Noa1xH3PFImfeuu0',NULL,'2021-05-31 07:52:14','2021-08-16 05:27:24'),(21,'Akash Arvind','akashov@gmail.com',NULL,'$2y$10$.awmO8UI.YjWvy2T/dYRb.xmzdT8tUW5dPBWGlfQqesTASb7gqTQ.','user',NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjEsImlhdCI6MTYyNDQ1MTU5N30.NxewI05Ji3U-ZWVyCkhITGyXex1yj9t5-jJKPShPhQM',NULL,'2021-06-01 06:13:59','2021-06-05 14:42:32'),(22,'Rahul Gireesh','rahulgireesh33@gmail.com',NULL,'$2y$10$iP8YkbbuToeoJzVWoI94MuAcAMSmYMEIZfXYXlQnLu8qRsCDNygsO','user','KJxZaEghBJRok5fnIgAE6XfxHnig8OGjQsUGvDDnXGZfYk6t9WXJpVmDvafR','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjIsImlhdCI6MTYzOTE2NDAxMX0.a9SU237ZyZ19ODaFvuoQX5q524ygIW2ytYEsK3PwATA',NULL,'2021-06-23 10:05:50','2021-06-23 12:43:46'),(23,'Soorya','sooryamalushijin@gmail.com',NULL,'$2y$10$dXt2F1NoEpDaBgPAbTFZL.86vqDGLDPWvEvop7HFC51uDxelAZrNm','user',NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjMsImlhdCI6MTYyODQ4OTEzMX0.zdE851pQvGuDvtiHeJH8S9bjKYNNtxaZ9EFMqFxqxas',NULL,'2021-08-09 00:28:34','2021-08-09 00:28:34'),(24,'Swetha Suresh','swethasuresh368@gmail.com',NULL,'$2y$10$jfQUgvGx2LP1npP.LmZY0ORzUQ5..h9g4m0OQPwRtdTxOXwtnPcgW','user',NULL,NULL,NULL,'2021-08-12 06:56:14','2021-08-12 06:56:14'),(25,'Swetha Suresh','archieducareabacus@gmail.com',NULL,'$2y$10$GmQosC2SFNkVKkL/3VXFsOxFLpfP3k3dNvh6Q7dV/ntq73nJRcsSu','user',NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsImlhdCI6MTYzMDQyMDM1NH0.qSmUu1tOT8ofwD1DFW-TIUBS79AdzKZRdKKsm8GWQz0',NULL,'2021-08-31 01:07:52','2021-08-31 01:47:03'),(26,'AKHILESH M','akhileshakhilaaa@gmail.com',NULL,'$2y$10$mklkPJQDsAXXHBWI/ugp2uYJG1czpgqiPzQaRnraeZayPRD1FjDzW','user',NULL,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjYsImlhdCI6MTYzODQ0MzYwMH0.Q6IBkSpn1hNcunn2aq40j7c1geSHpr8BTifUY9WnaD4',NULL,'2021-12-02 04:57:00','2021-12-02 04:57:59');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `all_courses`
---
-ALTER TABLE `all_courses`
-  ADD CONSTRAINT `category_fk` FOREIGN KEY (`cat_id`) REFERENCES `categories` (`id`),
-  ADD CONSTRAINT `certification on course` FOREIGN KEY (`certification`) REFERENCES `certifications` (`id`),
-  ADD CONSTRAINT `scheme on course` FOREIGN KEY (`scheme`) REFERENCES `schemes` (`id`),
-  ADD CONSTRAINT `user_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
-
---
--- Constraints for table `classstudents`
---
-ALTER TABLE `classstudents`
-  ADD CONSTRAINT `class on student` FOREIGN KEY (`class_id`) REFERENCES `classes` (`id`);
-
---
--- Constraints for table `coursetags`
---
-ALTER TABLE `coursetags`
-  ADD CONSTRAINT `tag_fk` FOREIGN KEY (`tag_id`) REFERENCES `tags` (`id`);
-
---
--- Constraints for table `examstudents`
---
-ALTER TABLE `examstudents`
-  ADD CONSTRAINT `exam on students` FOREIGN KEY (`exam_id`) REFERENCES `exams` (`id`);
-
---
--- Constraints for table `facultybatches`
---
-ALTER TABLE `facultybatches`
-  ADD CONSTRAINT `faculty on batch` FOREIGN KEY (`faculty_id`) REFERENCES `faculiteis` (`id`);
-
---
--- Constraints for table `facultycourses`
---
-ALTER TABLE `facultycourses`
-  ADD CONSTRAINT `course of faculty` FOREIGN KEY (`faculty_id`) REFERENCES `faculiteis` (`id`);
-
---
--- Constraints for table `facultystudents`
---
-ALTER TABLE `facultystudents`
-  ADD CONSTRAINT `faculty on students` FOREIGN KEY (`faculty_id`) REFERENCES `faculiteis` (`id`);
-
---
--- Constraints for table `lessons`
---
-ALTER TABLE `lessons`
-  ADD CONSTRAINT `course_lesson_fk` FOREIGN KEY (`course_id`) REFERENCES `all_courses` (`id`),
-  ADD CONSTRAINT `module on lesson` FOREIGN KEY (`module_id`) REFERENCES `modules` (`id`);
-
---
--- Constraints for table `students`
---
-ALTER TABLE `students`
-  ADD CONSTRAINT `batches for students` FOREIGN KEY (`batch`) REFERENCES `batches` (`id`);
-
---
--- Constraints for table `student_bills`
---
-ALTER TABLE `student_bills`
-  ADD CONSTRAINT `course_bill_fk` FOREIGN KEY (`course_id`) REFERENCES `all_courses` (`id`),
-  ADD CONSTRAINT `student course id on student bills` FOREIGN KEY (`student_course_id`) REFERENCES `student_courses` (`id`),
-  ADD CONSTRAINT `student_bill_fk` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`);
-
---
--- Constraints for table `student_courses`
---
-ALTER TABLE `student_courses`
-  ADD CONSTRAINT `certification on student course` FOREIGN KEY (`certification`) REFERENCES `certifications` (`id`),
-  ADD CONSTRAINT `course_student_course_fk` FOREIGN KEY (`course_id`) REFERENCES `all_courses` (`id`),
-  ADD CONSTRAINT `scheme on student course` FOREIGN KEY (`scheme`) REFERENCES `schemes` (`id`),
-  ADD CONSTRAINT `student_student_course` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`);
-
---
--- Constraints for table `student_payments`
---
-ALTER TABLE `student_payments`
-  ADD CONSTRAINT `bill_id_student_payments` FOREIGN KEY (`bill_id`) REFERENCES `student_bills` (`id`),
-  ADD CONSTRAINT `course_student_payments_fk` FOREIGN KEY (`course_id`) REFERENCES `all_courses` (`id`),
-  ADD CONSTRAINT `student_id_student_payment` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`);
-COMMIT;
-
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2021-12-27 17:02:01
