@@ -19,6 +19,7 @@ const student = require("./routes/student");
 const categories = require("./routes/categories");
 const about = require("./routes/about");
 const tags = require("./routes/tags");
+const centers = require("./routes/center");
 
 const faculty = require("./routes/faculty");
 
@@ -100,6 +101,7 @@ app.use("/api/v1/categories", categories);
 app.use("/api/v1/about", about);
 app.use("/api/v1/tags", tags);
 app.use("/api/v1", contact);
+app.use("/api/v1", centers);
 
 // Private
 app.use("/api/v1/student", student);
